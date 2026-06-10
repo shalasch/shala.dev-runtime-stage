@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 
-const MAX_W = 1080
+const MAX_W = 1400
 
 // ── Shared ─────────────────────────────────────────────────────────────────────
 
@@ -243,7 +243,7 @@ function LeadEngineBlock() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, amount: 0.15 })
   return (
-    <div ref={ref} style={{ padding: '88px 0', display: 'flex', alignItems: 'flex-start', gap: 80 }}>
+    <div ref={ref} style={{ padding: '72px 0', display: 'flex', alignItems: 'flex-start', gap: 80 }}>
       <motion.div
         initial={{ opacity: 0, x: -18 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
@@ -461,7 +461,7 @@ function ClientIntakeBlock() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, amount: 0.15 })
   return (
-    <div ref={ref} style={{ padding: '88px 0', display: 'flex', alignItems: 'flex-start', gap: 80 }}>
+    <div ref={ref} style={{ padding: '72px 0', display: 'flex', alignItems: 'flex-start', gap: 80 }}>
       <motion.div
         style={{ flex: 1, minWidth: 0 }}
         initial={{ opacity: 0, x: -18 }}
@@ -646,7 +646,7 @@ function OperationalRuntimeBlock() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, amount: 0.12 })
   return (
-    <div ref={ref} style={{ padding: '88px 0', display: 'flex', alignItems: 'flex-start', gap: 80 }}>
+    <div ref={ref} style={{ padding: '72px 0', display: 'flex', alignItems: 'flex-start', gap: 80 }}>
       <motion.div
         initial={{ opacity: 0, x: -18 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
@@ -686,7 +686,7 @@ export default function SystemsSection() {
   return (
     <section style={{
       background: '#FFFFFF', width: '100%',
-      padding: '100px 40px 112px',
+      padding: '80px 40px 88px',
       display: 'flex', flexDirection: 'column', alignItems: 'center',
     }}>
       <motion.div
@@ -694,7 +694,7 @@ export default function SystemsSection() {
         initial={{ opacity: 0, y: 20 }}
         animate={headerInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        style={{ textAlign: 'center', marginBottom: 72, maxWidth: 560 }}
+        style={{ textAlign: 'center', marginBottom: 56, maxWidth: 560 }}
       >
         <div style={{
           fontSize: 9.5, fontWeight: 700, letterSpacing: '0.13em',

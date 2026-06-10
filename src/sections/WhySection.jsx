@@ -28,7 +28,7 @@ export default function WhySection() {
       backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.038) 1.5px, transparent 1.5px)',
       backgroundSize: '24px 24px',
       width: '100%',
-      padding: '100px 40px 112px',
+      padding: '88px 40px 96px',
       display: 'flex', justifyContent: 'center',
     }}>
       <div
