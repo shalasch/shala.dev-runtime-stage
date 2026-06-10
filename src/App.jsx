@@ -1,4 +1,5 @@
 import HeroRampV2 from './HeroRampV2'
+import ProofSection from './sections/ProofSection'
 import OrchestrationSection from './sections/OrchestrationSection'
 import SystemsSection from './sections/SystemsSection'
 import ProductionSection from './sections/ProductionSection'
@@ -19,27 +20,31 @@ export default function App() {
         <HeroRampV2 />
       </div>
 
-      {/* Section 2 — Orchestration */}
+      {/* Proof — operational scale */}
+      <ProofSection />
+
+      {/* Operational Layer */}
       <OrchestrationSection />
 
-      {/* Chapter I → II */}
+      {/* Editorial break I */}
       <ChapterDivider
         statement="Connected is not the same as coordinated."
-        secondary="Three systems. Each one designed to handle the operational work end to end."
+        sub="Three systems, each built to handle one part of the operational work end to end."
       />
 
-      {/* Section 3 — Systems */}
+      {/* Real Operational Systems */}
       <SystemsSection />
 
-      {/* Section 4 — Production */}
+      {/* Systems In Production */}
       <ProductionSection />
 
-      {/* Chapter IV → V */}
+      {/* Editorial break II */}
       <ChapterDivider
-        statement="The outcome is not the system. It is what the system makes possible."
+        statement="The outcome is not the system."
+        sub="It is what the system makes possible."
       />
 
-      {/* Section 5 — Why */}
+      {/* Why I Build Systems */}
       <WhySection />
     </div>
   )

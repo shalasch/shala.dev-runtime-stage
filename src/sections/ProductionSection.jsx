@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 
-const MAX_W = 1400
+const MAX_W = 1500
 
 // ── Shared ─────────────────────────────────────────────────────────────────────
 

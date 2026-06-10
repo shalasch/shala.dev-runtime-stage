@@ -2,20 +2,20 @@ import { useRef, useState, useEffect } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 
 // ── Stage constants ────────────────────────────────────────────────────────────
-const W = 960, H = 540
+const W = 1200, H = 540
 const NW = 172, NH = 38
-const CX = 354, CY = 178        // CY shifted up — centers 185px card in 540px stage
-const CW = 258, CH = 185        // Taller card = more visual weight
+const CX = 443, CY = 178        // CY shifted up — centers 185px card in 540px stage
+const CW = 323, CH = 185        // Taller card = more visual weight
 const CARD_H = 36
 
 const SYSTEMS = [
-  { id: 'wa',    label: 'WhatsApp',        color: '#25D366', x: 22,  y: 22  },
-  { id: 'email', label: 'Email',           color: '#4A7CF7', x: 5,   y: 96  },
-  { id: 'forms', label: 'Google Forms',    color: '#7CB342', x: 128, y: 168 },
-  { id: 'api',   label: 'Webhook / API',   color: '#94A3B8', x: 15,  y: 242 },
-  { id: 'cal',   label: 'Google Calendar', color: '#EF4444', x: 122, y: 314 },
-  { id: 'crm',   label: 'CRM System',      color: '#6366F1', x: 18,  y: 388 },
-  { id: 'sb',    label: 'Supabase',        color: '#3ECF8E', x: 118, y: 462 },
+  { id: 'wa',    label: 'WhatsApp',        color: '#25D366', x: 28,  y: 22  },
+  { id: 'email', label: 'Email',           color: '#4A7CF7', x: 6,   y: 96  },
+  { id: 'forms', label: 'Google Forms',    color: '#7CB342', x: 160, y: 168 },
+  { id: 'api',   label: 'Webhook / API',   color: '#94A3B8', x: 19,  y: 242 },
+  { id: 'cal',   label: 'Google Calendar', color: '#EF4444', x: 153, y: 314 },
+  { id: 'crm',   label: 'CRM System',      color: '#6366F1', x: 23,  y: 388 },
+  { id: 'sb',    label: 'Supabase',        color: '#3ECF8E', x: 148, y: 462 },
 ]
 
 // Entry/exit points on center card edges — within CY=178 to CY+CH=363
@@ -23,11 +23,11 @@ const L_ENTRIES = [218, 230, 242, 254, 266, 278, 290]
 const R_EXITS   = [222, 234, 246, 258, 270]
 
 const OUTCOMES = [
-  { id: 'lq', label: 'Lead Qualified',        x: 658, y: 48  },
-  { id: 'fu', label: 'Follow-up Created',     x: 675, y: 162 },
-  { id: 'cu', label: 'CRM Updated',           x: 668, y: 278 },
-  { id: 'ms', label: 'Meeting Scheduled',     x: 650, y: 390 },
-  { id: 'pb', label: 'Property Visit Booked', x: 624, y: 470 },
+  { id: 'lq', label: 'Lead Qualified',        x: 823, y: 48  },
+  { id: 'fu', label: 'Follow-up Created',     x: 844, y: 162 },
+  { id: 'cu', label: 'CRM Updated',           x: 835, y: 278 },
+  { id: 'ms', label: 'Meeting Scheduled',     x: 813, y: 390 },
+  { id: 'pb', label: 'Property Visit Booked', x: 780, y: 470 },
 ]
 
 // Each story: which system fires, which outcome lights up, what op text appears
@@ -129,14 +129,14 @@ export default function OrchestrationSection() {
       minHeight: '100vh',
       display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      padding: '96px 40px 104px',
+      padding: '80px 40px 88px',
     }}>
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        style={{ textAlign: 'center', marginBottom: 68, maxWidth: 560 }}
+        style={{ textAlign: 'center', marginBottom: 52, maxWidth: 560 }}
       >
         <div style={{
           fontSize: 9.5, fontWeight: 700, letterSpacing: '0.13em',
