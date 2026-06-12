@@ -1,6 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import { AnimatedWordmark } from './components/AnimatedWordmark'
-import HeroRampV2 from './HeroRampV2'
 import LeadEnginePanel from './panels/LeadEnginePanel'
 import IntakePanel from './panels/IntakePanel'
 import InfraPanel from './panels/InfraPanel'
@@ -30,14 +28,17 @@ function Bleed({ from, to }) {
 
 // ── S1: Hero — white background, 5 animated scenes ───────────
 
-function Scene1() {
+function Scene1({ visible }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
       <div style={{
-        width: 'min(270px, 100%)',
+        width: 270, marginTop: 20,
         background: '#ffffff', border: '1px solid rgba(0,0,0,0.09)',
         borderRadius: 10, padding: 16,
         boxShadow: '0 2px 14px rgba(0,0,0,0.07)',
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(14px)',
+        transition: visible ? 'opacity 500ms ease-out 150ms, transform 500ms ease-out 150ms' : 'none',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -66,12 +67,7 @@ function Scene1() {
   )
 }
 
-function Scene2() {
-  const [entered, setEntered] = useState(false)
-  useEffect(() => {
-    const t = setTimeout(() => setEntered(true), 80)
-    return () => clearTimeout(t)
-  }, [])
+function Scene2({ visible }) {
   const SATS = [
     { top: 0,    left:  0,    centerV: false, overline: 'PREVIOUS INQUIRY',      oc: 'rgba(0,0,0,0.35)', main: '2 listings viewed',  sub: '6 months ago',    delay: 100 },
     { top: 0,    right: 0,    centerV: false, overline: 'BUDGET DETECTED',        oc: '#c2670a',           main: 'R$780k – R$920k',   sub: 'Pre-approved',    delay: 200 },
@@ -81,7 +77,7 @@ function Scene2() {
     { bottom: 0, right: 0,    centerV: false, overline: 'URGENCY INFERRED',       oc: '#c2670a',           main: '"Visit this week"',  sub: 'Lease ends July', delay: 600 },
   ]
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%', alignSelf: 'stretch' }}>
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <div style={{
         position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
         width: 230, zIndex: 2,
@@ -110,15 +106,15 @@ function Scene2() {
         if (s.left   !== undefined) pos.left   = s.left
         if (s.right  !== undefined) pos.right  = s.right
         const tf = s.centerV
-          ? (entered ? 'translateY(-50%)' : 'translateY(calc(-50% + 8px))')
-          : (entered ? 'translateY(0)'    : 'translateY(8px)')
+          ? (visible ? 'translateY(-50%)' : 'translateY(calc(-50% + 8px))')
+          : (visible ? 'translateY(0)'    : 'translateY(8px)')
         return (
           <div key={i} style={{
             position: 'absolute', width: 158, ...pos,
             background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8, padding: 12,
             boxShadow: '0 1px 8px rgba(0,0,0,0.05)',
-            opacity: entered ? 1 : 0, transform: tf,
-            transition: entered ? `opacity 380ms ease-out ${s.delay}ms, transform 380ms ease-out ${s.delay}ms` : 'opacity 220ms ease-in',
+            opacity: visible ? 1 : 0, transform: tf,
+            transition: visible ? `opacity 380ms ease-out ${s.delay}ms, transform 380ms ease-out ${s.delay}ms` : 'opacity 220ms ease-in',
           }}>
             <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: s.oc, marginBottom: 6 }}>{s.overline}</div>
             <div style={{ fontSize: 12, fontWeight: 600, color: '#0a0a0a' }}>{s.main}</div>
@@ -168,12 +164,7 @@ function Scene3({ qualified }) {
   )
 }
 
-function Scene4({ badgeCount }) {
-  const [entered, setEntered] = useState(false)
-  useEffect(() => {
-    const t = setTimeout(() => setEntered(true), 80)
-    return () => clearTimeout(t)
-  }, [])
+function Scene4({ visible, badgeCount }) {
   const EVENTS = [
     { dot: '#22c55e', text: 'Lead received via WhatsApp',          time: 'Just now', delay: 350 },
     { dot: '#3b82f6', text: 'AI qualification complete · Score: 94', time: '1s ago',  delay: 650 },
@@ -191,7 +182,7 @@ function Scene4({ badgeCount }) {
     ['Agent','Assigning...','mi'],['Next','Processing...','mi'],
   ]
   return (
-    <div style={{ display: 'flex', gap: 14, height: '100%', alignSelf: 'stretch', width: '100%' }}>
+    <div style={{ display: 'flex', gap: 14, height: '100%' }}>
       <div style={{ flex: '0 0 44%', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 8, padding: 14, overflow: 'hidden' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
           <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -214,8 +205,8 @@ function Scene4({ badgeCount }) {
         {EVENTS.map((ev, i) => (
           <div key={i} style={{
             display: 'flex', gap: 8, alignItems: 'flex-start', marginBottom: 10,
-            opacity: entered ? 1 : 0, transform: entered ? 'translateX(0)' : 'translateX(-6px)',
-            transition: entered ? `opacity 300ms ease-out ${ev.delay}ms, transform 300ms ease-out ${ev.delay}ms` : 'opacity 220ms ease-in',
+            opacity: visible ? 1 : 0, transform: visible ? 'translateX(0)' : 'translateX(-6px)',
+            transition: visible ? `opacity 300ms ease-out ${ev.delay}ms, transform 300ms ease-out ${ev.delay}ms` : 'opacity 220ms ease-in',
           }}>
             <div style={{ width: 6, height: 6, borderRadius: '50%', background: ev.dot, flexShrink: 0, marginTop: 3 }} />
             <div>
@@ -254,9 +245,9 @@ function Scene5({ revealed }) {
     <div>
       <div style={{ position: 'relative' }}>
         <div style={{
-          width: 380, margin: '0 auto',
-          opacity: revealed ? 0.3 : 1,
-          transform: revealed ? 'scale(0.88) translateY(-10px)' : 'scale(1) translateY(0)',
+          width: 400, margin: '0 auto',
+          opacity: revealed ? 0.35 : 1,
+          transform: revealed ? 'scale(0.9) translateY(-12px)' : 'scale(1) translateY(0)',
           transition: '0.4s ease',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
@@ -267,7 +258,7 @@ function Scene5({ revealed }) {
               <span style={{ color: 'rgba(0,0,0,0.3)', fontSize: 14 }}>›</span>
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', paddingBottom: 8, borderBottom: '1px solid rgba(0,0,0,0.06)', marginBottom: 4 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', paddingBottom: 8, borderBottom: '1px solid rgba(0,0,0,0.06)', marginBottom: 6 }}>
             {['MO','TU','WE','TH','FR','SA','SU'].map(d => (
               <div key={d} style={{ fontSize: 11, color: 'rgba(0,0,0,0.35)', fontWeight: 500, textAlign: 'center' }}>{d}</div>
             ))}
@@ -277,7 +268,7 @@ function Scene5({ revealed }) {
               const active = d === 18, marked = d === 9
               return (
                 <div key={d} style={{
-                  height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 13, borderRadius: 4,
                   background: active ? '#16a34a' : marked ? 'rgba(0,0,0,0.06)' : 'transparent',
                   color: active ? '#ffffff' : '#0a0a0a',
@@ -290,19 +281,19 @@ function Scene5({ revealed }) {
         <div style={{
           position: 'absolute', top: 0, right: 0, bottom: 0, left: 0,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: 'rgba(255,255,255,0.94)', borderRadius: 8,
-          opacity: revealed ? 1 : 0, transition: 'opacity 300ms ease-out 50ms',
+          background: 'rgba(255,255,255,0.92)', borderRadius: 8,
+          opacity: revealed ? 1 : 0, transition: 'opacity 300ms ease-out',
           pointerEvents: revealed ? 'auto' : 'none',
         }}>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.07em', color: '#16a34a' }}>PROPERTY VISIT CONFIRMED</span>
+          <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: '#16a34a' }}>PROPERTY VISIT CONFIRMED</span>
         </div>
       </div>
       <div style={{
         marginTop: 16, borderLeft: '3px solid #16a34a', padding: '10px 14px',
         background: '#f0fdf4', borderRadius: '0 6px 6px 0',
         display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
-        opacity: revealed ? 1 : 0, transform: revealed ? 'translateY(0)' : 'translateY(14px)',
-        transition: revealed ? 'opacity 400ms ease-out 400ms, transform 400ms ease-out 400ms' : 'opacity 220ms ease-in',
+        opacity: revealed ? 1 : 0, transform: revealed ? 'translateY(0)' : 'translateY(12px)',
+        transition: revealed ? 'opacity 400ms ease-out 200ms, transform 400ms ease-out 200ms' : 'opacity 220ms ease-in',
       }}>
         <div>
           <div style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a' }}>Property Visit · Juliana Costa</div>
@@ -315,6 +306,38 @@ function Scene5({ revealed }) {
 }
 
 function HeroSection() {
+  const [activeScene, setActiveScene] = useState(0)
+  const [visible, setVisible] = useState(true)
+  const [s3Qualified, setS3Qualified] = useState(false)
+  const [s4Badges, setS4Badges] = useState(0)
+  const [s5Revealed, setS5Revealed] = useState(false)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setVisible(false)
+      setTimeout(() => setActiveScene(s => (s + 1) % 5), 240)
+      setTimeout(() => setVisible(true), 280)
+    }, 5200)
+    return () => clearInterval(id)
+  }, [])
+
+  useEffect(() => {
+    setS3Qualified(false)
+    setS4Badges(0)
+    setS5Revealed(false)
+    const ts = []
+    if (activeScene === 2) ts.push(setTimeout(() => setS3Qualified(true), 1600))
+    if (activeScene === 3) {
+      ts.push(setTimeout(() => setS4Badges(1), 900))
+      ts.push(setTimeout(() => setS4Badges(2), 1100))
+      ts.push(setTimeout(() => setS4Badges(3), 1400))
+      ts.push(setTimeout(() => setS4Badges(4), 1700))
+    }
+    if (activeScene === 4) ts.push(setTimeout(() => setS5Revealed(true), 1800))
+    return () => ts.forEach(clearTimeout)
+  }, [activeScene])
+
+  const TITLES = ['New Lead','AI Qualification','Operational Database','CRM Update','Property Visit Booked']
   const TICKER = '847 LEADS CAPTURED · 12 WORKFLOWS RUNNING · 1.2s AVG RESPONSE · 23 MEETINGS BOOKED THIS WEEK · 4 CLIENTS ACTIVE · CRM SYNCED · FOLLOW-UPS AUTOMATED · '
 
   return (
@@ -341,8 +364,44 @@ function HeroSection() {
         </p>
       </div>
 
-      {/* Hero demo — V2 morphing container */}
-      <HeroRampV2 />
+      {/* Demo container */}
+      <div style={{
+        width: '100%', maxWidth: 800, minHeight: 500,
+        background: '#ffffff', borderRadius: 16,
+        border: '1px solid rgba(0,0,0,0.08)',
+        boxShadow: '0 4px 32px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04)',
+        position: 'relative', overflow: 'hidden',
+        padding: '36px 40px 48px', margin: '0 auto',
+      }}>
+        {/* Scene title */}
+        <div style={{
+          position: 'absolute', top: 32, left: 40, right: 120,
+          fontSize: 20, fontWeight: 700, color: '#0a0a0a', letterSpacing: '-0.02em', zIndex: 2,
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(-8px)',
+          transition: visible ? 'opacity 320ms ease-out 60ms, transform 320ms ease-out 60ms' : 'opacity 220ms ease-in, transform 220ms ease-in',
+        }}>{TITLES[activeScene]}</div>
+
+        {/* Scene content */}
+        <div style={{
+          position: 'absolute', top: 84, left: 40, right: 40, bottom: 48,
+          opacity: visible ? 1 : 0,
+          transition: visible ? 'opacity 380ms ease-out 100ms' : 'opacity 220ms ease-in',
+        }}>
+          {activeScene === 0 && <Scene1 visible={visible} />}
+          {activeScene === 1 && <Scene2 visible={visible} />}
+          {activeScene === 2 && <Scene3 visible={visible} qualified={s3Qualified} />}
+          {activeScene === 3 && <Scene4 visible={visible} badgeCount={s4Badges} />}
+          {activeScene === 4 && <Scene5 visible={visible} revealed={s5Revealed} />}
+        </div>
+
+        {/* Dots */}
+        <div style={{ position: 'absolute', bottom: 18, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 6 }}>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} style={{ width: 5, height: 5, borderRadius: '50%', background: i === activeScene ? '#0a0a0a' : 'rgba(0,0,0,0.15)', transition: 'background 0.3s' }} />
+          ))}
+        </div>
+      </div>
 
       {/* Ticker */}
       <div style={{
@@ -438,10 +497,13 @@ function Navbar() {
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '0 48px',
     }}>
-      <AnimatedWordmark
-        color={color}
-        style={{ fontSize: 14, fontWeight: 700, letterSpacing: '-0.02em' }}
-      />
+      <a href="#" style={{
+        fontSize: 14, fontWeight: 700, color,
+        textDecoration: 'none', letterSpacing: '-0.02em',
+        transition: 'color 0.25s ease',
+      }}>
+        Shala Neves
+      </a>
       <a href="#contact" style={{
         fontSize: 13, fontWeight: 500, color,
         textDecoration: 'none', letterSpacing: '-0.005em', opacity: 0.68,

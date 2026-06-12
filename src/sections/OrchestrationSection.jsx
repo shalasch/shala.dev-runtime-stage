@@ -125,7 +125,7 @@ export default function OrchestrationSection() {
 
   return (
     <section style={{
-      background: '#FFFFFF',
+      background: 'transparent',
       minHeight: '100vh',
       display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
