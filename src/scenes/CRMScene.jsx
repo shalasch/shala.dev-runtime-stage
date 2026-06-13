@@ -19,7 +19,7 @@ export default function CRMScene() {
     t.push(setTimeout(() => {
       setStage('qualified')
       setActs(a => [...a, {
-        id: 3, text: 'Lead qualified · Barra da Tijuca · 3-bed', time: '2s ago', color: '#22C55E',
+        id: 3, text: 'Lead qualified · Beverly Hills · 3-bed', time: '2s ago', color: '#22C55E',
       }])
     }, 1900))
 
@@ -31,7 +31,7 @@ export default function CRMScene() {
     }, 3000))
 
     t.push(setTimeout(() => {
-      setNext('Schedule visit · Barra da Tijuca')
+      setNext('Schedule visit · Beverly Hills')
       setActs(a => [...a, {
         id: 5, text: 'Follow-up sent via WhatsApp · 3:00 PM', time: '4s ago', color: '#22C55E',
       }])
@@ -78,7 +78,7 @@ export default function CRMScene() {
             <StageBadge stage={stage} />
           </div>
           <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.36)', marginTop: 2 }}>
-            WhatsApp · +55 21 97··· · Barra da Tijuca
+            WhatsApp · +55 21 97··· · Beverly Hills
           </div>
         </div>
 
@@ -104,7 +104,7 @@ export default function CRMScene() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
             <Field label="Interest">3-bedroom apt.</Field>
             <Field label="Budget">R$850,000</Field>
-            <Field label="Region">Barra da Tijuca</Field>
+            <Field label="Region">Beverly Hills</Field>
             <Field label="Timeline">
               <span style={{ color: '#D97706', fontWeight: 600 }}>This month</span>
             </Field>

@@ -77,7 +77,7 @@ function Scene2() {
   const SATS = [
     { top: 0,    left:  0,    centerV: false, overline: 'PREVIOUS INQUIRY',      oc: 'rgba(0,0,0,0.35)', main: '2 listings viewed',  sub: '6 months ago',    delay: 100 },
     { top: 0,    right: 0,    centerV: false, overline: 'BUDGET DETECTED',        oc: '#c2670a',           main: 'R$780k – R$920k',   sub: 'Pre-approved',    delay: 200 },
-    { top: '50%',left:  0,    centerV: true,  overline: 'PREFERRED REGION',       oc: 'rgba(0,0,0,0.35)', main: 'Barra da Tijuca',    sub: 'Recreio dos Band.',delay: 300 },
+    { top: '50%',left:  0,    centerV: true,  overline: 'PREFERRED REGION',       oc: 'rgba(0,0,0,0.35)', main: 'Beverly Hills',    sub: 'Santa Monica',delay: 300 },
     { top: '50%',right: 0,    centerV: true,  overline: 'BUYER PROFILE',          oc: '#c2670a',           main: 'Family of 4',        sub: 'Moving this month',delay: 400 },
     { bottom: 0, left:  0,    centerV: false, overline: 'HIGH PURCHASE INTENT',   oc: '#c2670a',           main: 'AI Signal: 94%',     sub: null,              delay: 500 },
     { bottom: 0, right: 0,    centerV: false, overline: 'URGENCY INFERRED',       oc: '#c2670a',           main: '"Visit this week"',  sub: 'Lease ends July', delay: 600 },
@@ -98,7 +98,7 @@ function Scene2() {
           <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)', marginTop: 1 }}>New contact via WhatsApp</div></div>
         </div>
         <div style={{ margin: '12px 0 10px', borderTop: '1px solid rgba(0,0,0,0.06)' }} />
-        {[['Interest','3-bedroom apartment'],['Budget','R$850,000'],['Region','Barra da Tijuca'],['Received','Just now']].map(([k,v]) => (
+        {[['Interest','3-bedroom apartment'],['Budget','R$850,000'],['Region','Beverly Hills'],['Received','Just now']].map(([k,v]) => (
           <div key={k} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 7 }}>
             <span style={{ fontSize: 12, color: 'rgba(0,0,0,0.4)' }}>{k}</span>
             <span style={{ fontSize: 12, color: '#0a0a0a' }}>{v}</span>
@@ -179,7 +179,7 @@ function Scene4({ badgeCount }) {
   const EVENTS = [
     { dot: '#22c55e', text: 'Lead received via WhatsApp',          time: 'Just now', delay: 350 },
     { dot: '#3b82f6', text: 'AI qualification complete · Score: 94', time: '1s ago',  delay: 650 },
-    { dot: '#22c55e', text: 'Lead qualified · Barra da Tijuca · 3-bed', time: '2s ago', delay: 950 },
+    { dot: '#22c55e', text: 'Lead qualified · Beverly Hills · 3-bed', time: '2s ago', delay: 950 },
   ]
   const BADGES = [
     { top: -12,  right: -12, label: 'Agent Assigned' },
@@ -188,7 +188,7 @@ function Scene4({ badgeCount }) {
     { bottom: 32, right: 14, label: 'Property Suggestions Sent' },
   ]
   const DETAILS = [
-    ['Interest','3-bedroom apt.',null],['Budget','R$850,000',null],['Region','Barra da Tijuca',null],
+    ['Interest','3-bedroom apt.',null],['Budget','R$850,000',null],['Region','Beverly Hills',null],
     ['Priority','High','#c2670a'],['Source','WhatsApp',null],
     ['Agent','Assigning...','mi'],['Next','Processing...','mi'],
   ]
@@ -202,7 +202,7 @@ function Scene4({ badgeCount }) {
           <span style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a' }}>Jessica Carter</span>
           <span style={{ fontSize: 10, fontWeight: 600, background: '#f0fdf4', color: '#16a34a', padding: '2px 7px', borderRadius: 20 }}>Qualified</span>
         </div>
-        <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.4)', paddingLeft: 34, marginBottom: 2 }}>WhatsApp · +55 21 97··· · Barra da Tijuca</div>
+        <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.4)', paddingLeft: 34, marginBottom: 2 }}>WhatsApp · +55 21 97··· · Beverly Hills</div>
         <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.35)', margin: '12px 0 8px' }}>LEAD DETAILS</div>
         {DETAILS.map(([k,v,sp]) => (
           <div key={k} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, marginBottom: 6 }}>
@@ -308,7 +308,7 @@ function Scene5({ revealed }) {
       }}>
         <div>
           <div style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a' }}>Property Visit · Jessica Carter</div>
-          <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 2 }}>Thu, Jun 18 · 2:00 PM – 3:00 PM · Barra da Tijuca</div>
+          <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 2 }}>Thu, Jun 18 · 2:00 PM – 3:00 PM · Beverly Hills</div>
         </div>
         <span style={{ fontSize: 11, fontWeight: 600, color: '#16a34a', whiteSpace: 'nowrap', marginLeft: 12 }}>✓ Booked</span>
       </div>
@@ -799,7 +799,7 @@ function CTASection() {
 }
 
 // ── S8: Bio + Contact (dark) ──────────────────────────────────
-const FORMSPREE_ID = 'YOUR_FORM_ID' // substitua pelo ID do Formspree
+const FORMSPREE_ID = 'mjgdploe' // substitua pelo ID do Formspree
 
 function BioContactSection() {
   const [ref, visible] = useVisible()
@@ -808,20 +808,29 @@ function BioContactSection() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus('sending')
-    const data = new FormData(e.target)
+    const form = e.target
     try {
       const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: 'POST',
-        body: data,
-        headers: { Accept: 'application/json' },
+        body: JSON.stringify({
+          email: form.email.value,
+          message: form.message.value,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
       })
       if (res.ok) {
         setStatus('done')
-        e.target.reset()
+        form.reset()
       } else {
+        const body = await res.json().catch(() => ({}))
+        console.error('Formspree error:', res.status, body)
         setStatus('error')
       }
-    } catch {
+    } catch (err) {
+      console.error('Fetch error:', err)
       setStatus('error')
     }
   }

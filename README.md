@@ -1,16 +1,58 @@
-# React + Vite
+# runtime-stage
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio of Shala Neves — operational infrastructure designer and builder.
 
-Currently, two official plugins are available:
+Built with React + Vite. No framework, no CMS. Everything is code.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## React Compiler
+## Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 18 + Vite
+- Framer Motion — scene transitions and morphing containers
+- simplex-noise — animated wavy background
+- Formspree — contact form delivery
 
-## Expanding the ESLint configuration
+## Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+src/
+├── App.jsx                  # All sections and layout
+├── HeroRampV2.jsx           # Hero demo — 5 animated scenes
+├── components/
+│   ├── AnimatedWordmark.jsx # Particle wordmark animation
+│   ├── WavyBackground.jsx   # Canvas wave effect
+│   └── ...
+├── scenes/                  # Hero scene content (Lead, DB, CRM, Calendar)
+├── panels/                  # Section demo panels
+└── sections/                # Remaining page sections
+```
+
+## Getting started
+
+```bash
+npm install
+npm run dev
+```
+
+## Contact form
+
+The contact form uses [Formspree](https://formspree.io). To activate it:
+
+1. Create an account at formspree.io
+2. Register a new form with your email
+3. Replace `YOUR_FORM_ID` at the top of `App.jsx` with your form ID
+
+```js
+const FORMSPREE_ID = 'YOUR_FORM_ID'
+```
+
+## Build
+
+```bash
+npm run build
+npm run preview
+```
+
+---
+
+Shala Neves · [shala.dev](https://shala.dev)

@@ -55,7 +55,7 @@ const LEAD_STAGES = [
   { id: 'qualify', label: 'Qualified',     color: '#F59E0B',
     rows: [['Score', '94 / 100'], ['Intent', 'High'], ['Budget', 'Confirmed']] },
   { id: 'route',   label: 'Routed',        color: '#8B5CF6',
-    rows: [['Agent', 'R. Mendes'], ['Region', 'SP Sul'], ['Priority', 'High']] },
+    rows: [['Agent', 'R. Mendes'], ['Region', 'Beverly Hills'], ['Priority', 'High']] },
   { id: 'contact', label: 'Contacted',     color: '#06B6D4',
     rows: [['Channels', 'WA + Email'], ['Sent', '09:16 AM'], ['Status', 'Delivered']] },
   { id: 'booked',  label: 'Meeting Set',   color: '#22C55E',

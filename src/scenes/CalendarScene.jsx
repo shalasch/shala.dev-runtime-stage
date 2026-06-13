@@ -115,7 +115,7 @@ export default function CalendarScene({ showPayoff }) {
                     Thu, Jun 18 · 2:00 PM – 3:00 PM
                   </div>
                   <div style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.28)', marginTop: 1 }}>
-                    Barra da Tijuca · Agent: Mariana Oliveira
+                    Beverly Hills · Agent: Mariana Oliveira
                   </div>
                 </div>
                 <motion.div
@@ -189,7 +189,7 @@ export default function CalendarScene({ showPayoff }) {
                 Juliana Costa · Thu Jun 18 · 2:00 PM
               </div>
               <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.28)', marginTop: 2 }}>
-                Barra da Tijuca · Agent: Mariana Oliveira
+                Beverly Hills · Agent: Mariana Oliveira
               </div>
             </motion.div>
 
