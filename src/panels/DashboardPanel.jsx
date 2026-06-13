@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const LEADS = [
-  { name: 'Rodrigo Alves',   source: 'WhatsApp',  stage: 'Qualified',  color: '#22C55E', score: 91, time: 'just now'   },
-  { name: 'Marina Ferreira', source: 'Web Form',   stage: 'Routed',     color: '#8B5CF6', score: 87, time: '4 min ago'  },
-  { name: 'Thiago Costa',    source: 'Instagram',  stage: 'Contacted',  color: '#06B6D4', score: 74, time: '11 min ago' },
-  { name: 'Lara Mendes',     source: 'WhatsApp',   stage: 'Scheduled',  color: '#F59E0B', score: 68, time: '18 min ago' },
+  { name: 'Ryan Mitchell',   source: 'WhatsApp',  stage: 'Qualified',  color: '#22C55E', score: 91, time: 'just now'   },
+  { name: 'Amanda Foster', source: 'Web Form',   stage: 'Routed',     color: '#8B5CF6', score: 87, time: '4 min ago'  },
+  { name: 'Tyler Brooks',    source: 'Instagram',  stage: 'Contacted',  color: '#06B6D4', score: 74, time: '11 min ago' },
+  { name: 'Lauren Scott',     source: 'WhatsApp',   stage: 'Scheduled',  color: '#F59E0B', score: 68, time: '18 min ago' },
 ]
 
 const DIM = 'rgba(255,255,255,0.38)'
@@ -70,8 +70,8 @@ export default function DashboardPanel({ inView }) {
               exit={{ opacity: 0, y: -8, scale: 0.987 }}
               transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                background: lead.color + '10',
-                border: `1px solid ${lead.color}30`,
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.10)',
                 borderRadius: 12, padding: '14px 16px',
               }}
             >
@@ -83,8 +83,8 @@ export default function DashboardPanel({ inView }) {
                   <div style={{ fontSize: 10.5, color: DIM }}>via {lead.source}</div>
                 </div>
                 <span style={{
-                  fontSize: 10.5, fontWeight: 600, color: lead.color,
-                  background: lead.color + '18', border: `1px solid ${lead.color}30`,
+                  fontSize: 10.5, fontWeight: 600, color: 'rgba(255,255,255,0.65)',
+                  background: 'rgba(255,255,255,0.09)', border: '1px solid rgba(255,255,255,0.13)',
                   borderRadius: 8, padding: '4px 10px',
                 }}>{lead.stage}</span>
               </div>
@@ -112,15 +112,15 @@ export default function DashboardPanel({ inView }) {
                 borderBottom: i < LEADS.length - 1 ? `1px solid ${BDR}` : 'none',
                 transition: 'background 0.3s',
               }}>
-                <div style={{ width: 6, height: 6, borderRadius: '50%', background: l.color, flexShrink: 0 }} />
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(255,255,255,0.30)', flexShrink: 0 }} />
                 <span style={{
                   fontSize: 12, fontWeight: i === active ? 600 : 500,
                   color: i === active ? BRI : MUT, letterSpacing: '-0.007em', flex: 1,
                   transition: 'color 0.3s',
                 }}>{l.name}</span>
                 <span style={{
-                  fontSize: 10, fontWeight: 500, color: l.color,
-                  background: l.color + '18', borderRadius: 6, padding: '2px 8px', whiteSpace: 'nowrap',
+                  fontSize: 10, fontWeight: 500, color: 'rgba(255,255,255,0.50)',
+                  background: 'rgba(255,255,255,0.08)', borderRadius: 6, padding: '2px 8px', whiteSpace: 'nowrap',
                 }}>{l.stage}</span>
                 <span style={{ fontSize: 9.5, color: DIM, flexShrink: 0 }}>{l.time}</span>
               </div>

@@ -25,7 +25,7 @@ const easeOutBack = (t) => {
   return 1 + c3 * (t - 1) ** 3 + c1 * (t - 1) ** 2;
 };
 
-export function AnimatedWordmark({ style, color = '#ffffff' }) {
+export function AnimatedWordmark({ style, color = '#ffffff', onClick }) {
   const containerRef  = useRef(null);
   const textRef       = useRef(null);
   const canvasRef     = useRef(null);
@@ -282,10 +282,11 @@ export function AnimatedWordmark({ style, color = '#ffffff' }) {
       style={{
         position: 'relative',
         display: 'inline-block',
-        cursor: 'default',
+        cursor: onClick ? 'pointer' : 'default',
         userSelect: 'none',
         ...style,
       }}
+      onClick={onClick}
       onMouseEnter={() => fire(1.7)}
     >
       <span

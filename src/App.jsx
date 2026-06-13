@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { AnimatedWordmark } from './components/AnimatedWordmark'
+import ContainerTextFlip from './components/ContainerTextFlip'
+import WavyBackground from './components/WavyBackground'
 import HeroRampV2 from './HeroRampV2'
 import LeadEnginePanel from './panels/LeadEnginePanel'
 import IntakePanel from './panels/IntakePanel'
@@ -24,7 +26,7 @@ function useVisible(threshold = 0.12) {
 // ── Gradient bleed between dark/light sections ────────────────
 function Bleed({ from, to }) {
   return (
-    <div style={{ height: 12, background: `linear-gradient(to bottom, ${from}, ${to})` }} />
+    <div style={{ height: 1, background: from === '#ffffff' ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.07)' }} />
   )
 }
 
@@ -44,7 +46,7 @@ function Scene1() {
             <span style={{ fontSize: 11, fontWeight: 700, color: '#ffffff' }}>JC</span>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 14, fontWeight: 600, color: '#0a0a0a', lineHeight: 1.2 }}>Juliana Costa</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#0a0a0a', lineHeight: 1.2 }}>Jessica Carter</div>
             <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)', marginTop: 1 }}>New contact via WhatsApp</div>
           </div>
           <span style={{ fontSize: 10, fontWeight: 600, color: '#c2670a', background: '#fff7ed', padding: '2px 8px', borderRadius: 20, whiteSpace: 'nowrap', flexShrink: 0 }}>New Lead</span>
@@ -92,7 +94,7 @@ function Scene2() {
           <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <span style={{ fontSize: 11, fontWeight: 700, color: '#ffffff' }}>JC</span>
           </div>
-          <div><div style={{ fontSize: 14, fontWeight: 600, color: '#0a0a0a' }}>Juliana Costa</div>
+          <div><div style={{ fontSize: 14, fontWeight: 600, color: '#0a0a0a' }}>Jessica Carter</div>
           <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)', marginTop: 1 }}>New contact via WhatsApp</div></div>
         </div>
         <div style={{ margin: '12px 0 10px', borderTop: '1px solid rgba(0,0,0,0.06)' }} />
@@ -133,10 +135,10 @@ function Scene2() {
 function Scene3({ qualified }) {
   const COL = '1.8fr 1.2fr 1.2fr 1fr 1fr 1fr'
   const ROWS = [
-    { name: 'Fernando Alves',  phone: '+55 21 9···',  budget: 'R$720,000',   st: 'Qualified', sc: { bg: '#f0fdf4', c: '#16a34a' },              src: 'Website',  cr: '2 days ago', live: false },
-    { name: 'Ana Lima',        phone: '+55 21 9···',  budget: 'R$1,200,000', st: 'Prospect',  sc: { bg: '#eff6ff', c: '#2563eb' },              src: 'Referral', cr: 'Yesterday',  live: false },
-    { name: 'Carlos M.',       phone: '+55 21 9···',  budget: 'R$650,000',   st: 'Cold',      sc: { bg: 'rgba(0,0,0,0.05)', c: 'rgba(0,0,0,0.4)' }, src: 'Website',  cr: '5 hrs ago',  live: false },
-    { name: 'Juliana Costa',   phone: '+55 21 97···', budget: 'R$850,000',   st: 'Qualified', sc: { bg: '#f0fdf4', c: '#16a34a' },              src: 'WhatsApp', cr: 'Just now',   live: true  },
+    { name: 'James Parker',  phone: '+55 21 9···',  budget: 'R$720,000',   st: 'Qualified', sc: { bg: '#f0fdf4', c: '#16a34a' },              src: 'Website',  cr: '2 days ago', live: false },
+    { name: 'Emily Brooks',        phone: '+55 21 9···',  budget: 'R$1,200,000', st: 'Prospect',  sc: { bg: '#eff6ff', c: '#2563eb' },              src: 'Referral', cr: 'Yesterday',  live: false },
+    { name: 'Kevin M.',       phone: '+55 21 9···',  budget: 'R$650,000',   st: 'Cold',      sc: { bg: 'rgba(0,0,0,0.05)', c: 'rgba(0,0,0,0.4)' }, src: 'Website',  cr: '5 hrs ago',  live: false },
+    { name: 'Jessica Carter',   phone: '+55 21 97···', budget: 'R$850,000',   st: 'Qualified', sc: { bg: '#f0fdf4', c: '#16a34a' },              src: 'WhatsApp', cr: 'Just now',   live: true  },
   ]
   return (
     <div style={{ width: '100%' }}>
@@ -197,7 +199,7 @@ function Scene4({ badgeCount }) {
           <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <span style={{ fontSize: 9, fontWeight: 700, color: '#ffffff' }}>JC</span>
           </div>
-          <span style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a' }}>Juliana Costa</span>
+          <span style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a' }}>Jessica Carter</span>
           <span style={{ fontSize: 10, fontWeight: 600, background: '#f0fdf4', color: '#16a34a', padding: '2px 7px', borderRadius: 20 }}>Qualified</span>
         </div>
         <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.4)', paddingLeft: 34, marginBottom: 2 }}>WhatsApp · +55 21 97··· · Barra da Tijuca</div>
@@ -305,7 +307,7 @@ function Scene5({ revealed }) {
         transition: revealed ? 'opacity 400ms ease-out 400ms, transform 400ms ease-out 400ms' : 'opacity 220ms ease-in',
       }}>
         <div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a' }}>Property Visit · Juliana Costa</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a' }}>Property Visit · Jessica Carter</div>
           <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 2 }}>Thu, Jun 18 · 2:00 PM – 3:00 PM · Barra da Tijuca</div>
         </div>
         <span style={{ fontSize: 11, fontWeight: 600, color: '#16a34a', whiteSpace: 'nowrap', marginLeft: 12 }}>✓ Booked</span>
@@ -320,42 +322,44 @@ function HeroSection() {
   return (
     <section data-theme="light" style={{
       background: '#ffffff',
-      backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.055) 1px, transparent 1px)',
-      backgroundSize: '22px 22px',
       minHeight: '100vh', display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
       padding: '100px 24px 64px', overflow: 'hidden', position: 'relative',
     }}>
 
+      <WavyBackground />
+
       {/* Text block */}
-      <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto 52px' }}>
-        <span style={{ fontSize: 11, letterSpacing: '0.12em', color: 'rgba(0,0,0,0.35)', fontWeight: 500, textTransform: 'uppercase', marginBottom: 24, display: 'block' }}>
+      <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto 52px', position: 'relative', zIndex: 1 }}>
+        <span style={{ fontSize: 11, letterSpacing: '0.12em', color: 'rgba(0,0,0,0.38)', fontWeight: 500, textTransform: 'uppercase', marginBottom: 24, display: 'block' }}>
           OPERATIONAL INFRASTRUCTURE · BUILT BY SHALA NEVES
         </span>
         <h1 style={{ fontSize: 'clamp(40px, 5.5vw, 76px)', fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.03em', lineHeight: 1.05, margin: 0 }}>
           <span style={{ display: 'block' }}>Every customer journey</span>
           <span style={{ display: 'block' }}>is a system.</span>
         </h1>
-        <p style={{ margin: '20px auto 0', fontSize: 16, color: 'rgba(0,0,0,0.45)', lineHeight: 1.65, maxWidth: 460 }}>
+        <p style={{ margin: '20px auto 0', fontSize: 16, color: 'rgba(0,0,0,0.50)', lineHeight: 1.65, maxWidth: 460 }}>
           I design and build the systems that power lead capture, qualification, follow-up and operations.
         </p>
       </div>
 
       {/* Hero demo — V2 morphing container */}
-      <HeroRampV2 />
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <HeroRampV2 />
+      </div>
 
       {/* Ticker */}
       <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, height: 34,
-        borderTop: '1px solid rgba(0,0,0,0.07)',
+        position: 'absolute', bottom: 0, left: 0, right: 0, height: 34, zIndex: 1,
+        borderTop: '1px solid rgba(0,0,0,0.08)',
         display: 'flex', alignItems: 'center', overflow: 'hidden', background: '#ffffff',
       }}>
-        <div style={{ flexShrink: 0, padding: '0 20px', whiteSpace: 'nowrap', borderRight: '1px solid rgba(0,0,0,0.07)', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(0,0,0,0.3)' }}>
+        <div style={{ flexShrink: 0, padding: '0 20px', whiteSpace: 'nowrap', borderRight: '1px solid rgba(0,0,0,0.08)', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(0,0,0,0.30)' }}>
           · SYSTEMS ACTIVE
         </div>
         <div className="marquee-wrap" style={{ flex: 1, overflow: 'hidden' }}>
-          <div style={{ display: 'inline-flex', whiteSpace: 'nowrap', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.25)', paddingLeft: 20, animation: 'ticker-scroll 38s linear infinite' }}>
-            {TICKER}{TICKER}
+          <div style={{ display: 'inline-flex', whiteSpace: 'nowrap', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.28)', paddingLeft: 20, animation: 'ticker-scroll 38s linear infinite' }}>
+            {TICKER}{TICKER}{TICKER}{TICKER}
           </div>
         </div>
       </div>
@@ -370,16 +374,16 @@ function HeroSection() {
 function SysCopy({ eyebrow, title, description, outcome, dark }) {
   const c = dark ? {
     eyebrow: 'rgba(255,255,255,0.28)', title: '#ffffff',
-    body: 'rgba(255,255,255,0.48)', dot: 'rgba(255,255,255,0.18)',
-    oText: '#4ADE80', oBg: 'rgba(34,197,94,0.08)', oBdr: 'rgba(34,197,94,0.20)',
+    body: 'rgba(255,255,255,0.58)', dot: 'rgba(255,255,255,0.18)',
+    oText: 'rgba(255,255,255,0.70)', oBg: 'rgba(255,255,255,0.07)', oBdr: 'rgba(255,255,255,0.13)',
   } : {
     eyebrow: 'rgba(0,0,0,0.32)', title: '#0a0a0a',
     body: 'rgba(0,0,0,0.50)', dot: 'rgba(0,0,0,0.18)',
-    oText: '#16A34A', oBg: 'rgba(34,197,94,0.07)', oBdr: 'rgba(34,197,94,0.20)',
+    oText: 'rgba(0,0,0,0.58)', oBg: 'rgba(0,0,0,0.05)', oBdr: 'rgba(0,0,0,0.10)',
   }
 
   return (
-    <div style={{ width: 340, flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
+    <div style={{ width: 370, flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 18 }}>
         <div style={{ width: 5, height: 5, borderRadius: '50%', background: c.dot }} />
         <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: c.eyebrow }}>
@@ -387,9 +391,9 @@ function SysCopy({ eyebrow, title, description, outcome, dark }) {
         </span>
       </div>
       <div style={{
-        fontSize: 'clamp(28px, 3.5vw, 40px)', fontWeight: 700,
+        fontSize: 'clamp(40px, 5.2vw, 56px)', fontWeight: 800,
         letterSpacing: '-0.034em', lineHeight: 1.07, color: c.title,
-        marginBottom: 16, whiteSpace: 'pre-line',
+        marginBottom: 20, whiteSpace: 'pre-line',
       }}>
         {title}
       </div>
@@ -413,7 +417,7 @@ function SysCopy({ eyebrow, title, description, outcome, dark }) {
 
 // ── Navbar ────────────────────────────────────────────────────
 function Navbar() {
-  const [isDark, setIsDark] = useState(false)
+  const [isDark, setIsDark] = useState(true)
 
   useEffect(() => {
     const update = () => {
@@ -430,22 +434,28 @@ function Navbar() {
     return () => window.removeEventListener('scroll', update)
   }, [])
 
-  const color = isDark ? '#ffffff' : '#0a0a0a'
+  const color = isDark ? '#0a0a0a' : '#ffffff'
 
   return (
     <nav style={{
       position: 'fixed', top: 0, left: 0, right: 0, height: 56, zIndex: 1000,
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '0 48px',
+      background: isDark ? 'rgba(255,255,255,0.90)' : 'rgba(10,10,10,0.90)',
+      backdropFilter: 'blur(14px)',
+      WebkitBackdropFilter: 'blur(14px)',
+      borderBottom: `1px solid ${isDark ? 'rgba(0,0,0,0.07)' : 'rgba(255,255,255,0.08)'}`,
+      transition: 'background 0.40s ease, border-color 0.40s ease',
     }}>
       <AnimatedWordmark
         color={color}
         style={{ fontSize: 14, fontWeight: 700, letterSpacing: '-0.02em' }}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       />
       <a href="#contact" style={{
         fontSize: 13, fontWeight: 500, color,
         textDecoration: 'none', letterSpacing: '-0.005em', opacity: 0.68,
-        transition: 'color 0.25s ease',
+        transition: 'color 0.40s ease',
       }}>
         Contact
       </a>
@@ -607,7 +617,7 @@ function StackSection() {
             color: 'rgba(0,0,0,0.4)', paddingLeft: 20,
             animation: 'ticker-scroll 40s linear infinite',
           }}>
-            {tickerContent}{tickerContent}
+            {tickerContent}{tickerContent}{tickerContent}{tickerContent}
           </div>
         </div>
       </div>
@@ -740,12 +750,12 @@ function DashboardSection() {
             WhatsApp Lead Engine
           </div>
           <div style={{
-            fontSize: 'clamp(28px,4vw,40px)', fontWeight: 700,
+            fontSize: 'clamp(36px,4.5vw,52px)', fontWeight: 800,
             letterSpacing: '-0.034em', lineHeight: 1.07, color: '#ffffff', marginBottom: 14,
           }}>
             Processing leads.<br />Without stopping.
           </div>
-          <div style={{ fontSize: 14.5, color: 'rgba(255,255,255,0.40)', lineHeight: 1.68, letterSpacing: '-0.005em' }}>
+          <div style={{ fontSize: 14.5, color: 'rgba(255,255,255,0.62)', lineHeight: 1.68, letterSpacing: '-0.005em' }}>
             14 leads captured today. 11 qualified. 8 meetings booked.
           </div>
         </div>
@@ -757,33 +767,7 @@ function DashboardSection() {
   )
 }
 
-// ── S7: Closing CTA — static particle background ──────────────
-const PARTICLES = [
-  // top-left cluster
-  { top: '12%', left: '8%',   w: 48, h: 48, o: 0.15 },
-  { top: '18%', left: '14%',  w: 24, h: 24, o: 0.25 },
-  { top: '8%',  left: '22%',  w: 32, h: 16, o: 0.10 },
-  // top-right cluster
-  { top: '10%', right: '10%', w: 40, h: 40, o: 0.20 },
-  { top: '20%', right: '6%',  w: 20, h: 20, o: 0.30 },
-  { top: '6%',  right: '22%', w: 28, h: 28, o: 0.12 },
-  // mid-left cluster
-  { top: '42%', left: '4%',   w: 36, h: 18, o: 0.18 },
-  { top: '52%', left: '10%',  w: 20, h: 20, o: 0.28 },
-  { top: '38%', left: '18%',  w: 14, h: 14, o: 0.35 },
-  // mid-right cluster
-  { top: '40%', right: '5%',  w: 32, h: 32, o: 0.15 },
-  { top: '55%', right: '12%', w: 18, h: 36, o: 0.22 },
-  { top: '35%', right: '20%', w: 22, h: 22, o: 0.30 },
-  // bottom-left cluster
-  { bottom: '15%', left: '7%',   w: 44, h: 22, o: 0.12 },
-  { bottom: '8%',  left: '18%',  w: 24, h: 24, o: 0.20 },
-  { bottom: '20%', left: '28%',  w: 16, h: 16, o: 0.28 },
-  // bottom-right cluster
-  { bottom: '12%', right: '8%',  w: 36, h: 36, o: 0.18 },
-  { bottom: '6%',  right: '20%', w: 28, h: 14, o: 0.25 },
-  { bottom: '22%', right: '30%', w: 18, h: 18, o: 0.15 },
-]
+// ── S7: Closing CTA ────────────────────────────────────────────
 
 function CTASection() {
   const [ref, visible] = useVisible(0.2)
@@ -791,38 +775,23 @@ function CTASection() {
     <section data-theme="light" style={{
       background: '#ffffff', minHeight: '60vh',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      overflow: 'hidden', position: 'relative',
     }}>
-      {/* Static particles */}
-      {PARTICLES.map((p, i) => (
-        <div key={i} style={{
-          position: 'absolute', zIndex: 0,
-          top: p.top, left: p.left, right: p.right, bottom: p.bottom,
-          width: p.w, height: p.h,
-          background: '#6366f1', opacity: p.o, borderRadius: 3,
-        }} />
-      ))}
-
-      {/* Text block */}
       <div ref={ref} className={`fade-up${visible ? ' is-visible' : ''}`} style={{
-        position: 'relative', zIndex: 1,
-        textAlign: 'center', maxWidth: 680, padding: '0 40px',
+        textAlign: 'center', maxWidth: 900, padding: '0 40px',
       }}>
         <p style={{
-          fontSize: 'clamp(28px, 4vw, 52px)', fontWeight: 800,
-          color: '#0a0a0a', lineHeight: 1.15, letterSpacing: '-0.025em',
+          fontSize: 'clamp(52px, 7vw, 96px)', fontWeight: 800,
+          color: '#0a0a0a', lineHeight: 1.05, letterSpacing: '-0.035em',
           margin: 0,
         }}>
-          <span style={{ display: 'block' }}>Every manual step</span>
-          <span style={{ display: 'inline' }}>
-            <span style={{
-              background: '#6366f1', color: '#ffffff',
-              padding: '2px 12px', borderRadius: 3, display: 'inline',
-            }}>
-              is a system waiting
-            </span>
+          <span style={{ display: 'block' }}>Build</span>
+          <span style={{ display: 'block' }}>
+            <ContainerTextFlip
+              words={['better', 'scalable', 'connected', 'reliable', 'efficient']}
+              interval={2400}
+              inline={true}
+            />{' '}operations.
           </span>
-          <span style={{ display: 'block' }}>to be built.</span>
         </p>
       </div>
     </section>
@@ -830,15 +799,31 @@ function CTASection() {
 }
 
 // ── S8: Bio + Contact (dark) ──────────────────────────────────
+const FORMSPREE_ID = 'YOUR_FORM_ID' // substitua pelo ID do Formspree
+
 function BioContactSection() {
   const [ref, visible] = useVisible()
+  const [status, setStatus] = useState('idle') // idle | sending | done | error
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const email = e.target.email.value
-    const msg = e.target.message.value
-    window.location.href =
-      `mailto:shaladrive@gmail.com?subject=Let's work together&body=${encodeURIComponent(msg)}%0A%0AFrom: ${encodeURIComponent(email)}`
+    setStatus('sending')
+    const data = new FormData(e.target)
+    try {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
+      })
+      if (res.ok) {
+        setStatus('done')
+        e.target.reset()
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
   }
 
   const inputStyle = {
@@ -859,13 +844,15 @@ function BioContactSection() {
           {/* Left — Bio */}
           <div className={`fade-up${visible ? ' is-visible' : ''}`}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28 }}>
-              <div style={{
-                width: 72, height: 72, borderRadius: '50%',
-                background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                flexShrink: 0,
-              }}>
-                <span style={{ fontSize: 18, fontWeight: 700, color: '#ffffff', letterSpacing: '-0.02em' }}>SN</span>
-              </div>
+              <img
+                src="/pic.jpeg"
+                alt="Shala Neves"
+                style={{
+                  width: 72, height: 72, borderRadius: '50%',
+                  objectFit: 'cover', flexShrink: 0,
+                  border: '1px solid rgba(255,255,255,0.08)',
+                }}
+              />
               <div>
                 <div style={{ fontSize: 18, fontWeight: 700, color: '#ffffff', letterSpacing: '-0.02em' }}>
                   Shala Neves
@@ -891,20 +878,36 @@ function BioContactSection() {
             }}>
               Get in touch
             </div>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <input name="email" type="email" placeholder="Your email" required style={inputStyle} />
-              <textarea name="message" placeholder="What are you trying to build?" required rows={5}
-                style={{ ...inputStyle, resize: 'vertical' }} />
-              <button type="submit" style={{
-                background: '#ffffff', color: '#0a0a0a', border: 'none',
-                borderRadius: 10, padding: '13px 24px',
-                fontSize: 13.5, fontWeight: 600, letterSpacing: '-0.005em',
-                cursor: 'pointer', fontFamily: 'inherit', alignSelf: 'flex-start',
-                transition: 'opacity 0.2s',
+
+            {status === 'done' ? (
+              <div style={{
+                padding: '20px 0', fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7,
               }}>
-                Send message
-              </button>
-            </form>
+                Mensagem enviada. Retorno em breve.
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <input name="email" type="email" placeholder="Your email" required style={inputStyle} />
+                <textarea name="message" placeholder="What are you trying to build?" required rows={5}
+                  style={{ ...inputStyle, resize: 'vertical' }} />
+                {status === 'error' && (
+                  <span style={{ fontSize: 12, color: 'rgba(255,100,100,0.8)' }}>
+                    Erro ao enviar. Tente novamente.
+                  </span>
+                )}
+                <button type="submit" disabled={status === 'sending'} style={{
+                  background: '#ffffff', color: '#0a0a0a', border: 'none',
+                  borderRadius: 10, padding: '13px 24px',
+                  fontSize: 13.5, fontWeight: 600, letterSpacing: '-0.005em',
+                  cursor: status === 'sending' ? 'default' : 'pointer',
+                  fontFamily: 'inherit', alignSelf: 'flex-start',
+                  opacity: status === 'sending' ? 0.5 : 1,
+                  transition: 'opacity 0.2s',
+                }}>
+                  {status === 'sending' ? 'Enviando...' : 'Send message'}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>
@@ -915,11 +918,11 @@ function BioContactSection() {
         borderTop: '1px solid rgba(255,255,255,0.07)',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
-        <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.22)' }}>© 2025 Shala Neves</span>
+        <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.22)' }}>© 2026 Shala Neves</span>
         <div style={{ display: 'flex', gap: 24 }}>
           {[['GitHub', 'https://github.com/shalasch'], ['LinkedIn', 'https://linkedin.com/in/shalasch']].map(([label, href]) => (
             <a key={label} href={href} target="_blank" rel="noopener noreferrer" style={{
-              fontSize: 12, color: 'rgba(255,255,255,0.30)', textDecoration: 'none', fontWeight: 500,
+              fontSize: 12, color: 'rgba(255,255,255,0.45)', textDecoration: 'none', fontWeight: 500,
             }}>
               {label}
             </a>
@@ -937,10 +940,12 @@ export default function App() {
     <>
       <Navbar />
 
-      {/* S1: Hero (dark) */}
+      {/* S1: Hero (light) */}
       <HeroSection />
 
-      {/* S2: Stack Grid (light) — 1px separator at top handles dark→light */}
+      <Bleed from="#ffffff" to="#ffffff" />
+
+      {/* S2: Stack Grid (light) */}
       <StackSection />
 
       {/* S3: Lead Engine — same light bg as S2, flows directly */}

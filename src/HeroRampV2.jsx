@@ -105,7 +105,7 @@ export default function HeroRampV2() {
         border: '1px solid rgba(0,0,0,0.07)',
         borderRadius: 20,
         boxShadow: '0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04), 0 20px 56px rgba(0,0,0,0.09)',
-        overflow: 'hidden',
+        overflow: 'visible',
       }}
     >
       <div style={{ height: 560, position: 'relative' }}>
