@@ -739,7 +739,7 @@ function System03Section() {
 // ── S5.5: Build Beyond Lead Capture ────────────────────────────
 
 const BEYOND_ITEMS = [
-  { id: 'dashboard',   label: 'Operations Runtime'      },
+  { id: 'dashboard',   label: 'Dashboard Layer'         },
   { id: 'reporting',   label: 'Reporting Runtime'   },
   { id: 'operations',  label: 'Internal Operations' },
   { id: 'ai',          label: 'AI Employees'        },
@@ -747,156 +747,118 @@ const BEYOND_ITEMS = [
 ]
 
 function BeyondDashboardPanel() {
-  const [flowStep, setFlowStep] = useState(0)
-  const [tick, setTick]         = useState(0)
-
-  useEffect(() => {
-    const t1 = setInterval(() => setFlowStep(s => (s + 1) % 7), 1600)
-    const t2 = setInterval(() => setTick(t => t + 1), 1000)
-    return () => { clearInterval(t1); clearInterval(t2) }
-  }, [])
-
-  const FLOW = [
-    { label: 'Lead Detected',       sub: 'WhatsApp · #2847'      },
-    { label: 'AI Qualification',    sub: 'Score 94 · Qualified'   },
-    { label: 'Meeting Scheduled',   sub: 'Thu Jun 18 · 2:00 PM'   },
-    { label: 'Follow-up Triggered', sub: 'Auto-dispatched'        },
-    { label: 'Proposal Sent',       sub: 'Via WhatsApp'           },
-    { label: 'Opportunity Won',     sub: 'Revenue protected'      },
-  ]
-
-  const LEFT = [
-    { mt: 0,   time: '09:14', title: 'Lead #2847 captured',    detail: 'Via WhatsApp'         },
-    { mt: 28,  time: '09:15', title: 'CRM record updated',     detail: 'Sync completed'       },
-    { mt: 36,  metric: true, value: '127', label: 'Hours Saved', detail: 'This month'         },
-  ]
-
-  const RIGHT = [
-    { mt: 52,  time: '09:16', title: 'Meeting scheduled',      detail: 'Thu Jun 18 · 2:00 PM' },
-    { mt: 24,  time: '09:17', title: 'Follow-up dispatched',   detail: 'Auto-triggered'       },
-    { mt: 36,  metric: true, value: '23',  label: 'Opp. Recovered', detail: 'This week'       },
-  ]
-
-  const cardBase = {
-    padding: '10px 13px',
-    background: 'rgba(255,255,255,0.04)',
-    border: '1px solid rgba(255,255,255,0.08)',
-    borderRadius: 10,
-  }
-
   return (
-    <div style={{ padding: '32px 0 28px' }}>
+    <div style={{ position: 'relative', padding: '18px 0 24px' }}>
 
-      {/* Status bar */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, marginBottom: 28 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <div className="pulse-dot" style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e' }} />
-          <span style={{ fontSize: 10, fontWeight: 500, color: 'rgba(255,255,255,0.50)' }}>Operations Runtime · Live</span>
+      {/* Floating card — top right */}
+      <div style={{
+        position: 'absolute', top: 6, right: -8, zIndex: 10,
+        background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)',
+        borderRadius: 12, padding: '12px 16px', width: 204,
+        boxShadow: '0 8px 28px rgba(0,0,0,0.10)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+          <div style={{ width: 22, height: 22, borderRadius: 6, background: 'rgba(34,197,94,0.10)', border: '1px solid rgba(34,197,94,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="#16a34a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </div>
+          <div style={{ fontSize: 11.5, fontWeight: 700, color: '#111', letterSpacing: '-0.01em' }}>Opportunity Recovered</div>
         </div>
-        {['143 leads today', '5 systems connected', `Updated ${tick === 0 ? 'just now' : `${tick}s ago`}`].map((s, i) => (
-          <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.18)' }}>·</span>
-            <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.30)' }}>{s}</span>
-          </span>
-        ))}
+        <div style={{ fontSize: 10.5, color: '#555' }}>Lead #2831 · +$12,000 protected</div>
+        <div style={{ fontSize: 9.5, color: '#bbb', marginTop: 3 }}>3 days since last contact</div>
       </div>
 
-      {/* Canvas: 3 columns */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.15fr 1fr', gap: 24, padding: '0 32px', alignItems: 'start' }}>
+      {/* Main dashboard card */}
+      <div style={{
+        background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)',
+        borderRadius: 14, overflow: 'hidden',
+        boxShadow: '0 2px 24px rgba(0,0,0,0.06)',
+      }}>
 
-        {/* Left floating cards */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {LEFT.map((c, i) => (
-            <div key={i} style={{ marginTop: c.mt }}>
-              {c.metric ? (
-                <div style={{ ...cardBase, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
-                  <div style={{ fontSize: 24, fontWeight: 800, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1 }}>{c.value}</div>
-                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.60)', marginTop: 3, fontWeight: 500 }}>{c.label}</div>
-                  <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.28)', marginTop: 2 }}>{c.detail}</div>
-                </div>
-              ) : (
-                <div style={cardBase}>
-                  <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.25)', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: 4 }}>{c.time}</div>
-                  <div style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.80)', letterSpacing: '-0.01em' }}>{c.title}</div>
-                  <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.34)', marginTop: 2 }}>{c.detail}</div>
-                </div>
-              )}
+        {/* Dashboard header */}
+        <div style={{ padding: '13px 20px', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#fafafa' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>Executive Dashboard</span>
+            <span style={{ fontSize: 10, color: '#bbb' }}>· Live</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(34,197,94,0.07)', border: '1px solid rgba(34,197,94,0.18)', borderRadius: 20, padding: '4px 12px' }}>
+            <span style={{ fontSize: 16, fontWeight: 800, color: '#16a34a', letterSpacing: '-0.02em', lineHeight: 1 }}>92</span>
+            <span style={{ fontSize: 9, fontWeight: 700, color: '#16a34a', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Operational Health</span>
+          </div>
+        </div>
+
+        {/* 4 KPIs */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          {[
+            { label: 'Response Time', value: '1.2s',  delta: '↓ 62% faster', green: true  },
+            { label: 'SLA Compliance', value: '96%',  delta: 'On target',    green: true  },
+            { label: 'Pipeline Active', value: '54',  delta: '23 qualified'               },
+            { label: 'Recovered',      value: '23',   delta: '+$48k protected', green: true },
+          ].map((m, i) => (
+            <div key={i} style={{ padding: '14px 20px', borderRight: i < 3 ? '1px solid rgba(0,0,0,0.07)' : 'none' }}>
+              <div style={{ fontSize: 8.5, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 6 }}>{m.label}</div>
+              <div style={{ fontSize: 26, fontWeight: 800, color: '#111', letterSpacing: '-0.03em', lineHeight: 1 }}>{m.value}</div>
+              <div style={{ fontSize: 10, color: m.green ? '#16a34a' : '#888', marginTop: 5, fontWeight: m.green ? 600 : 400 }}>{m.delta}</div>
             </div>
           ))}
         </div>
 
-        {/* Center operational flow */}
-        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: '18px 22px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 20, paddingBottom: 14, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-            <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
-            <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.78)', letterSpacing: '-0.01em' }}>Operations Runtime</span>
-          </div>
-          {FLOW.map((s, i) => {
-            const active = i <= flowStep
-            return (
-              <div key={i} style={{ display: 'flex', gap: 13 }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 14, flexShrink: 0 }}>
-                  <div style={{
-                    width: 8, height: 8, borderRadius: '50%', flexShrink: 0, marginTop: 1,
-                    background: active ? '#22c55e' : 'rgba(255,255,255,0.12)',
-                    boxShadow: active ? '0 0 0 3px rgba(34,197,94,0.18)' : 'none',
-                    transition: 'background 0.5s, box-shadow 0.5s',
-                  }} />
-                  {i < FLOW.length - 1 && (
-                    <div style={{
-                      width: 1, flex: 1, minHeight: 18,
-                      background: active ? 'rgba(34,197,94,0.28)' : 'rgba(255,255,255,0.07)',
-                      margin: '4px 0',
-                      transition: 'background 0.5s',
-                    }} />
-                  )}
+        {/* Two-column body */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+
+          {/* Pipeline funnel */}
+          <div style={{ padding: '16px 20px', borderRight: '1px solid rgba(0,0,0,0.07)' }}>
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#bbb', marginBottom: 14 }}>Pipeline Health</div>
+            {[
+              { label: 'Leads Captured', value: 143, pct: 100 },
+              { label: 'Qualified',       value: 91,  pct: 64  },
+              { label: 'Meetings Booked', value: 54,  pct: 38  },
+              { label: 'Opportunities',   value: 23,  pct: 16  },
+            ].map((row, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                <span style={{ fontSize: 11, color: '#555', minWidth: 118, flexShrink: 0 }}>{row.label}</span>
+                <div style={{ flex: 1, height: 4, background: 'rgba(0,0,0,0.06)', borderRadius: 2 }}>
+                  <div style={{ height: '100%', width: `${row.pct}%`, background: '#111', borderRadius: 2 }} />
                 </div>
-                <div style={{ paddingBottom: i < FLOW.length - 1 ? 13 : 0 }}>
-                  <div style={{
-                    fontSize: 12.5, fontWeight: active ? 600 : 400,
-                    color: active ? 'rgba(255,255,255,0.88)' : 'rgba(255,255,255,0.22)',
-                    letterSpacing: '-0.01em', lineHeight: 1.3,
-                    transition: 'color 0.5s',
-                  }}>{s.label}</div>
-                  {active && (
-                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', marginTop: 2 }}>{s.sub}</div>
-                  )}
-                </div>
+                <span style={{ fontSize: 12, fontWeight: 700, color: '#111', minWidth: 28, textAlign: 'right' }}>{row.value}</span>
               </div>
-            )
-          })}
-        </div>
+            ))}
+          </div>
 
-        {/* Right floating cards */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {RIGHT.map((c, i) => (
-            <div key={i} style={{ marginTop: c.mt }}>
-              {c.metric ? (
-                <div style={{ ...cardBase, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
-                  <div style={{ fontSize: 24, fontWeight: 800, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1 }}>{c.value}</div>
-                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.60)', marginTop: 3, fontWeight: 500 }}>{c.label}</div>
-                  <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.28)', marginTop: 2 }}>{c.detail}</div>
-                </div>
-              ) : (
-                <div style={cardBase}>
-                  <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.25)', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: 4 }}>{c.time}</div>
-                  <div style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.80)', letterSpacing: '-0.01em' }}>{c.title}</div>
-                  <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.34)', marginTop: 2 }}>{c.detail}</div>
-                </div>
-              )}
-            </div>
-          ))}
+          {/* System status */}
+          <div style={{ padding: '16px 20px' }}>
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#bbb', marginBottom: 14 }}>Connected Systems</div>
+            {[
+              { name: 'WhatsApp',  count: '143 leads processed'  },
+              { name: 'CRM',       count: '847 records synced'   },
+              { name: 'Calendar',  count: '27 meetings booked'   },
+              { name: 'AI Engine', count: '847 tasks automated'  },
+            ].map((s, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 0', borderBottom: i < 3 ? '1px solid rgba(0,0,0,0.05)' : 'none' }}>
+                <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
+                <span style={{ flex: 1, fontSize: 12, color: '#111', fontWeight: 500, letterSpacing: '-0.005em' }}>{s.name}</span>
+                <span style={{ fontSize: 10, color: '#aaa' }}>{s.count}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* System health footer */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, marginTop: 28 }}>
-        {['WhatsApp', 'CRM', 'Calendar', 'AI Engine', 'Workflow'].map((s, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-            <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#22c55e' }} />
-            <span style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.28)' }}>{s}</span>
+      {/* Floating card — bottom left */}
+      <div style={{
+        position: 'absolute', bottom: 6, left: -8, zIndex: 10,
+        background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)',
+        borderRadius: 12, padding: '12px 16px', width: 212,
+        boxShadow: '0 8px 28px rgba(0,0,0,0.10)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+          <div style={{ width: 22, height: 22, borderRadius: 6, background: 'rgba(74,124,247,0.08)', border: '1px solid rgba(74,124,247,0.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="1.5" stroke="#4A7CF7" strokeWidth="1.6"/><path d="M1 4h10" stroke="#4A7CF7" strokeWidth="1.4"/><path d="M4 1v3" stroke="#4A7CF7" strokeWidth="1.4"/><path d="M8 1v3" stroke="#4A7CF7" strokeWidth="1.4"/></svg>
           </div>
-        ))}
+          <div style={{ fontSize: 11.5, fontWeight: 700, color: '#111', letterSpacing: '-0.01em' }}>Meeting Booked</div>
+        </div>
+        <div style={{ fontSize: 10.5, color: '#555' }}>Jessica Carter · Thu Jun 18</div>
+        <div style={{ fontSize: 9.5, color: '#bbb', marginTop: 3 }}>2:00 PM · Beverly Hills</div>
       </div>
     </div>
   )
@@ -904,144 +866,151 @@ function BeyondDashboardPanel() {
 
 function BeyondReportingPanel() {
   return (
-    <div>
-      {/* Delivery header */}
-      <div style={{ padding: '12px 20px', borderBottom: '1px solid rgba(0,0,0,0.06)', background: '#fafaf8', display: 'flex', alignItems: 'center', gap: 12 }}>
-        <div style={{ width: 30, height: 30, borderRadius: 7, background: '#0a0a0a', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <svg width="14" height="12" viewBox="0 0 14 12" fill="none">
-            <rect x="0.75" y="0.75" width="12.5" height="10.5" rx="1.5" stroke="white" strokeWidth="1.5"/>
-            <path d="M1 2.5L7 7L13 2.5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
+    <div style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 14, overflow: 'hidden', boxShadow: '0 2px 24px rgba(0,0,0,0.06)' }}>
+
+      {/* Document header */}
+      <div style={{ padding: '16px 24px', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16 }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 10.5, color: '#aaa', marginBottom: 5, fontWeight: 500 }}>Generated automatically every Monday at 08:00 AM</div>
+          <div style={{ fontSize: 19, fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.025em', lineHeight: 1.2, marginBottom: 4 }}>Weekly Operations Summary</div>
+          <div style={{ fontSize: 11, color: '#999' }}>Period: Jun 9 – 15, 2026 · Report #47 · Delivered to 3 recipients</div>
         </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 12.5, fontWeight: 700, color: '#0a0a0a', letterSpacing: '-0.01em' }}>Weekly Operational Summary</div>
-          <div style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.40)', marginTop: 1 }}>Generated Mon Jun 15 · 08:00 AM · 3 recipients</div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.20)', borderRadius: 20, padding: '4px 10px', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(34,197,94,0.07)', border: '1px solid rgba(34,197,94,0.18)', borderRadius: 20, padding: '5px 12px', flexShrink: 0 }}>
           <svg width="8" height="8" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="#16a34a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          <span style={{ fontSize: 10, fontWeight: 600, color: '#16a34a' }}>Delivered</span>
+          <span style={{ fontSize: 10.5, fontWeight: 600, color: '#16a34a' }}>Delivered</span>
         </div>
       </div>
 
-      {/* Report period bar */}
-      <div style={{ padding: '8px 20px', borderBottom: '1px solid rgba(0,0,0,0.06)', display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(0,0,0,0.014)' }}>
-        <span style={{ fontSize: 10.5, fontWeight: 500, color: 'rgba(0,0,0,0.45)' }}>Period: Jun 9 – 15, 2026</span>
-        <div style={{ width: 1, height: 12, background: 'rgba(0,0,0,0.12)' }} />
-        <span style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.33)' }}>Next: Jun 22 · 08:00 AM</span>
-        <span style={{ marginLeft: 'auto', fontSize: 9.5, fontWeight: 600, letterSpacing: '0.06em', color: 'rgba(0,0,0,0.25)' }}>REPORT #47</span>
-      </div>
-
-      {/* Two-section body */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-        <div style={{ padding: '14px 20px', borderRight: '1px solid rgba(0,0,0,0.06)' }}>
-          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.28)', marginBottom: 10 }}>Operational Metrics</div>
+      {/* KPI row */}
+      <div style={{ padding: '16px 24px 12px', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+        <div style={{ fontSize: 10, fontWeight: 700, color: '#111', letterSpacing: '-0.005em', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.06em', fontSize: 9 }}>Key Metrics</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 8 }}>
           {[
-            { label: 'Leads Captured',       value: '142', trend: '+18%',    up: true  },
-            { label: 'Meetings Booked',       value: '67',  trend: '+47%',    up: true  },
-            { label: 'Opp. Recovered',        value: '23',  trend: 'New',     up: true  },
-            { label: 'SLA Compliance',        value: '96%', trend: 'On track', up: null },
-            { label: 'Alerts Triggered',      value: '4',   trend: 'Resolved', up: null },
-          ].map((r, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
-              <span style={{ flex: 1, fontSize: 12, color: 'rgba(0,0,0,0.60)' }}>{r.label}</span>
-              <span style={{ fontSize: 14, fontWeight: 700, color: '#0a0a0a', letterSpacing: '-0.015em', marginRight: 10 }}>{r.value}</span>
-              <span style={{ fontSize: 10, fontWeight: 600, color: r.up === true ? '#16a34a' : 'rgba(0,0,0,0.33)', minWidth: 48, textAlign: 'right' }}>{r.trend}</span>
+            { label: 'Leads',      value: '143', delta: '+18%'  },
+            { label: 'Meetings',   value: '67',  delta: '+47%'  },
+            { label: 'SLA',        value: '96%', delta: 'On target' },
+            { label: 'Recovered',  value: '23',  delta: 'New'   },
+            { label: 'Tasks Auto', value: '847', delta: '100%'  },
+          ].map((m, i) => (
+            <div key={i} style={{ background: '#f7f7f7', borderRadius: 8, padding: '10px 12px' }}>
+              <div style={{ fontSize: 17, fontWeight: 800, color: '#111', letterSpacing: '-0.025em', lineHeight: 1 }}>{m.value}</div>
+              <div style={{ fontSize: 9.5, color: '#999', marginTop: 3 }}>{m.label}</div>
+              <div style={{ fontSize: 9, color: '#16a34a', fontWeight: 600, marginTop: 4 }}>{m.delta}</div>
             </div>
           ))}
         </div>
-        <div style={{ padding: '14px 20px' }}>
-          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.28)', marginBottom: 10 }}>Automation Performance</div>
+      </div>
+
+      {/* Observations + Recommendations */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0 }}>
+        <div style={{ padding: '14px 24px', borderRight: '1px solid rgba(0,0,0,0.07)' }}>
+          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 10 }}>Operational Observations</div>
           {[
-            { label: 'Workflows Executed', value: '1,247' },
-            { label: 'Tasks Automated',    value: '847'   },
-            { label: 'Messages Sent',      value: '312'   },
-            { label: 'Alerts Triggered',   value: '4'     },
-            { label: 'Human Touches Rem.', value: '94%'   },
-          ].map((r, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
-              <span style={{ flex: 1, fontSize: 12, color: 'rgba(0,0,0,0.60)' }}>{r.label}</span>
-              <span style={{ fontSize: 14, fontWeight: 700, color: '#0a0a0a', letterSpacing: '-0.015em' }}>{r.value}</span>
+            'Lead volume increased 18% vs prior week',
+            'Response time improved from 3.2s to 1.2s',
+            'WhatsApp qualification rate reached 94%',
+            '23 stale opportunities recovered automatically',
+          ].map((obs, i) => (
+            <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'flex-start' }}>
+              <span style={{ fontSize: 10, color: '#ccc', marginTop: 3, flexShrink: 0 }}>→</span>
+              <span style={{ fontSize: 11.5, color: '#444', lineHeight: 1.5 }}>{obs}</span>
             </div>
           ))}
+        </div>
+        <div style={{ padding: '14px 24px' }}>
+          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 10 }}>Recommendations</div>
+          {[
+            'Scale follow-up automation for high-volume days',
+            'Review SLA config for enterprise segment',
+            'Add recovery workflow for 5+ day stale leads',
+          ].map((rec, i) => (
+            <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'flex-start' }}>
+              <span style={{ fontSize: 9.5, fontWeight: 700, color: '#ccc', flexShrink: 0, marginTop: 2 }}>{i + 1}.</span>
+              <span style={{ fontSize: 11.5, color: '#444', lineHeight: 1.5 }}>{rec}</span>
+            </div>
+          ))}
+          <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 8 }}>Active Alerts</div>
+            {[
+              '3 leads exceeded SLA threshold on Wednesday',
+              'Response spike detected Tuesday afternoon',
+            ].map((a, i) => (
+              <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 5, alignItems: 'center' }}>
+                <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#d97706', flexShrink: 0 }} />
+                <span style={{ fontSize: 11, color: '#666' }}>{a}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Footer */}
-      <div style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#22c55e' }} />
-          <span style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.38)' }}>Generated automatically every Monday · 08:00 AM</span>
-        </div>
-        <span style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.33)' }}>Operations Team</span>
+      <div style={{ padding: '9px 24px', borderTop: '1px solid rgba(0,0,0,0.07)', background: '#fafafa', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: 10, color: '#bbb' }}>Next report: Mon Jun 22 · 08:00 AM · Auto-generated</span>
+        <span style={{ fontSize: 10, color: '#ccc' }}>Report #47</span>
       </div>
     </div>
   )
 }
 
 function BeyondOperationsPanel() {
-  const systems = [
-    { name: 'CRM',             status: 'Healthy',   detail: '99.9% uptime · 0 errors',   bar: 99  },
-    { name: 'Database',        status: 'Connected', detail: '847 records · fully synced', bar: 100 },
-    { name: 'Calendar',        status: 'Running',   detail: '23 active bookings',         bar: 97  },
-    { name: 'Notifications',   status: 'Synced',    detail: 'Last sync: 2 min ago',       bar: 100 },
-    { name: 'Workflow Engine',  status: 'Running',   detail: '12 flows · 0 failed',        bar: 98  },
+  const SYSTEMS = [
+    { name: 'CRM',       events: '284 events' },
+    { name: 'Calendar',  events: '27 booked'  },
+    { name: 'WhatsApp',  events: '143 msgs'   },
+    { name: 'Workflow',  events: '12 flows'   },
+    { name: 'AI Engine', events: '847 tasks'  },
   ]
-  const events = [
-    { from: 'CRM',      to: 'Database',  action: 'Record #2847 synced',   time: '09:14' },
-    { from: 'Calendar', to: 'Notif.',    action: 'Visit reminder sent',    time: '09:15' },
-    { from: 'Workflow', to: 'CRM',       action: 'Stage updated → Qual.',  time: '09:15' },
-    { from: 'Notif.',   to: 'WhatsApp',  action: 'Follow-up dispatched',   time: '09:16' },
+  const FLOWS = [
+    { from: 'WhatsApp',  to: 'CRM',      label: 'Lead Captured',          sub: 'Record #2847 created · jessica.c@email.com' },
+    { from: 'CRM',       to: 'AI Engine', label: 'Qualification Triggered', sub: 'Score: 94 · Status: Qualified'              },
+    { from: 'AI Engine', to: 'Calendar',  label: 'Meeting Slot Reserved',   sub: 'Thu Jun 18 · 2:00 PM · Beverly Hills'       },
+    { from: 'Calendar',  to: 'WhatsApp',  label: 'Confirmation Dispatched', sub: 'Client notified · Agent assigned'            },
+    { from: 'Workflow',  to: 'CRM',       label: 'Deal Stage Updated',      sub: 'Stage: Opportunity · #2847 synced'           },
   ]
   return (
-    <div>
+    <div style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 14, overflow: 'hidden', boxShadow: '0 2px 24px rgba(0,0,0,0.06)' }}>
+
       {/* Header */}
-      <div style={{ padding: '12px 20px', borderBottom: '1px solid rgba(0,0,0,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ fontSize: 12, fontWeight: 600, color: '#0a0a0a', letterSpacing: '-0.01em' }}>Control Center</span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+      <div style={{ padding: '13px 20px', borderBottom: '1px solid rgba(0,0,0,0.07)', background: '#fafafa', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
-          <span style={{ fontSize: 11, fontWeight: 600, color: '#16a34a' }}>All systems operational</span>
+          <span style={{ fontSize: 12, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>Operations Control Center</span>
         </div>
+        <span style={{ fontSize: 10, color: '#bbb' }}>5 systems · 0 failures · Live</span>
       </div>
 
-      {/* Two columns */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr' }}>
-        {/* System health */}
-        <div style={{ padding: '8px 0', borderRight: '1px solid rgba(0,0,0,0.06)' }}>
-          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.28)', padding: '6px 18px 8px' }}>System Health</div>
-          {systems.map((sys, i) => (
-            <div key={i} style={{ padding: '8px 18px', borderBottom: i < systems.length - 1 ? '1px solid rgba(0,0,0,0.05)' : 'none' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 4 }}>
-                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
-                <span style={{ flex: 1, fontSize: 12, fontWeight: 500, color: '#0a0a0a' }}>{sys.name}</span>
-                <span style={{ fontSize: 9.5, fontWeight: 600, color: '#16a34a', background: 'rgba(34,197,94,0.08)', borderRadius: 20, padding: '2px 8px', flexShrink: 0 }}>{sys.status}</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingLeft: 15 }}>
-                <div style={{ flex: 1, height: 2, borderRadius: 1, background: 'rgba(0,0,0,0.07)' }}>
-                  <div style={{ height: '100%', width: `${sys.bar}%`, background: '#22c55e', borderRadius: 1 }} />
-                </div>
-                <span style={{ fontSize: 9.5, color: 'rgba(0,0,0,0.35)', whiteSpace: 'nowrap', minWidth: 0 }}>{sys.detail}</span>
-              </div>
+      {/* System nodes */}
+      <div style={{ padding: '14px 20px 10px', display: 'flex', gap: 8 }}>
+        {SYSTEMS.map((sys, i) => (
+          <div key={i} style={{ flex: 1, padding: '10px 10px', background: '#f9f9f9', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 8, textAlign: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 5 }}>
+              <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e' }} />
             </div>
-          ))}
-        </div>
-
-        {/* Coordination Events */}
-        <div style={{ padding: '8px 0', display: 'flex', flexDirection: 'column' }}>
-          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.28)', padding: '6px 16px 8px' }}>Coordination Events</div>
-          {events.map((ev, i) => (
-            <div key={i} style={{ padding: '9px 16px', borderBottom: i < events.length - 1 ? '1px solid rgba(0,0,0,0.05)' : 'none' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 3 }}>
-                <span style={{ fontSize: 11.5, fontWeight: 600, color: '#0a0a0a' }}>{ev.from}</span>
-                <span style={{ fontSize: 11, color: 'rgba(0,0,0,0.28)', letterSpacing: '-0.01em' }}>→</span>
-                <span style={{ fontSize: 11.5, fontWeight: 600, color: '#0a0a0a' }}>{ev.to}</span>
-                <span style={{ marginLeft: 'auto', fontSize: 10, color: 'rgba(0,0,0,0.28)', fontFamily: "'SF Mono','Fira Code',monospace" }}>{ev.time}</span>
-              </div>
-              <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.48)' }}>{ev.action}</div>
-            </div>
-          ))}
-          <div style={{ marginTop: 'auto', padding: '10px 16px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-            <span style={{ fontSize: 10, color: 'rgba(0,0,0,0.30)' }}>Last checked: just now · interval: 60s</span>
+            <div style={{ fontSize: 11, fontWeight: 700, color: '#111', letterSpacing: '-0.005em' }}>{sys.name}</div>
+            <div style={{ fontSize: 9.5, color: '#aaa', marginTop: 3 }}>{sys.events}</div>
           </div>
+        ))}
+      </div>
+
+      {/* Coordination flow */}
+      <div style={{ padding: '8px 20px 16px' }}>
+        <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#bbb', marginBottom: 10 }}>Coordination Flow</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {FLOWS.map((flow, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: '#f9f9f9', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 8 }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#111', minWidth: 66, flexShrink: 0 }}>{flow.from}</span>
+              <svg width="16" height="10" viewBox="0 0 16 10" fill="none" style={{ flexShrink: 0 }}>
+                <path d="M1 5h12M10 1l4 4-4 4" stroke="rgba(0,0,0,0.20)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#111', minWidth: 66, flexShrink: 0 }}>{flow.to}</span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 11.5, fontWeight: 600, color: '#222', letterSpacing: '-0.01em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{flow.label}</div>
+                <div style={{ fontSize: 10, color: '#999', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{flow.sub}</div>
+              </div>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -1049,50 +1018,64 @@ function BeyondOperationsPanel() {
 }
 
 function BeyondAIPanel() {
-  const tasks = [
-    { time: '09:14', label: 'Lead Qualified',         detail: 'jessica.c@email.com · Score 94'    },
-    { time: '09:14', label: 'CRM Updated',            detail: 'Record #2847 created'               },
-    { time: '09:15', label: 'Follow-up Scheduled',    detail: 'Thu Jun 18 · 2:00 PM'               },
-    { time: '09:15', label: 'Meeting Confirmed',      detail: 'Booking link sent · WhatsApp'       },
-    { time: '09:15', label: 'Human Handoff Ready',    detail: 'Assigned → Morgan Oliver'           },
-    { time: '09:16', label: 'Customer Reply Drafted', detail: 'WhatsApp · Awaiting send'           },
-    { time: '09:16', label: 'Opportunity Recovered',  detail: 'Lead #2831 re-engaged after 3 days' },
+  const AGENTS = [
+    { name: 'Lead Qualifier',      tasks: 284, current: 'Lead #2847 · Scoring in progress'  },
+    { name: 'Follow-up Manager',   tasks: 172, current: '3 sequences pending dispatch'       },
+    { name: 'Meeting Coordinator', tasks: 91,  current: 'Thu Jun 18 · Slot confirmed'        },
+    { name: 'Recovery Agent',      tasks: 23,  current: 'Lead #2831 · Re-engagement sent'   },
+    { name: 'Reporting Analyst',   tasks: 277, current: 'Weekly report compiled · Mon 08:00' },
   ]
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      {/* Stats header */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
-        {[['847', 'Tasks Completed'], ['12', 'Active Flows'], ['0', 'Failures']].map(([v, l], i) => (
-          <div key={i} style={{ padding: '14px 0', textAlign: 'center', borderRight: i < 2 ? '1px solid rgba(0,0,0,0.07)' : 'none' }}>
-            <div style={{ fontSize: 22, fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.03em', lineHeight: 1 }}>{v}</div>
-            <div style={{ fontSize: 9.5, fontWeight: 500, color: 'rgba(0,0,0,0.38)', marginTop: 4, letterSpacing: '0.01em' }}>{l}</div>
+    <div style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 14, overflow: 'hidden', boxShadow: '0 2px 24px rgba(0,0,0,0.06)' }}>
+
+      {/* Header */}
+      <div style={{ padding: '13px 20px', borderBottom: '1px solid rgba(0,0,0,0.07)', background: '#fafafa', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
+          <span style={{ fontSize: 12, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>AI Workforce</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <span style={{ fontSize: 10, color: '#aaa' }}>5 agents active</span>
+          <span style={{ fontSize: 10, color: '#aaa' }}>847 tasks today</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(34,197,94,0.07)', border: '1px solid rgba(34,197,94,0.16)', borderRadius: 20, padding: '3px 9px' }}>
+            <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#22c55e' }} />
+            <span style={{ fontSize: 9.5, fontWeight: 600, color: '#16a34a' }}>0 failures</span>
           </div>
-        ))}
+        </div>
       </div>
 
-      {/* Live execution log header */}
-      <div style={{ padding: '10px 18px 8px', display: 'flex', alignItems: 'center', gap: 7, borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
-        <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
-        <span style={{ fontSize: 10, fontWeight: 600, color: 'rgba(0,0,0,0.45)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Live Execution Log</span>
-        <span style={{ marginLeft: 'auto', fontSize: 10, color: 'rgba(0,0,0,0.28)' }}>Last 24 hours</span>
-      </div>
-
-      {/* Task rows */}
-      <div style={{ flex: 1, overflow: 'hidden' }}>
-        {tasks.map((task, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '9px 18px', borderBottom: i < tasks.length - 1 ? '1px solid rgba(0,0,0,0.045)' : 'none' }}>
-            <div style={{ width: 18, height: 18, borderRadius: '50%', background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
-                <path d="M2 6L5 9L10 3" stroke="rgba(0,0,0,0.50)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+      {/* Agent grid: 3 + 2 */}
+      <div style={{ padding: '16px 20px 8px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginBottom: 10 }}>
+          {AGENTS.slice(0, 3).map((agent, i) => (
+            <div key={i} style={{ background: '#f9f9f9', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 10, padding: '14px 14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
+                <span style={{ fontSize: 9.5, fontWeight: 700, color: '#16a34a', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Active</span>
+              </div>
+              <div style={{ fontSize: 12.5, fontWeight: 700, color: '#111', letterSpacing: '-0.01em', marginBottom: 6, lineHeight: 1.3 }}>{agent.name}</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: '#111', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 4 }}>{agent.tasks}</div>
+              <div style={{ fontSize: 9, color: '#bbb', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>Tasks today</div>
+              <div style={{ fontSize: 10, color: '#888', lineHeight: 1.4, borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: 8 }}>{agent.current}</div>
             </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: '#0a0a0a', letterSpacing: '-0.01em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{task.label}</div>
-              <div style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.40)', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{task.detail}</div>
+          ))}
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 10, marginBottom: 16 }}>
+          {AGENTS.slice(3).map((agent, i) => (
+            <div key={i} style={{ background: '#f9f9f9', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 10, padding: '14px 14px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
+                <span style={{ fontSize: 9.5, fontWeight: 700, color: '#16a34a', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Active</span>
+              </div>
+              <div style={{ fontSize: 12.5, fontWeight: 700, color: '#111', letterSpacing: '-0.01em', marginBottom: 6, lineHeight: 1.3 }}>{agent.name}</div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 8 }}>
+                <div style={{ fontSize: 20, fontWeight: 800, color: '#111', letterSpacing: '-0.03em', lineHeight: 1 }}>{agent.tasks}</div>
+                <div style={{ fontSize: 9, color: '#bbb', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Tasks today</div>
+              </div>
+              <div style={{ fontSize: 10, color: '#888', lineHeight: 1.4, borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: 8 }}>{agent.current}</div>
             </div>
-            <span style={{ fontSize: 10, color: 'rgba(0,0,0,0.25)', fontFamily: "'SF Mono','Fira Code',monospace", flexShrink: 0 }}>{task.time}</span>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -1133,66 +1116,82 @@ function BeyondDiagnosticPanel() {
   ]
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 14, overflow: 'hidden', boxShadow: '0 2px 24px rgba(0,0,0,0.06)' }}>
+
       {/* Header */}
-      <div style={{ padding: '10px 18px', borderBottom: '1px solid rgba(0,0,0,0.06)', background: 'rgba(0,0,0,0.015)', display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.35)' }}>Business Diagnostic</span>
-        <span style={{ fontSize: 10, color: 'rgba(0,0,0,0.22)' }}>·</span>
-        <span style={{ fontSize: 10, color: 'rgba(0,0,0,0.30)' }}>Initial Assessment</span>
+      <div style={{ padding: '13px 20px', borderBottom: '1px solid rgba(0,0,0,0.07)', background: '#fafafa', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div>
+          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: '#bbb', marginBottom: 2 }}>Business Diagnostic</div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>Initial Operational Assessment</div>
+        </div>
+        {phase >= 9 && (
+          <div style={{ fontSize: 10, fontWeight: 600, color: '#dc2626', background: 'rgba(220,38,38,0.06)', border: '1px solid rgba(220,38,38,0.14)', borderRadius: 20, padding: '4px 10px', transition: 'opacity 0.4s' }}>Analysis complete</div>
+        )}
       </div>
 
-      <div style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ padding: '14px 20px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+
         {/* URL bar */}
-        <div style={{ opacity: phase >= 1 ? 1 : 0, transition: 'opacity 0.4s', display: 'flex', alignItems: 'center', gap: 8, padding: '7px 12px', background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 7 }}>
+        <div style={{ opacity: phase >= 1 ? 1 : 0, transition: 'opacity 0.4s', display: 'flex', alignItems: 'center', gap: 8, padding: '7px 12px', background: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 7 }}>
           <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="rgba(0,0,0,0.28)" strokeWidth="1.4"/><path d="M6 3v3l2 1.5" stroke="rgba(0,0,0,0.28)" strokeWidth="1.3" strokeLinecap="round"/></svg>
-          <span style={{ fontSize: 11, fontFamily: "'SF Mono','Fira Code',monospace", color: 'rgba(0,0,0,0.55)' }}>yourbusiness.com/operations</span>
-          {phase >= 2 && phase < 9 && (
-            <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 600, color: '#D97706', animation: 'none' }}>Scanning...</span>
-          )}
-          {phase >= 9 && (
-            <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 600, color: '#dc2626' }}>Analysis complete</span>
-          )}
+          <span style={{ fontSize: 11, fontFamily: "'SF Mono','Fira Code',monospace", color: '#777' }}>yourbusiness.com/operations</span>
+          {phase >= 2 && phase < 9 && <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 600, color: '#d97706' }}>Scanning...</span>}
         </div>
 
-        {/* Issues list */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.28)', marginBottom: 8, opacity: phase >= 3 ? 1 : 0, transition: 'opacity 0.3s' }}>Problems Detected</div>
+        {/* Issues */}
+        <div>
+          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#bbb', marginBottom: 8, opacity: phase >= 3 ? 1 : 0, transition: 'opacity 0.3s' }}>Problems Detected</div>
           {issues.map((issue, i) => (
             <div key={i} style={{
-              display: 'flex', alignItems: 'center', gap: 9, padding: '6px 0',
+              display: 'flex', alignItems: 'center', gap: 9, padding: '5px 0',
               borderBottom: i < issues.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none',
               opacity: phase >= i + 3 ? 1 : 0,
               transform: phase >= i + 3 ? 'translateY(0)' : 'translateY(5px)',
               transition: 'opacity 0.35s, transform 0.35s',
             }}>
-              <div style={{ width: 14, height: 14, borderRadius: '50%', background: 'rgba(220,38,38,0.08)', border: '1px solid rgba(220,38,38,0.20)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <div style={{ width: 14, height: 14, borderRadius: '50%', background: 'rgba(220,38,38,0.07)', border: '1px solid rgba(220,38,38,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <svg width="7" height="7" viewBox="0 0 10 10" fill="none"><path d="M2.5 7.5L5 5M5 5L7.5 2.5M5 5L2.5 2.5M5 5L7.5 7.5" stroke="#dc2626" strokeWidth="1.8" strokeLinecap="round"/></svg>
               </div>
-              <span style={{ fontSize: 11.5, color: 'rgba(0,0,0,0.65)', letterSpacing: '-0.005em' }}>{issue}</span>
+              <span style={{ fontSize: 11.5, color: '#555', letterSpacing: '-0.005em' }}>{issue}</span>
             </div>
           ))}
         </div>
 
-        {/* Score + Actions row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 14, marginTop: 4, opacity: phase >= 9 ? 1 : 0, transition: 'opacity 0.5s' }}>
-          {/* Score */}
-          <div style={{ padding: '10px 14px', background: 'rgba(220,38,38,0.05)', border: '1px solid rgba(220,38,38,0.15)', borderRadius: 8, textAlign: 'center', minWidth: 72 }}>
-            <div style={{ fontSize: 24, fontWeight: 800, color: '#dc2626', letterSpacing: '-0.04em', lineHeight: 1 }}>2</div>
-            <div style={{ fontSize: 9, color: 'rgba(220,38,38,0.70)', fontWeight: 600, letterSpacing: '0.04em', marginTop: 2 }}>/10</div>
-            <div style={{ fontSize: 8.5, color: 'rgba(0,0,0,0.35)', marginTop: 4, fontWeight: 500 }}>Operational Score</div>
+        {/* Score + Recommendations + Impact */}
+        <div style={{ opacity: phase >= 9 ? 1 : 0, transition: 'opacity 0.5s', display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: 14 }}>
+
+          {/* Operational score */}
+          <div style={{ padding: '10px 14px', background: 'rgba(220,38,38,0.05)', border: '1px solid rgba(220,38,38,0.14)', borderRadius: 10, textAlign: 'center', minWidth: 72 }}>
+            <div style={{ fontSize: 28, fontWeight: 800, color: '#dc2626', letterSpacing: '-0.04em', lineHeight: 1 }}>2</div>
+            <div style={{ fontSize: 9, color: 'rgba(220,38,38,0.65)', fontWeight: 600, marginTop: 2 }}>/10</div>
+            <div style={{ fontSize: 8.5, color: '#aaa', marginTop: 5, fontWeight: 500, lineHeight: 1.4 }}>Operational Score</div>
           </div>
 
-          {/* Recommended actions */}
+          {/* Recommendations */}
           <div style={{ opacity: phase >= 10 ? 1 : 0, transition: 'opacity 0.4s' }}>
-            <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#4A7CF7', marginBottom: 7 }}>Recommended Actions</div>
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#4A7CF7', marginBottom: 8 }}>Recommended Actions</div>
             {actions.map((a, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 6 }}>
-                <div style={{ width: 14, height: 14, borderRadius: '50%', background: 'rgba(74,124,247,0.09)', border: '1px solid rgba(74,124,247,0.20)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 7 }}>
+                <div style={{ width: 14, height: 14, borderRadius: '50%', background: 'rgba(74,124,247,0.08)', border: '1px solid rgba(74,124,247,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <svg width="7" height="7" viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 3.5" stroke="#4A7CF7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 </div>
-                <span style={{ fontSize: 11, color: 'rgba(0,0,0,0.62)', letterSpacing: '-0.005em' }}>{a}</span>
+                <span style={{ fontSize: 11, color: '#555', letterSpacing: '-0.005em' }}>{a}</span>
               </div>
             ))}
+          </div>
+
+          {/* Estimated impact */}
+          <div style={{ opacity: phase >= 10 ? 1 : 0, transition: 'opacity 0.4s', display: 'flex', flexDirection: 'column', gap: 8, minWidth: 130 }}>
+            <div>
+              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 5 }}>Estimated Impact</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: '#16a34a', letterSpacing: '-0.03em', lineHeight: 1 }}>847 hrs</div>
+              <div style={{ fontSize: 10, color: '#aaa', marginTop: 3 }}>manual work eliminated</div>
+            </div>
+            <div style={{ paddingTop: 8, borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 5 }}>Revenue Recovery</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: '#16a34a', letterSpacing: '-0.03em', lineHeight: 1 }}>$48k</div>
+              <div style={{ fontSize: 10, color: '#aaa', marginTop: 3 }}>potential per month</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1230,21 +1229,26 @@ function BuildBeyondSection() {
   const ActivePanel = BEYOND_PANEL_MAP[activeIdx]
 
   return (
-    <section data-theme="dark" style={{ background: '#080808', padding: '96px 40px' }}>
+    <section data-theme="light" style={{
+      background: '#ffffff',
+      backgroundImage: 'radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px)',
+      backgroundSize: '20px 20px',
+      padding: '96px 40px',
+    }}>
       <div ref={ref} style={{ maxWidth: 1240, margin: '0 auto' }}>
 
         {/* Header */}
         <div className={`fade-up${sectionVisible ? ' is-visible' : ''}`} style={{ marginBottom: 60 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 16 }}>
-            <div style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(255,255,255,0.20)' }} />
-            <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>
+            <div style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(0,0,0,0.22)' }} />
+            <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.35)' }}>
               Operational Layer
             </span>
           </div>
-          <h2 style={{ fontSize: 'clamp(32px,4vw,48px)', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 16px' }}>
+          <h2 style={{ fontSize: 'clamp(32px,4vw,48px)', fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 16px' }}>
             Build Beyond Lead Capture
           </h2>
-          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.50)', lineHeight: 1.7, maxWidth: 560, margin: 0, letterSpacing: '-0.005em' }}>
+          <p style={{ fontSize: 15, color: 'rgba(0,0,0,0.50)', lineHeight: 1.7, maxWidth: 560, margin: 0, letterSpacing: '-0.005em' }}>
             The same operational layer can power visibility, reporting, internal tools and AI-assisted workflows.
           </p>
         </div>
@@ -1261,13 +1265,13 @@ function BuildBeyondSection() {
                 style={{
                   display: 'block', width: '100%', textAlign: 'left',
                   padding: '11px 16px',
-                  background: activeIdx === i ? 'rgba(255,255,255,0.07)' : 'transparent',
+                  background: activeIdx === i ? 'rgba(0,0,0,0.05)' : 'transparent',
                   border: 'none',
-                  borderLeft: `2px solid ${activeIdx === i ? 'rgba(255,255,255,0.72)' : 'rgba(255,255,255,0.10)'}`,
+                  borderLeft: `2px solid ${activeIdx === i ? '#0a0a0a' : 'rgba(0,0,0,0.10)'}`,
                   borderRadius: '0 6px 6px 0',
                   cursor: 'pointer', marginBottom: 3,
                   fontSize: 13.5, fontWeight: activeIdx === i ? 600 : 400,
-                  color: activeIdx === i ? '#ffffff' : 'rgba(255,255,255,0.38)',
+                  color: activeIdx === i ? '#0a0a0a' : 'rgba(0,0,0,0.45)',
                   fontFamily: 'inherit', letterSpacing: '-0.005em',
                   transition: 'all 0.18s ease',
                 }}
@@ -1277,17 +1281,8 @@ function BuildBeyondSection() {
             ))}
           </div>
 
-          {/* Right showcase panel */}
-          <div style={{
-            flex: 1, minWidth: 0,
-            ...(activeIdx > 0 ? {
-              background: '#ffffff',
-              border: '1px solid rgba(255,255,255,0.10)',
-              borderRadius: 12,
-              boxShadow: '0 8px 48px rgba(0,0,0,0.50)',
-              overflow: 'hidden',
-            } : {}),
-          }}>
+          {/* Right showcase panel — each panel owns its own visual container */}
+          <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{
               opacity: panelVisible ? 1 : 0,
               transform: panelVisible ? 'translateY(0) scale(1)' : 'translateY(10px) scale(0.99)',
