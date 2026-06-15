@@ -739,7 +739,7 @@ function System03Section() {
 // ── S5.5: Build Beyond Lead Capture ────────────────────────────
 
 const BEYOND_ITEMS = [
-  { id: 'dashboard',   label: 'Revenue Command Center' },
+  { id: 'dashboard',   label: 'Operations Runtime'      },
   { id: 'reporting',   label: 'Reporting Runtime'   },
   { id: 'operations',  label: 'Internal Operations' },
   { id: 'ai',          label: 'AI Employees'        },
@@ -749,9 +749,9 @@ const BEYOND_ITEMS = [
 function BeyondDashboardPanel() {
   const [elapsed, setElapsed] = useState(0)
   const [feed, setFeed] = useState([
-    { id: 1, time: '09:12', text: 'Lead captured via WhatsApp',  fresh: false },
-    { id: 2, time: '09:13', text: 'AI qualification complete',   fresh: false },
-    { id: 3, time: '09:14', text: 'Lead qualified · Score 94',   fresh: false },
+    { id: 1, time: '09:12', text: 'Lead #2845 captured',             fresh: false },
+    { id: 2, time: '09:13', text: 'Reminder triggered · Jessica C.', fresh: false },
+    { id: 3, time: '09:14', text: 'Proposal sent via WhatsApp',      fresh: false },
   ])
 
   useEffect(() => {
@@ -761,10 +761,10 @@ function BeyondDashboardPanel() {
 
   useEffect(() => {
     const INCOMING = [
-      { time: '09:15', text: 'Follow-up scheduled' },
-      { time: '09:15', text: 'CRM record updated' },
-      { time: '09:16', text: 'Meeting booked · Jun 18' },
-      { time: '09:17', text: 'Agent assigned → Morgan O.' },
+      { time: '09:15', text: 'Lead #2847 qualified' },
+      { time: '09:15', text: 'Follow-up dispatched' },
+      { time: '09:16', text: 'Meeting scheduled · Jun 18' },
+      { time: '09:17', text: 'Human handoff prepared' },
       { time: '09:18', text: 'Opportunity recovered' },
     ]
     let i = 0
@@ -779,11 +779,11 @@ function BeyondDashboardPanel() {
   }, [])
 
   const ATTENTION = [
-    { level: 'high',   text: '3 leads waiting over SLA',         cta: 'Act' },
-    { level: 'high',   text: '1 SLA breach imminent · #2851',    cta: 'Act' },
-    { level: 'medium', text: '2 opportunities stalled 5+ days',  cta: 'View' },
-    { level: 'medium', text: '5 meetings need confirmation',     cta: 'View' },
-    { level: 'low',    text: 'Response time trending up',        cta: null  },
+    { level: 'high',   text: '3 leads waiting over SLA',        cta: 'Act'  },
+    { level: 'high',   text: '1 SLA breach imminent · #2851',   cta: 'Act'  },
+    { level: 'medium', text: '2 opportunities stalled 5+ days', cta: 'View' },
+    { level: 'medium', text: '5 meetings need confirmation',    cta: 'View' },
+    { level: 'low',    text: 'Response time trending up',       cta: null   },
   ]
 
   const PIPELINE = [
@@ -794,21 +794,16 @@ function BeyondDashboardPanel() {
     { label: 'Closed',          value: 8,   conv: '35%' },
   ]
 
-  const SYSTEMS = [
-    'WhatsApp',
-    'CRM',
-    'Calendar',
-    'AI Engine',
-    'Workflow',
-  ]
+  const SYSTEMS = ['WhatsApp', 'CRM', 'Calendar', 'AI Engine', 'Workflow']
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
+
       {/* Header */}
-      <div style={{ padding: '9px 18px', borderBottom: '1px solid #e5e5e5', display: 'flex', alignItems: 'center', gap: 7 }}>
+      <div style={{ padding: '9px 20px', borderBottom: '1px solid #e5e5e5', display: 'flex', alignItems: 'center', gap: 7 }}>
         <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
-        <span style={{ fontSize: 11, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>Revenue Command Center</span>
-        <span style={{ marginLeft: 'auto', fontSize: 9.5, color: '#999' }}>Updated {elapsed === 0 ? 'just now' : `${elapsed}s ago`}</span>
+        <span style={{ fontSize: 11, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>Operations Runtime</span>
+        <span style={{ marginLeft: 'auto', fontSize: 9.5, color: '#bbb' }}>Updated {elapsed === 0 ? 'just now' : `${elapsed}s ago`}</span>
       </div>
 
       {/* KPI row */}
@@ -819,98 +814,97 @@ function BeyondDashboardPanel() {
           { label: 'Follow-ups Sent',    value: '391', note: '100% automated'   },
           { label: 'Response SLA',       value: '96%', note: 'On target'        },
         ].map((m, i) => (
-          <div key={i} style={{ padding: '10px 14px', borderRight: i < 3 ? '1px solid #e5e5e5' : 'none' }}>
-            <div style={{ fontSize: 8.5, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#999', marginBottom: 4 }}>{m.label}</div>
-            <div style={{ fontSize: 24, fontWeight: 800, color: '#111', letterSpacing: '-0.03em', lineHeight: 1 }}>{m.value}</div>
-            <div style={{ fontSize: 9.5, color: '#aaa', marginTop: 3 }}>{m.note}</div>
+          <div key={i} style={{ padding: '11px 20px', borderRight: i < 3 ? '1px solid #e5e5e5' : 'none' }}>
+            <div style={{ fontSize: 8.5, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#aaa', marginBottom: 5 }}>{m.label}</div>
+            <div style={{ fontSize: 26, fontWeight: 800, color: '#111', letterSpacing: '-0.03em', lineHeight: 1 }}>{m.value}</div>
+            <div style={{ fontSize: 9.5, color: '#bbb', marginTop: 4 }}>{m.note}</div>
           </div>
         ))}
       </div>
 
       {/* System health strip */}
-      <div style={{ padding: '6px 18px', borderBottom: '1px solid #e5e5e5', background: '#fafafa', display: 'flex', alignItems: 'center', gap: 18 }}>
+      <div style={{ padding: '6px 20px', borderBottom: '1px solid #e5e5e5', background: '#fafafa', display: 'flex', alignItems: 'center', gap: 20 }}>
         {SYSTEMS.map((s, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
             <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e' }} />
-            <span style={{ fontSize: 10, color: '#666' }}>{s}</span>
+            <span style={{ fontSize: 9.5, color: '#666' }}>{s}</span>
           </div>
         ))}
-        <span style={{ marginLeft: 'auto', fontSize: 9.5, color: '#bbb', fontWeight: 500 }}>All systems connected</span>
+        <span style={{ marginLeft: 'auto', fontSize: 9, color: '#ccc', letterSpacing: '0.01em' }}>All systems connected</span>
+      </div>
+
+      {/* Impact strip — the single wow moment */}
+      <div style={{ padding: '16px 20px', background: '#0a0a0a', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
+          <span style={{ fontSize: 36, fontWeight: 900, color: '#fff', letterSpacing: '-0.045em', lineHeight: 1 }}>847</span>
+          <span style={{ fontSize: 13.5, fontWeight: 500, color: 'rgba(255,255,255,0.68)', letterSpacing: '-0.01em' }}>Manual Tasks Eliminated</span>
+        </div>
+        <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.22)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>This month · 100% automated</span>
       </div>
 
       {/* 3-column body */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 0.85fr 1fr' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 0.72fr 1fr' }}>
 
-        {/* Column 1: Attention Required */}
+        {/* Attention Required */}
         <div style={{ borderRight: '1px solid #e5e5e5' }}>
-          <div style={{ padding: '7px 14px', borderBottom: '1px solid #ebebeb', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ padding: '7px 20px', borderBottom: '1px solid #ebebeb', display: 'flex', alignItems: 'center' }}>
             <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#999' }}>Attention Required</span>
-            <span style={{ marginLeft: 'auto', fontSize: 9, fontWeight: 600, color: '#888', background: '#f0f0f0', borderRadius: 20, padding: '1px 6px' }}>5</span>
+            <span style={{ marginLeft: 'auto', fontSize: 9, fontWeight: 600, color: '#888', background: '#f0f0f0', borderRadius: 20, padding: '1px 7px' }}>5</span>
           </div>
           {ATTENTION.map((al, i) => (
             <div key={i} style={{
-              display: 'flex', alignItems: 'center', gap: 8, padding: '8px 14px',
-              borderBottom: i < ATTENTION.length - 1 ? '1px solid #f0f0f0' : 'none',
+              display: 'flex', alignItems: 'center', gap: 9, padding: '9px 20px',
+              borderBottom: i < ATTENTION.length - 1 ? '1px solid #f4f4f4' : 'none',
             }}>
-              <div style={{
-                width: 5, height: 5, borderRadius: '50%', flexShrink: 0,
-                background: al.level === 'high' ? '#dc2626' : al.level === 'medium' ? '#d97706' : '#ccc',
-              }} />
-              <span style={{ flex: 1, fontSize: 11, color: al.level === 'high' ? '#111' : '#555', lineHeight: 1.35 }}>{al.text}</span>
+              <div style={{ width: 5, height: 5, borderRadius: '50%', flexShrink: 0, background: al.level === 'high' ? '#dc2626' : al.level === 'medium' ? '#d97706' : '#ccc' }} />
+              <span style={{ flex: 1, fontSize: 11.5, color: al.level === 'high' ? '#111' : '#555', lineHeight: 1.35 }}>{al.text}</span>
               {al.cta && (
-                <span style={{
-                  fontSize: 9, fontWeight: 600, flexShrink: 0,
-                  color: al.level === 'high' ? '#dc2626' : '#999',
-                }}>{al.cta} →</span>
+                <span style={{ fontSize: 9, fontWeight: 600, color: al.level === 'high' ? '#dc2626' : '#aaa', flexShrink: 0 }}>{al.cta} →</span>
               )}
             </div>
           ))}
         </div>
 
-        {/* Column 2: Pipeline Flow */}
+        {/* Pipeline Flow — centered vertical progression */}
         <div style={{ borderRight: '1px solid #e5e5e5' }}>
-          <div style={{ padding: '7px 14px', borderBottom: '1px solid #ebebeb' }}>
+          <div style={{ padding: '7px 16px', borderBottom: '1px solid #ebebeb' }}>
             <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#999' }}>Pipeline Flow</span>
           </div>
-          <div style={{ padding: '8px 14px 6px' }}>
+          <div style={{ padding: '10px 0 8px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             {PIPELINE.map((stage, i) => (
-              <div key={i}>
+              <div key={i} style={{ width: '100%', textAlign: 'center' }}>
                 {i > 0 && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '2px 0 2px 4px' }}>
-                    <span style={{ fontSize: 9, color: '#ddd', lineHeight: 1 }}>↓</span>
-                    <span style={{ fontSize: 9, color: '#bbb' }}>{stage.conv}</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '3px 0 2px' }}>
+                    <span style={{ fontSize: 12, color: '#ddd', lineHeight: 1 }}>↓</span>
+                    <span style={{ fontSize: 8.5, color: '#ccc', marginTop: 1 }}>{stage.conv}</span>
                   </div>
                 )}
-                <div style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  padding: '4px 0',
-                  borderTop: i > 0 ? '1px solid #f0f0f0' : 'none',
-                }}>
-                  <span style={{ fontSize: i === 0 ? 11.5 : 11, color: i === 0 ? '#111' : '#555', fontWeight: i === 0 ? 600 : 400 }}>{stage.label}</span>
-                  <span style={{ fontSize: i === 0 ? 18 : 15, fontWeight: 700, color: '#111', letterSpacing: '-0.02em', lineHeight: 1 }}>{stage.value}</span>
+                <div style={{ padding: '5px 0', borderTop: i > 0 ? '1px solid #f2f2f2' : 'none' }}>
+                  <div style={{ fontSize: i === 0 ? 30 : 22, fontWeight: 800, color: '#111', letterSpacing: '-0.03em', lineHeight: 1 }}>{stage.value}</div>
+                  <div style={{ fontSize: 9, color: i === 0 ? '#555' : '#aaa', marginTop: 3, fontWeight: i === 0 ? 500 : 400, letterSpacing: '0.01em' }}>{stage.label}</div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Column 3: Live Activity */}
+        {/* Live Activity */}
         <div>
-          <div style={{ padding: '7px 14px', borderBottom: '1px solid #ebebeb', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ padding: '7px 20px', borderBottom: '1px solid #ebebeb', display: 'flex', alignItems: 'center', gap: 6 }}>
             <div className="pulse-dot" style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
             <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#999' }}>Live Activity</span>
           </div>
           <div>
             {feed.map((item) => (
               <div key={item.id} style={{
-                display: 'flex', gap: 10, padding: '8px 14px',
+                display: 'flex', gap: 12, padding: '9px 20px',
                 borderBottom: '1px solid #f4f4f4',
                 opacity: item.fresh ? 0 : 1,
-                transform: item.fresh ? 'translateY(-4px)' : 'translateY(0)',
+                transform: item.fresh ? 'translateY(-5px)' : 'translateY(0)',
                 transition: 'opacity 0.45s ease, transform 0.45s ease',
               }}>
-                <span style={{ fontSize: 9.5, color: '#ccc', fontFamily: "'SF Mono','Fira Code',monospace", flexShrink: 0, paddingTop: 1, minWidth: 34 }}>{item.time}</span>
-                <span style={{ fontSize: 11, color: '#444', lineHeight: 1.4 }}>{item.text}</span>
+                <span style={{ fontSize: 9.5, color: '#ccc', fontFamily: "'SF Mono','Fira Code',monospace", flexShrink: 0, paddingTop: 1, minWidth: 36 }}>{item.time}</span>
+                <span style={{ fontSize: 11.5, color: '#444', lineHeight: 1.4 }}>{item.text}</span>
               </div>
             ))}
           </div>
@@ -1248,8 +1242,8 @@ function BuildBeyondSection() {
   const ActivePanel = BEYOND_PANEL_MAP[activeIdx]
 
   return (
-    <section data-theme="light" style={{ background: '#f9f9f7', padding: '96px 48px' }}>
-      <div ref={ref} style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section data-theme="light" style={{ background: '#f9f9f7', padding: '96px 40px' }}>
+      <div ref={ref} style={{ maxWidth: 1240, margin: '0 auto' }}>
 
         {/* Header */}
         <div className={`fade-up${sectionVisible ? ' is-visible' : ''}`} style={{ marginBottom: 60 }}>
@@ -1301,7 +1295,7 @@ function BuildBeyondSection() {
             background: '#ffffff',
             border: '1px solid rgba(0,0,0,0.07)',
             borderRadius: 12,
-            boxShadow: '0 2px 20px rgba(0,0,0,0.05)',
+            boxShadow: '0 4px 32px rgba(0,0,0,0.08)',
             overflow: 'hidden',
           }}>
             <div style={{
