@@ -24,9 +24,9 @@ export default function CRMScene() {
     }, 1900))
 
     t.push(setTimeout(() => {
-      setAgent('Mariana Oliveira')
+      setAgent('Morgan Oliver')
       setActs(a => [...a, {
-        id: 4, text: 'Agent assigned: Mariana Oliveira', time: '3s ago', color: '#22C55E',
+        id: 4, text: 'Agent assigned: Morgan Oliver', time: '3s ago', color: '#22C55E',
       }])
     }, 3000))
 
@@ -73,12 +73,12 @@ export default function CRMScene() {
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ fontSize: 15, fontWeight: 700, color: '#0A0A0A', letterSpacing: '-0.02em' }}>
-              Juliana Costa
+              Jessica Carter
             </span>
             <StageBadge stage={stage} />
           </div>
           <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.36)', marginTop: 2 }}>
-            WhatsApp · +55 21 97··· · Beverly Hills
+            WhatsApp · +1 (310) 97··· · Beverly Hills
           </div>
         </div>
 

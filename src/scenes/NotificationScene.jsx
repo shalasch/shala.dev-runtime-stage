@@ -30,7 +30,7 @@ export default function NotificationScene() {
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 }}>
           <span style={{ fontSize: 12, fontWeight: 600, color: '#0A0A0A', letterSpacing: '-0.01em' }}>
-            Carlos Ferreira
+            Chris Foster
           </span>
           <span style={{ fontSize: 10, color: 'rgba(0,0,0,0.30)', fontWeight: 400 }}>
             Just now

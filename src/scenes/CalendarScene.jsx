@@ -109,13 +109,13 @@ export default function CalendarScene({ showPayoff }) {
                 <div style={{ width: 3, height: 38, borderRadius: 2, background: '#22C55E', flexShrink: 0 }} />
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 12.5, fontWeight: 600, color: '#0A0A0A', letterSpacing: '-0.01em' }}>
-                    Property Visit · Juliana Costa
+                    Property Visit · Jessica Carter
                   </div>
                   <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.40)', marginTop: 3 }}>
                     Thu, Jun 18 · 2:00 PM – 3:00 PM
                   </div>
                   <div style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.28)', marginTop: 1 }}>
-                    Beverly Hills · Agent: Mariana Oliveira
+                    Beverly Hills · Agent: Morgan Oliver
                   </div>
                 </div>
                 <motion.div
@@ -186,10 +186,10 @@ export default function CalendarScene({ showPayoff }) {
                 Property Visit Confirmed
               </div>
               <div style={{ fontSize: 12, color: 'rgba(0,0,0,0.44)', marginTop: 6 }}>
-                Juliana Costa · Thu Jun 18 · 2:00 PM
+                Jessica Carter · Thu Jun 18 · 2:00 PM
               </div>
               <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.28)', marginTop: 2 }}>
-                Beverly Hills · Agent: Mariana Oliveira
+                Beverly Hills · Agent: Morgan Oliver
               </div>
             </motion.div>
 

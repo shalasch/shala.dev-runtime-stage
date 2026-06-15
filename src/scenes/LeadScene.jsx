@@ -26,7 +26,7 @@ export default function LeadScene() {
         </div>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 15, fontWeight: 700, color: '#0A0A0A', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
-            Juliana Costa
+            Jessica Carter
           </div>
           <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.38)', marginTop: 2 }}>
             New contact via WhatsApp

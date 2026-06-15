@@ -34,7 +34,7 @@ export default function ConversationScene() {
         }}>CF</div>
         <div>
           <div style={{ fontSize: 13, fontWeight: 600, color: '#0A0A0A', letterSpacing: '-0.01em' }}>
-            Carlos Ferreira
+            Chris Foster
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
             <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#25D366', display: 'block' }} />
@@ -62,7 +62,7 @@ export default function ConversationScene() {
             incoming delay={0}
           />
           <Bubble
-            text="Hi Carlos! What area of your business are you looking to automate?"
+            text="Hi Chris! What area of your business are you looking to automate?"
             delay={0.15}
           />
           <Bubble

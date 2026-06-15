@@ -7,7 +7,7 @@ const STEPS = [
     content: {
       type: 'message',
       sender: 'Marcus Williams', time: '14:32',
-      text: "Hi, I'm looking for a 2-bedroom apartment in Vila Madalena, up to R$4,500/month. Available for a visit this week?",
+      text: "Hi, I'm looking for a 2-bedroom apartment in Silver Lake, up to $4,500/month. Available for a visit this week?",
     },
   },
   {
@@ -16,8 +16,8 @@ const STEPS = [
       type: 'extraction',
       fields: [
         ['Property type', '2-bedroom apt.'],
-        ['Location',      'Vila Madalena'],
-        ['Budget',        'Up to R$4.500'],
+        ['Location',      'Silver Lake'],
+        ['Budget',        'Up to $4,500'],
         ['Timeframe',     'This week'],
         ['Intent',        'High'],
         ['Status',        'Qualified'],
@@ -29,7 +29,7 @@ const STEPS = [
     content: {
       type: 'appointment',
       name:     'Marcus Williams',
-      property: 'Rua Harmonia, 220 — Apto 42',
+      property: '220 Harmony Ave, Apt 42',
       date:     'Wednesday, Jun 18',
       time:     '10:30 AM',
       agent:    'Ryan Collins',

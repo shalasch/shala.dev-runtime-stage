@@ -13,16 +13,16 @@ const COLS = [
 ]
 
 const EXISTING = [
-  { id: 1, lead_name: 'Fernando Alves', phone: '+55 21 9····', budget: 'R$720,000',   status: 'Qualified', source: 'Website',  created_at: '2 days ago',  sourceColor: '#94A3B8' },
-  { id: 2, lead_name: 'Ana Lima',        phone: '+55 11 9····', budget: 'R$1,200,000', status: 'Prospect',  source: 'Referral', created_at: 'Yesterday',   sourceColor: '#4A7CF7' },
-  { id: 3, lead_name: 'Carlos M.',       phone: '+55 21 9····', budget: 'R$650,000',   status: 'Cold',      source: 'Website',  created_at: '5 hrs ago',   sourceColor: '#94A3B8' },
-  { id: 4, lead_name: 'Roberto Silva',   phone: '+55 11 9····', budget: 'R$930,000',   status: 'Prospect',  source: 'Instagram',created_at: '3 hrs ago',   sourceColor: '#E040FB' },
-  { id: 5, lead_name: 'Priscila Mota',   phone: '+55 21 9····', budget: 'R$480,000',   status: 'Cold',      source: 'Website',  created_at: '2 hrs ago',   sourceColor: '#94A3B8' },
+  { id: 1, lead_name: 'James Anderson',  phone: '+1 (213) 5····', budget: 'R$720,000',   status: 'Qualified', source: 'Website',  created_at: '2 days ago',  sourceColor: '#94A3B8' },
+  { id: 2, lead_name: 'Sarah Mitchell',  phone: '+1 (310) 8····', budget: 'R$1,200,000', status: 'Prospect',  source: 'Referral', created_at: 'Yesterday',   sourceColor: '#4A7CF7' },
+  { id: 3, lead_name: 'Kevin M.',        phone: '+1 (213) 9····', budget: 'R$650,000',   status: 'Cold',      source: 'Website',  created_at: '5 hrs ago',   sourceColor: '#94A3B8' },
+  { id: 4, lead_name: 'Robert Clark',    phone: '+1 (310) 4····', budget: 'R$930,000',   status: 'Prospect',  source: 'Instagram',created_at: '3 hrs ago',   sourceColor: '#E040FB' },
+  { id: 5, lead_name: 'Patricia Moore',  phone: '+1 (213) 7····', budget: 'R$480,000',   status: 'Cold',      source: 'Website',  created_at: '2 hrs ago',   sourceColor: '#94A3B8' },
 ]
 
 const NEW_FIELDS = [
-  ['lead_name',  'Juliana Costa'],
-  ['phone',      '+55 21 97···'],
+  ['lead_name',  'Jessica Carter'],
+  ['phone',      '+1 (310) 97···'],
   ['budget',     'R$850,000'],
   ['status',     'New Lead'],
   ['source',     'WhatsApp'],
@@ -127,7 +127,7 @@ export default function DatabaseScene() {
           <ExistingRow key={row.id} row={row} idx={i + 1} />
         ))}
 
-        {/* New Juliana row */}
+        {/* New Jessica row */}
         <AnimatePresence>
           {rowVisible && (
             <motion.div
