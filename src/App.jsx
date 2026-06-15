@@ -747,168 +747,156 @@ const BEYOND_ITEMS = [
 ]
 
 function BeyondDashboardPanel() {
-  const [elapsed, setElapsed] = useState(0)
-  const [feed, setFeed] = useState([
-    { id: 1, time: '09:12', text: 'Lead #2845 captured',             fresh: false },
-    { id: 2, time: '09:13', text: 'Reminder triggered · Jessica C.', fresh: false },
-    { id: 3, time: '09:14', text: 'Proposal sent via WhatsApp',      fresh: false },
-  ])
+  const [flowStep, setFlowStep] = useState(0)
+  const [tick, setTick]         = useState(0)
 
   useEffect(() => {
-    const clockId = setInterval(() => setElapsed(s => s + 1), 1000)
-    return () => clearInterval(clockId)
+    const t1 = setInterval(() => setFlowStep(s => (s + 1) % 7), 1600)
+    const t2 = setInterval(() => setTick(t => t + 1), 1000)
+    return () => { clearInterval(t1); clearInterval(t2) }
   }, [])
 
-  useEffect(() => {
-    const INCOMING = [
-      { time: '09:15', text: 'Lead #2847 qualified' },
-      { time: '09:15', text: 'Follow-up dispatched' },
-      { time: '09:16', text: 'Meeting scheduled · Jun 18' },
-      { time: '09:17', text: 'Human handoff prepared' },
-      { time: '09:18', text: 'Opportunity recovered' },
-    ]
-    let i = 0
-    const feedId = setInterval(() => {
-      if (i >= INCOMING.length) { clearInterval(feedId); return }
-      const nid = Date.now() + i
-      setFeed(prev => [{ id: nid, ...INCOMING[i], fresh: true }, ...prev].slice(0, 7))
-      setTimeout(() => setFeed(prev => prev.map(p => p.id === nid ? { ...p, fresh: false } : p)), 60)
-      i++
-    }, 2400)
-    return () => clearInterval(feedId)
-  }, [])
-
-  const ATTENTION = [
-    { level: 'high',   text: '3 leads waiting over SLA',        cta: 'Act'  },
-    { level: 'high',   text: '1 SLA breach imminent · #2851',   cta: 'Act'  },
-    { level: 'medium', text: '2 opportunities stalled 5+ days', cta: 'View' },
-    { level: 'medium', text: '5 meetings need confirmation',    cta: 'View' },
-    { level: 'low',    text: 'Response time trending up',       cta: null   },
+  const FLOW = [
+    { label: 'Lead Detected',       sub: 'WhatsApp · #2847'      },
+    { label: 'AI Qualification',    sub: 'Score 94 · Qualified'   },
+    { label: 'Meeting Scheduled',   sub: 'Thu Jun 18 · 2:00 PM'   },
+    { label: 'Follow-up Triggered', sub: 'Auto-dispatched'        },
+    { label: 'Proposal Sent',       sub: 'Via WhatsApp'           },
+    { label: 'Opportunity Won',     sub: 'Revenue protected'      },
   ]
 
-  const PIPELINE = [
-    { label: 'Leads Captured',  value: 143, conv: null  },
-    { label: 'Qualified',       value: 91,  conv: '63%' },
-    { label: 'Meetings Booked', value: 54,  conv: '59%' },
-    { label: 'Opportunities',   value: 23,  conv: '42%' },
-    { label: 'Closed',          value: 8,   conv: '35%' },
+  const LEFT = [
+    { mt: 0,   time: '09:14', title: 'Lead #2847 captured',    detail: 'Via WhatsApp'         },
+    { mt: 28,  time: '09:15', title: 'CRM record updated',     detail: 'Sync completed'       },
+    { mt: 36,  metric: true, value: '127', label: 'Hours Saved', detail: 'This month'         },
   ]
 
-  const SYSTEMS = ['WhatsApp', 'CRM', 'Calendar', 'AI Engine', 'Workflow']
+  const RIGHT = [
+    { mt: 52,  time: '09:16', title: 'Meeting scheduled',      detail: 'Thu Jun 18 · 2:00 PM' },
+    { mt: 24,  time: '09:17', title: 'Follow-up dispatched',   detail: 'Auto-triggered'       },
+    { mt: 36,  metric: true, value: '23',  label: 'Opp. Recovered', detail: 'This week'       },
+  ]
+
+  const cardBase = {
+    padding: '10px 13px',
+    background: 'rgba(255,255,255,0.04)',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: 10,
+  }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={{ padding: '32px 0 28px' }}>
 
-      {/* Header */}
-      <div style={{ padding: '9px 20px', borderBottom: '1px solid #e5e5e5', display: 'flex', alignItems: 'center', gap: 7 }}>
-        <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
-        <span style={{ fontSize: 11, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>Operations Runtime</span>
-        <span style={{ marginLeft: 'auto', fontSize: 9.5, color: '#bbb' }}>Updated {elapsed === 0 ? 'just now' : `${elapsed}s ago`}</span>
-      </div>
-
-      {/* KPI row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderBottom: '1px solid #e5e5e5' }}>
-        {[
-          { label: 'Leads Captured',     value: '143', note: '+21 vs yesterday' },
-          { label: 'Meetings Scheduled', value: '27',  note: '+8 this week'     },
-          { label: 'Follow-ups Sent',    value: '391', note: '100% automated'   },
-          { label: 'Response SLA',       value: '96%', note: 'On target'        },
-        ].map((m, i) => (
-          <div key={i} style={{ padding: '11px 20px', borderRight: i < 3 ? '1px solid #e5e5e5' : 'none' }}>
-            <div style={{ fontSize: 8.5, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#aaa', marginBottom: 5 }}>{m.label}</div>
-            <div style={{ fontSize: 26, fontWeight: 800, color: '#111', letterSpacing: '-0.03em', lineHeight: 1 }}>{m.value}</div>
-            <div style={{ fontSize: 9.5, color: '#bbb', marginTop: 4 }}>{m.note}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* System health strip */}
-      <div style={{ padding: '6px 20px', borderBottom: '1px solid #e5e5e5', background: '#fafafa', display: 'flex', alignItems: 'center', gap: 20 }}>
-        {SYSTEMS.map((s, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
-            <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e' }} />
-            <span style={{ fontSize: 9.5, color: '#666' }}>{s}</span>
-          </div>
-        ))}
-        <span style={{ marginLeft: 'auto', fontSize: 9, color: '#ccc', letterSpacing: '0.01em' }}>All systems connected</span>
-      </div>
-
-      {/* Impact strip — the single wow moment */}
-      <div style={{ padding: '16px 20px', background: '#0a0a0a', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
-          <span style={{ fontSize: 36, fontWeight: 900, color: '#fff', letterSpacing: '-0.045em', lineHeight: 1 }}>847</span>
-          <span style={{ fontSize: 13.5, fontWeight: 500, color: 'rgba(255,255,255,0.68)', letterSpacing: '-0.01em' }}>Manual Tasks Eliminated</span>
+      {/* Status bar */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, marginBottom: 28 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div className="pulse-dot" style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e' }} />
+          <span style={{ fontSize: 10, fontWeight: 500, color: 'rgba(255,255,255,0.50)' }}>Operations Runtime · Live</span>
         </div>
-        <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.22)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>This month · 100% automated</span>
+        {['143 leads today', '5 systems connected', `Updated ${tick === 0 ? 'just now' : `${tick}s ago`}`].map((s, i) => (
+          <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.18)' }}>·</span>
+            <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.30)' }}>{s}</span>
+          </span>
+        ))}
       </div>
 
-      {/* 3-column body */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 0.72fr 1fr' }}>
+      {/* Canvas: 3 columns */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.15fr 1fr', gap: 24, padding: '0 32px', alignItems: 'start' }}>
 
-        {/* Attention Required */}
-        <div style={{ borderRight: '1px solid #e5e5e5' }}>
-          <div style={{ padding: '7px 20px', borderBottom: '1px solid #ebebeb', display: 'flex', alignItems: 'center' }}>
-            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#999' }}>Attention Required</span>
-            <span style={{ marginLeft: 'auto', fontSize: 9, fontWeight: 600, color: '#888', background: '#f0f0f0', borderRadius: 20, padding: '1px 7px' }}>5</span>
-          </div>
-          {ATTENTION.map((al, i) => (
-            <div key={i} style={{
-              display: 'flex', alignItems: 'center', gap: 9, padding: '9px 20px',
-              borderBottom: i < ATTENTION.length - 1 ? '1px solid #f4f4f4' : 'none',
-            }}>
-              <div style={{ width: 5, height: 5, borderRadius: '50%', flexShrink: 0, background: al.level === 'high' ? '#dc2626' : al.level === 'medium' ? '#d97706' : '#ccc' }} />
-              <span style={{ flex: 1, fontSize: 11.5, color: al.level === 'high' ? '#111' : '#555', lineHeight: 1.35 }}>{al.text}</span>
-              {al.cta && (
-                <span style={{ fontSize: 9, fontWeight: 600, color: al.level === 'high' ? '#dc2626' : '#aaa', flexShrink: 0 }}>{al.cta} →</span>
+        {/* Left floating cards */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {LEFT.map((c, i) => (
+            <div key={i} style={{ marginTop: c.mt }}>
+              {c.metric ? (
+                <div style={{ ...cardBase, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
+                  <div style={{ fontSize: 24, fontWeight: 800, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1 }}>{c.value}</div>
+                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.60)', marginTop: 3, fontWeight: 500 }}>{c.label}</div>
+                  <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.28)', marginTop: 2 }}>{c.detail}</div>
+                </div>
+              ) : (
+                <div style={cardBase}>
+                  <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.25)', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: 4 }}>{c.time}</div>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.80)', letterSpacing: '-0.01em' }}>{c.title}</div>
+                  <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.34)', marginTop: 2 }}>{c.detail}</div>
+                </div>
               )}
             </div>
           ))}
         </div>
 
-        {/* Pipeline Flow — centered vertical progression */}
-        <div style={{ borderRight: '1px solid #e5e5e5' }}>
-          <div style={{ padding: '7px 16px', borderBottom: '1px solid #ebebeb' }}>
-            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#999' }}>Pipeline Flow</span>
+        {/* Center operational flow */}
+        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: '18px 22px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 20, paddingBottom: 14, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+            <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
+            <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.78)', letterSpacing: '-0.01em' }}>Operations Runtime</span>
           </div>
-          <div style={{ padding: '10px 0 8px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            {PIPELINE.map((stage, i) => (
-              <div key={i} style={{ width: '100%', textAlign: 'center' }}>
-                {i > 0 && (
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '3px 0 2px' }}>
-                    <span style={{ fontSize: 12, color: '#ddd', lineHeight: 1 }}>↓</span>
-                    <span style={{ fontSize: 8.5, color: '#ccc', marginTop: 1 }}>{stage.conv}</span>
-                  </div>
-                )}
-                <div style={{ padding: '5px 0', borderTop: i > 0 ? '1px solid #f2f2f2' : 'none' }}>
-                  <div style={{ fontSize: i === 0 ? 30 : 22, fontWeight: 800, color: '#111', letterSpacing: '-0.03em', lineHeight: 1 }}>{stage.value}</div>
-                  <div style={{ fontSize: 9, color: i === 0 ? '#555' : '#aaa', marginTop: 3, fontWeight: i === 0 ? 500 : 400, letterSpacing: '0.01em' }}>{stage.label}</div>
+          {FLOW.map((s, i) => {
+            const active = i <= flowStep
+            return (
+              <div key={i} style={{ display: 'flex', gap: 13 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 14, flexShrink: 0 }}>
+                  <div style={{
+                    width: 8, height: 8, borderRadius: '50%', flexShrink: 0, marginTop: 1,
+                    background: active ? '#22c55e' : 'rgba(255,255,255,0.12)',
+                    boxShadow: active ? '0 0 0 3px rgba(34,197,94,0.18)' : 'none',
+                    transition: 'background 0.5s, box-shadow 0.5s',
+                  }} />
+                  {i < FLOW.length - 1 && (
+                    <div style={{
+                      width: 1, flex: 1, minHeight: 18,
+                      background: active ? 'rgba(34,197,94,0.28)' : 'rgba(255,255,255,0.07)',
+                      margin: '4px 0',
+                      transition: 'background 0.5s',
+                    }} />
+                  )}
+                </div>
+                <div style={{ paddingBottom: i < FLOW.length - 1 ? 13 : 0 }}>
+                  <div style={{
+                    fontSize: 12.5, fontWeight: active ? 600 : 400,
+                    color: active ? 'rgba(255,255,255,0.88)' : 'rgba(255,255,255,0.22)',
+                    letterSpacing: '-0.01em', lineHeight: 1.3,
+                    transition: 'color 0.5s',
+                  }}>{s.label}</div>
+                  {active && (
+                    <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', marginTop: 2 }}>{s.sub}</div>
+                  )}
                 </div>
               </div>
-            ))}
-          </div>
+            )
+          })}
         </div>
 
-        {/* Live Activity */}
-        <div>
-          <div style={{ padding: '7px 20px', borderBottom: '1px solid #ebebeb', display: 'flex', alignItems: 'center', gap: 6 }}>
-            <div className="pulse-dot" style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
-            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#999' }}>Live Activity</span>
-          </div>
-          <div>
-            {feed.map((item) => (
-              <div key={item.id} style={{
-                display: 'flex', gap: 12, padding: '9px 20px',
-                borderBottom: '1px solid #f4f4f4',
-                opacity: item.fresh ? 0 : 1,
-                transform: item.fresh ? 'translateY(-5px)' : 'translateY(0)',
-                transition: 'opacity 0.45s ease, transform 0.45s ease',
-              }}>
-                <span style={{ fontSize: 9.5, color: '#ccc', fontFamily: "'SF Mono','Fira Code',monospace", flexShrink: 0, paddingTop: 1, minWidth: 36 }}>{item.time}</span>
-                <span style={{ fontSize: 11.5, color: '#444', lineHeight: 1.4 }}>{item.text}</span>
-              </div>
-            ))}
-          </div>
+        {/* Right floating cards */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {RIGHT.map((c, i) => (
+            <div key={i} style={{ marginTop: c.mt }}>
+              {c.metric ? (
+                <div style={{ ...cardBase, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
+                  <div style={{ fontSize: 24, fontWeight: 800, color: '#fff', letterSpacing: '-0.03em', lineHeight: 1 }}>{c.value}</div>
+                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.60)', marginTop: 3, fontWeight: 500 }}>{c.label}</div>
+                  <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.28)', marginTop: 2 }}>{c.detail}</div>
+                </div>
+              ) : (
+                <div style={cardBase}>
+                  <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.25)', fontFamily: "'SF Mono','Fira Code',monospace", marginBottom: 4 }}>{c.time}</div>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.80)', letterSpacing: '-0.01em' }}>{c.title}</div>
+                  <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.34)', marginTop: 2 }}>{c.detail}</div>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
+      </div>
+
+      {/* System health footer */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, marginTop: 28 }}>
+        {['WhatsApp', 'CRM', 'Calendar', 'AI Engine', 'Workflow'].map((s, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#22c55e' }} />
+            <span style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.28)' }}>{s}</span>
+          </div>
+        ))}
       </div>
     </div>
   )
@@ -1242,21 +1230,21 @@ function BuildBeyondSection() {
   const ActivePanel = BEYOND_PANEL_MAP[activeIdx]
 
   return (
-    <section data-theme="light" style={{ background: '#f9f9f7', padding: '96px 40px' }}>
+    <section data-theme="dark" style={{ background: '#080808', padding: '96px 40px' }}>
       <div ref={ref} style={{ maxWidth: 1240, margin: '0 auto' }}>
 
         {/* Header */}
         <div className={`fade-up${sectionVisible ? ' is-visible' : ''}`} style={{ marginBottom: 60 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 16 }}>
-            <div style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(0,0,0,0.22)' }} />
-            <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.35)' }}>
+            <div style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(255,255,255,0.20)' }} />
+            <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>
               Operational Layer
             </span>
           </div>
-          <h2 style={{ fontSize: 'clamp(32px,4vw,48px)', fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 16px' }}>
+          <h2 style={{ fontSize: 'clamp(32px,4vw,48px)', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 16px' }}>
             Build Beyond Lead Capture
           </h2>
-          <p style={{ fontSize: 15, color: 'rgba(0,0,0,0.50)', lineHeight: 1.7, maxWidth: 560, margin: 0, letterSpacing: '-0.005em' }}>
+          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.50)', lineHeight: 1.7, maxWidth: 560, margin: 0, letterSpacing: '-0.005em' }}>
             The same operational layer can power visibility, reporting, internal tools and AI-assisted workflows.
           </p>
         </div>
@@ -1273,13 +1261,13 @@ function BuildBeyondSection() {
                 style={{
                   display: 'block', width: '100%', textAlign: 'left',
                   padding: '11px 16px',
-                  background: activeIdx === i ? 'rgba(0,0,0,0.05)' : 'transparent',
+                  background: activeIdx === i ? 'rgba(255,255,255,0.07)' : 'transparent',
                   border: 'none',
-                  borderLeft: `2px solid ${activeIdx === i ? '#0a0a0a' : 'rgba(0,0,0,0.10)'}`,
+                  borderLeft: `2px solid ${activeIdx === i ? 'rgba(255,255,255,0.72)' : 'rgba(255,255,255,0.10)'}`,
                   borderRadius: '0 6px 6px 0',
                   cursor: 'pointer', marginBottom: 3,
                   fontSize: 13.5, fontWeight: activeIdx === i ? 600 : 400,
-                  color: activeIdx === i ? '#0a0a0a' : 'rgba(0,0,0,0.45)',
+                  color: activeIdx === i ? '#ffffff' : 'rgba(255,255,255,0.38)',
                   fontFamily: 'inherit', letterSpacing: '-0.005em',
                   transition: 'all 0.18s ease',
                 }}
@@ -1292,11 +1280,13 @@ function BuildBeyondSection() {
           {/* Right showcase panel */}
           <div style={{
             flex: 1, minWidth: 0,
-            background: '#ffffff',
-            border: '1px solid rgba(0,0,0,0.07)',
-            borderRadius: 12,
-            boxShadow: '0 4px 32px rgba(0,0,0,0.08)',
-            overflow: 'hidden',
+            ...(activeIdx > 0 ? {
+              background: '#ffffff',
+              border: '1px solid rgba(255,255,255,0.10)',
+              borderRadius: 12,
+              boxShadow: '0 8px 48px rgba(0,0,0,0.50)',
+              overflow: 'hidden',
+            } : {}),
           }}>
             <div style={{
               opacity: panelVisible ? 1 : 0,
