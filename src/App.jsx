@@ -748,118 +748,171 @@ const BEYOND_ITEMS = [
 
 function BeyondDashboardPanel() {
   const [elapsed, setElapsed] = useState(0)
+  const [feed, setFeed] = useState([
+    { id: 1, time: '09:12', text: 'Lead captured via WhatsApp',  fresh: false },
+    { id: 2, time: '09:13', text: 'AI qualification complete',   fresh: false },
+    { id: 3, time: '09:14', text: 'Lead qualified · Score 94',   fresh: false },
+  ])
+
   useEffect(() => {
-    const id = setInterval(() => setElapsed(s => s + 1), 1000)
-    return () => clearInterval(id)
+    const clockId = setInterval(() => setElapsed(s => s + 1), 1000)
+    return () => clearInterval(clockId)
+  }, [])
+
+  useEffect(() => {
+    const INCOMING = [
+      { time: '09:15', text: 'Follow-up scheduled' },
+      { time: '09:15', text: 'CRM record updated' },
+      { time: '09:16', text: 'Meeting booked · Jun 18' },
+      { time: '09:17', text: 'Agent assigned → Morgan O.' },
+      { time: '09:18', text: 'Opportunity recovered' },
+    ]
+    let i = 0
+    const feedId = setInterval(() => {
+      if (i >= INCOMING.length) { clearInterval(feedId); return }
+      const nid = Date.now() + i
+      setFeed(prev => [{ id: nid, ...INCOMING[i], fresh: true }, ...prev].slice(0, 7))
+      setTimeout(() => setFeed(prev => prev.map(p => p.id === nid ? { ...p, fresh: false } : p)), 60)
+      i++
+    }, 2400)
+    return () => clearInterval(feedId)
   }, [])
 
   const ATTENTION = [
-    { level: 'high',   text: '3 leads waiting over 2 hours'         },
-    { level: 'high',   text: '1 SLA near breach · Lead #2851'        },
-    { level: 'medium', text: '2 opportunities stalled for 5+ days'   },
-    { level: 'medium', text: '5 meetings awaiting confirmation'       },
-    { level: 'low',    text: 'Response time trending up slightly'     },
+    { level: 'high',   text: '3 leads waiting over SLA',         cta: 'Act' },
+    { level: 'high',   text: '1 SLA breach imminent · #2851',    cta: 'Act' },
+    { level: 'medium', text: '2 opportunities stalled 5+ days',  cta: 'View' },
+    { level: 'medium', text: '5 meetings need confirmation',     cta: 'View' },
+    { level: 'low',    text: 'Response time trending up',        cta: null  },
   ]
 
-  const RECOVERY = [
-    { label: 'Opp. Recovered',   value: '23',        delta: '+18% vs prev. week' },
-    { label: 'Lead Conversion',  value: '78%',       delta: '+7 points'          },
-    { label: 'Pipeline Velocity',value: '4.2 days',  delta: 'Improving'          },
+  const PIPELINE = [
+    { label: 'Leads Captured',  value: 143, conv: null  },
+    { label: 'Qualified',       value: 91,  conv: '63%' },
+    { label: 'Meetings Booked', value: 54,  conv: '59%' },
+    { label: 'Opportunities',   value: 23,  conv: '42%' },
+    { label: 'Closed',          value: 8,   conv: '35%' },
   ]
 
-  const secLabel = elapsed === 0 ? 'just now' : `${elapsed}s ago`
+  const SYSTEMS = [
+    'WhatsApp',
+    'CRM',
+    'Calendar',
+    'AI Engine',
+    'Workflow',
+  ]
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      {/* Header bar */}
-      <div style={{ padding: '9px 18px', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'flex', alignItems: 'center', gap: 7 }}>
-        <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
-        <span style={{ fontSize: 11, fontWeight: 600, color: '#0a0a0a', letterSpacing: '-0.01em' }}>Revenue Command Center</span>
-        <span style={{ marginLeft: 'auto', fontSize: 9.5, color: 'rgba(0,0,0,0.30)' }}>Updated {secLabel}</span>
+      {/* Header */}
+      <div style={{ padding: '9px 18px', borderBottom: '1px solid #e5e5e5', display: 'flex', alignItems: 'center', gap: 7 }}>
+        <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
+        <span style={{ fontSize: 11, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>Revenue Command Center</span>
+        <span style={{ marginLeft: 'auto', fontSize: 9.5, color: '#999' }}>Updated {elapsed === 0 ? 'just now' : `${elapsed}s ago`}</span>
       </div>
 
-      {/* ZONE 01 — Today's Operations */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+      {/* KPI row */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderBottom: '1px solid #e5e5e5' }}>
         {[
           { label: 'Leads Captured',     value: '143', note: '+21 vs yesterday' },
           { label: 'Meetings Scheduled', value: '27',  note: '+8 this week'     },
           { label: 'Follow-ups Sent',    value: '391', note: '100% automated'   },
           { label: 'Response SLA',       value: '96%', note: 'On target'        },
         ].map((m, i) => (
-          <div key={i} style={{ padding: '11px 14px', borderRight: i < 3 ? '1px solid rgba(0,0,0,0.07)' : 'none' }}>
-            <div style={{ fontSize: 8.5, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.28)', marginBottom: 5 }}>{m.label}</div>
-            <div style={{ fontSize: 26, fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.035em', lineHeight: 1 }}>{m.value}</div>
-            <div style={{ fontSize: 9.5, color: 'rgba(0,0,0,0.35)', marginTop: 4 }}>{m.note}</div>
+          <div key={i} style={{ padding: '10px 14px', borderRight: i < 3 ? '1px solid #e5e5e5' : 'none' }}>
+            <div style={{ fontSize: 8.5, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#999', marginBottom: 4 }}>{m.label}</div>
+            <div style={{ fontSize: 24, fontWeight: 800, color: '#111', letterSpacing: '-0.03em', lineHeight: 1 }}>{m.value}</div>
+            <div style={{ fontSize: 9.5, color: '#aaa', marginTop: 3 }}>{m.note}</div>
           </div>
         ))}
       </div>
 
-      {/* Body: two columns */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.15fr 1fr' }}>
+      {/* System health strip */}
+      <div style={{ padding: '6px 18px', borderBottom: '1px solid #e5e5e5', background: '#fafafa', display: 'flex', alignItems: 'center', gap: 18 }}>
+        {SYSTEMS.map((s, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
+            <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e' }} />
+            <span style={{ fontSize: 10, color: '#666' }}>{s}</span>
+          </div>
+        ))}
+        <span style={{ marginLeft: 'auto', fontSize: 9.5, color: '#bbb', fontWeight: 500 }}>All systems connected</span>
+      </div>
 
-        {/* ZONE 02 — Attention Required */}
-        <div style={{ borderRight: '1px solid rgba(0,0,0,0.07)' }}>
-          <div style={{ padding: '7px 14px', borderBottom: '1px solid rgba(0,0,0,0.06)', display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(245,158,11,0.035)' }}>
-            <svg width="9" height="9" viewBox="0 0 12 12" fill="none">
-              <path d="M6 1.5L10.5 10H1.5L6 1.5Z" stroke="#D97706" strokeWidth="1.4" strokeLinejoin="round" fill="rgba(245,158,11,0.12)"/>
-              <path d="M6 5v2" stroke="#D97706" strokeWidth="1.5" strokeLinecap="round"/>
-              <circle cx="6" cy="8.8" r="0.65" fill="#D97706"/>
-            </svg>
-            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#D97706' }}>Attention Required</span>
-            <span style={{ marginLeft: 'auto', fontSize: 9, fontWeight: 700, color: '#D97706', background: 'rgba(245,158,11,0.10)', border: '1px solid rgba(245,158,11,0.24)', borderRadius: 20, padding: '1px 6px' }}>5</span>
+      {/* 3-column body */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 0.85fr 1fr' }}>
+
+        {/* Column 1: Attention Required */}
+        <div style={{ borderRight: '1px solid #e5e5e5' }}>
+          <div style={{ padding: '7px 14px', borderBottom: '1px solid #ebebeb', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#999' }}>Attention Required</span>
+            <span style={{ marginLeft: 'auto', fontSize: 9, fontWeight: 600, color: '#888', background: '#f0f0f0', borderRadius: 20, padding: '1px 6px' }}>5</span>
           </div>
           {ATTENTION.map((al, i) => (
             <div key={i} style={{
               display: 'flex', alignItems: 'center', gap: 8, padding: '8px 14px',
-              borderBottom: i < ATTENTION.length - 1 ? '1px solid rgba(0,0,0,0.05)' : 'none',
-              background: al.level === 'high' ? 'rgba(220,38,38,0.025)' : 'transparent',
+              borderBottom: i < ATTENTION.length - 1 ? '1px solid #f0f0f0' : 'none',
             }}>
               <div style={{
                 width: 5, height: 5, borderRadius: '50%', flexShrink: 0,
-                background: al.level === 'high' ? '#dc2626' : al.level === 'medium' ? '#D97706' : 'rgba(0,0,0,0.20)',
+                background: al.level === 'high' ? '#dc2626' : al.level === 'medium' ? '#d97706' : '#ccc',
               }} />
-              <span style={{ fontSize: 11, color: al.level === 'high' ? '#0a0a0a' : 'rgba(0,0,0,0.60)', lineHeight: 1.4 }}>{al.text}</span>
-              {al.level !== 'low' && (
-                <span style={{ marginLeft: 'auto', fontSize: 9.5, fontWeight: 600, color: al.level === 'high' ? '#dc2626' : '#D97706', flexShrink: 0 }}>
-                  {al.level === 'high' ? 'Act →' : 'View →'}
-                </span>
+              <span style={{ flex: 1, fontSize: 11, color: al.level === 'high' ? '#111' : '#555', lineHeight: 1.35 }}>{al.text}</span>
+              {al.cta && (
+                <span style={{
+                  fontSize: 9, fontWeight: 600, flexShrink: 0,
+                  color: al.level === 'high' ? '#dc2626' : '#999',
+                }}>{al.cta} →</span>
               )}
             </div>
           ))}
         </div>
 
-        {/* ZONE 03 + 04 stacked */}
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {/* ZONE 03 — Recovery & Performance */}
-          <div style={{ padding: '7px 14px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.28)' }}>Recovery & Performance</span>
+        {/* Column 2: Pipeline Flow */}
+        <div style={{ borderRight: '1px solid #e5e5e5' }}>
+          <div style={{ padding: '7px 14px', borderBottom: '1px solid #ebebeb' }}>
+            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#999' }}>Pipeline Flow</span>
           </div>
-          {RECOVERY.map((r, i) => (
-            <div key={i} style={{ padding: '9px 14px', borderBottom: '1px solid rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: 11, color: 'rgba(0,0,0,0.52)' }}>{r.label}</span>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: 15, fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.02em', lineHeight: 1 }}>{r.value}</div>
-                <div style={{ fontSize: 9.5, color: '#16a34a', fontWeight: 600, marginTop: 2 }}>{r.delta}</div>
-              </div>
-            </div>
-          ))}
-
-          {/* ZONE 04 — Executive Summary */}
-          <div style={{ flex: 1, padding: '10px 14px', background: 'rgba(0,0,0,0.017)', display: 'flex', flexDirection: 'column', gap: 5 }}>
-            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.26)', marginBottom: 2 }}>Executive Summary</div>
-            {[
-              { label: 'Status',   value: 'Operationally Healthy', color: '#16a34a' },
-              { label: 'Forecast', value: 'Stable',                color: '#0a0a0a' },
-              { label: 'Recovery', value: 'Above target',          color: '#16a34a' },
-            ].map((s, i) => (
-              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.38)' }}>{s.label}</span>
-                <span style={{ fontSize: 10.5, fontWeight: 600, color: s.color }}>{s.value}</span>
+          <div style={{ padding: '8px 14px 6px' }}>
+            {PIPELINE.map((stage, i) => (
+              <div key={i}>
+                {i > 0 && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '2px 0 2px 4px' }}>
+                    <span style={{ fontSize: 9, color: '#ddd', lineHeight: 1 }}>↓</span>
+                    <span style={{ fontSize: 9, color: '#bbb' }}>{stage.conv}</span>
+                  </div>
+                )}
+                <div style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '4px 0',
+                  borderTop: i > 0 ? '1px solid #f0f0f0' : 'none',
+                }}>
+                  <span style={{ fontSize: i === 0 ? 11.5 : 11, color: i === 0 ? '#111' : '#555', fontWeight: i === 0 ? 600 : 400 }}>{stage.label}</span>
+                  <span style={{ fontSize: i === 0 ? 18 : 15, fontWeight: 700, color: '#111', letterSpacing: '-0.02em', lineHeight: 1 }}>{stage.value}</span>
+                </div>
               </div>
             ))}
-            <div style={{ marginTop: 4, paddingTop: 6, borderTop: '1px solid rgba(0,0,0,0.07)', fontSize: 9.5, color: 'rgba(0,0,0,0.28)', lineHeight: 1.5 }}>
-              All systems active · No bottlenecks detected
-            </div>
+          </div>
+        </div>
+
+        {/* Column 3: Live Activity */}
+        <div>
+          <div style={{ padding: '7px 14px', borderBottom: '1px solid #ebebeb', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div className="pulse-dot" style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
+            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#999' }}>Live Activity</span>
+          </div>
+          <div>
+            {feed.map((item) => (
+              <div key={item.id} style={{
+                display: 'flex', gap: 10, padding: '8px 14px',
+                borderBottom: '1px solid #f4f4f4',
+                opacity: item.fresh ? 0 : 1,
+                transform: item.fresh ? 'translateY(-4px)' : 'translateY(0)',
+                transition: 'opacity 0.45s ease, transform 0.45s ease',
+              }}>
+                <span style={{ fontSize: 9.5, color: '#ccc', fontFamily: "'SF Mono','Fira Code',monospace", flexShrink: 0, paddingTop: 1, minWidth: 34 }}>{item.time}</span>
+                <span style={{ fontSize: 11, color: '#444', lineHeight: 1.4 }}>{item.text}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
