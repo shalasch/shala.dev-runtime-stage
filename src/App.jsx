@@ -463,211 +463,116 @@ function Navbar() {
   )
 }
 
-// ── S2: Stack Grid (Ramp-style ticker + logo grid) ─────────────
-const GRID_LOGOS = [
-  // Row 1
-  { name: 'n8n',           type: 'svg-n8n'                                                    },
-  { name: 'Python',        type: 'devicon', slug: 'python',     file: 'python-original.svg'   },
-  { name: 'FastAPI',       type: 'mono-sq', bg: '#009688', text: 'F',   textSize: 13          },
-  { name: 'PostgreSQL',    type: 'devicon', slug: 'postgresql', file: 'postgresql-original.svg'},
-  { name: 'Claude API',    type: 'mono-sq', bg: '#cc785c', text: 'Cl',  textSize: 11          },
-  { name: 'WhatsApp API',  type: 'svg-wa'                                                      },
-  // Row 2
-  { name: 'LangGraph',     type: 'mono-sq', bg: '#1a1a1a', text: 'LG',  textSize: 11          },
-  { name: 'Docker',        type: 'devicon', slug: 'docker',     file: 'docker-original.svg'   },
-  { name: 'Vercel',        type: 'svg-vercel'                                                  },
-  { name: 'Supabase',      type: 'devicon', slug: 'supabase',   file: 'supabase-original.svg' },
-  { name: 'Evolution API', type: 'mono-sq', bg: '#6366f1', text: 'Ev',  textSize: 11          },
-  { name: 'Airtable',      type: 'svg-airtable'                                                },
+// ── Stack Marquee ─────────────────────────────────────────────
+const DEVICON_CDN = 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons'
+const SIMPLE_CDN  = 'https://cdn.simpleicons.org'
+
+const ROW1_ITEMS = [
+  { name: 'Next.js',       icon: { type: 'devicon', slug: 'nextjs',       fallback: { bg: '#000000', label: 'Nx' } } },
+  { name: 'React',         icon: { type: 'devicon', slug: 'react',         fallback: { bg: '#61dafb', label: 'Re' } } },
+  { name: 'TypeScript',    icon: { type: 'devicon', slug: 'typescript',    fallback: { bg: '#3178c6', label: 'TS' } } },
+  { name: 'Python',        icon: { type: 'devicon', slug: 'python',        fallback: { bg: '#3776ab', label: 'Py' } } },
+  { name: 'FastAPI',       icon: { type: 'devicon', slug: 'fastapi',       fallback: { bg: '#009688', label: 'FA' } } },
+  { name: 'PostgreSQL',    icon: { type: 'devicon', slug: 'postgresql',    fallback: { bg: '#336791', label: 'PG' } } },
+  { name: 'Docker',        icon: { type: 'devicon', slug: 'docker',        fallback: { bg: '#2496ed', label: 'Do' } } },
+  { name: 'Vercel',        icon: { type: 'devicon', slug: 'vercel',        fallback: { bg: '#000000', label: 'Vc' } } },
+  { name: 'Supabase',      icon: { type: 'devicon', slug: 'supabase',      fallback: { bg: '#3ecf8e', label: 'Sb' } } },
+  { name: 'Tailwind CSS',  icon: { type: 'devicon', slug: 'tailwindcss',   fallback: { bg: '#06b6d4', label: 'TW' } } },
+  { name: 'Node.js',       icon: { type: 'devicon', slug: 'nodejs',        fallback: { bg: '#339933', label: 'Nd' } } },
+  { name: 'Framer Motion', icon: { type: 'devicon', slug: 'framermotion',  fallback: { bg: '#0055ff', label: 'FM' } } },
 ]
 
-const DEVICON_BASE = 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons'
+const ROW2_ITEMS = [
+  { name: 'n8n',           icon: { type: 'simple',   slug: 'n8n',          fallback: { bg: '#ff6d5a', label: 'n8' } } },
+  { name: 'Claude API',    icon: { type: 'simple',   slug: 'anthropic',    fallback: { bg: '#cc785c', label: 'Cl' } } },
+  { name: 'OpenAI',        icon: { type: 'simple',   slug: 'openai',       fallback: { bg: '#412991', label: 'OA' } } },
+  { name: 'LangGraph',     icon: { type: 'monogram', bg: '#1a1a1a',        label: 'LG'                              } },
+  { name: 'LangChain',     icon: { type: 'simple',   slug: 'langchain',    fallback: { bg: '#1c3c3c', label: 'LC' } } },
+  { name: 'ChromaDB',      icon: { type: 'simple',   slug: 'chromadb',     fallback: { bg: '#ff6600', label: 'Ch' } } },
+  { name: 'Airtable',      icon: { type: 'simple',   slug: 'airtable',     fallback: { bg: '#fcb400', label: 'At' } } },
+  { name: 'Ollama',        icon: { type: 'simple',   slug: 'ollama',       fallback: { bg: '#000000', label: 'Ol' } } },
+  { name: 'Firebase',      icon: { type: 'devicon',  slug: 'firebase',     fallback: { bg: '#ffca28', label: 'Fb' } } },
+  { name: 'Cloudflare',    icon: { type: 'devicon',  slug: 'cloudflare',   fallback: { bg: '#f48120', label: 'CF' } } },
+  { name: 'WhatsApp API',  icon: { type: 'simple',   slug: 'whatsapp',     fallback: { bg: '#25d366', label: 'WA' } } },
+  { name: 'Evolution API', icon: { type: 'monogram', bg: '#6366f1',        label: 'Ev'                              } },
+]
 
-function LogoIcon({ type, slug, file, bg, text, textSize }) {
-  if (type === 'devicon') return (
-    <img src={`${DEVICON_BASE}/${slug}/${file}`} alt="" width={32} height={32} style={{ display: 'block' }} />
-  )
-  if (type === 'mono-sq') return (
-    <div style={{ width: 32, height: 32, borderRadius: 6, background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <span style={{ fontSize: textSize || 13, fontWeight: 700, color: '#ffffff', letterSpacing: '-0.01em' }}>{text}</span>
-    </div>
-  )
-  if (type === 'svg-n8n') return (
-    <svg width="32" height="32" viewBox="0 0 32 32" style={{ display: 'block' }}>
-      <rect width="32" height="32" rx="6" fill="#ff6d5a" />
-      <text x="16" y="21" textAnchor="middle" fill="white" fontSize="11" fontWeight="bold" fontFamily="Inter, sans-serif">n8n</text>
-    </svg>
-  )
-  if (type === 'svg-wa') return (
-    <svg width="32" height="32" viewBox="0 0 32 32" style={{ display: 'block' }}>
-      <circle cx="16" cy="16" r="15" fill="#25d366" />
-      <path d="M22 19.5c-.3-.2-1.8-.9-2.1-.9-.3-.1-.5-.1-.7.2-.2.3-.8.9-1 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.8-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.1-.3.1-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .2.2 2 3.1 4.9 4.3.7.3 1.2.4 1.6.5.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.8-1.3.2-.7.2-1.2.1-1.3-.2-.2-.4-.3-.7-.4z" fill="white"/>
-    </svg>
-  )
-  if (type === 'svg-vercel') return (
-    <svg width="32" height="32" viewBox="0 0 32 32" style={{ display: 'block' }}>
-      <polygon points="16,6 28,26 4,26" fill="black" />
-    </svg>
-  )
-  if (type === 'svg-airtable') return (
-    <svg width="32" height="32" viewBox="0 0 32 32" style={{ display: 'block' }}>
-      <defs>
-        <linearGradient id="at-g" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#FCB400" />
-          <stop offset="100%" stopColor="#F7D039" />
-        </linearGradient>
-      </defs>
-      <rect width="32" height="32" rx="5" fill="url(#at-g)" />
-      <text x="16" y="23" textAnchor="middle" fill="white" fontSize="17" fontWeight="800" fontFamily="Inter, sans-serif">A</text>
-    </svg>
-  )
-  return null
-}
+function StackIcon({ icon }) {
+  const [loaded, setLoaded] = useState(false)
+  const [failed, setFailed] = useState(false)
 
-function LogoCell({ name, type, slug, file, bg, text, textSize }) {
-  const [hovered, setHovered] = useState(false)
+  const monoColor = icon.type === 'monogram' ? icon.bg : icon.fallback.bg
+  const monoLabel = icon.type === 'monogram' ? icon.label : icon.fallback.label
+
+  if (icon.type === 'monogram') {
+    return (
+      <div style={{
+        width: 22, height: 22, borderRadius: 5, background: monoColor,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        flexShrink: 0, fontSize: 9, fontWeight: 700, color: '#ffffff',
+      }}>{monoLabel}</div>
+    )
+  }
+
+  const src = icon.type === 'devicon'
+    ? `${DEVICON_CDN}/${icon.slug}/${icon.slug}-original.svg`
+    : `${SIMPLE_CDN}/${icon.slug}`
 
   return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        display: 'flex', flexDirection: 'column', alignItems: 'center',
-        justifyContent: 'center', gap: 10,
-        borderRight: '1px solid rgba(0,0,0,0.07)',
-        borderBottom: '1px solid rgba(0,0,0,0.07)',
-        background: hovered ? '#fafafa' : 'transparent',
-        transition: 'background 0.15s ease',
-        cursor: 'default',
-      }}
-    >
-      <div style={{
-        filter: hovered ? 'none' : 'grayscale(100%) opacity(0.55)',
-        transition: 'filter 0.2s ease',
-        display: 'flex',
-      }}>
-        <LogoIcon type={type} slug={slug} file={file} bg={bg} text={text} textSize={textSize} />
-      </div>
-      <span style={{
-        fontSize: 12, fontWeight: 500, letterSpacing: '0.02em',
-        color: hovered ? 'rgba(0,0,0,0.70)' : 'rgba(0,0,0,0.40)',
-        transition: 'color 0.15s ease',
-      }}>
-        {name}
+    <div style={{
+      position: 'relative', width: 22, height: 22, flexShrink: 0,
+      borderRadius: 5, background: monoColor,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      <span style={{ fontSize: 9, fontWeight: 700, color: '#ffffff', userSelect: 'none' }}>
+        {monoLabel}
       </span>
+      {!failed && (
+        <img
+          src={src} alt="" width={22} height={22}
+          className="stack-icon-img"
+          style={{ opacity: loaded ? 1 : 0 }}
+          onLoad={() => setLoaded(true)}
+          onError={() => setFailed(true)}
+        />
+      )}
     </div>
   )
 }
 
-function StackSection() {
-  const [count, setCount] = useState(47)
-  const [leads, setLeads] = useState(847)
-  const [messages, setMessages] = useState(2341)
-  const [crm, setCrm] = useState(1204)
-
-  useEffect(() => {
-    const t1 = setInterval(() => setCount(n => n + 1), 3000)
-    const t2 = setInterval(() => setLeads(n => n + 1), 4200)
-    const t3 = setInterval(() => setMessages(n => n + 1), 2000)
-    const t4 = setInterval(() => setCrm(n => n + 1), 3800)
-    return () => [t1, t2, t3, t4].forEach(clearInterval)
-  }, [])
-
-  const fmt = n => n.toLocaleString('pt-BR')
-
-  const tickerContent =
-    `WORKFLOWS ACTIVE: 12 · LEADS PROCESSED: ${fmt(leads)} · MESSAGES SENT: ${fmt(messages)} · INTEGRATIONS RUNNING: 9 · AUTOMATIONS DEPLOYED: 23 · CRM RECORDS SYNCED: ${fmt(crm)} · `
-
+function StackMarquee() {
   return (
-    <section data-theme="light" style={{ background: '#ffffff' }}>
-      {/* Top separator */}
-      <div style={{ height: 1, background: 'linear-gradient(to right, transparent, rgba(0,0,0,0.06), transparent)' }} />
-
-      {/* Ticker bar */}
+    <section data-theme="light" style={{
+      width: '100%', background: '#ffffff',
+      padding: '72px 0', position: 'relative',
+    }}>
       <div style={{
-        height: 36, borderBottom: '1px solid rgba(0,0,0,0.08)',
-        display: 'flex', alignItems: 'center', background: '#ffffff', overflow: 'hidden',
-      }}>
-        {/* Left anchor */}
-        <div style={{
-          flexShrink: 0, padding: '0 20px', whiteSpace: 'nowrap',
-          borderRight: '1px solid rgba(0,0,0,0.08)',
-          display: 'flex', alignItems: 'center', gap: 10,
-        }}>
-          {/* 2×2 grid icon */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
-            {[0,1,2,3].map(i => (
-              <div key={i} style={{ width: 3, height: 3, background: 'rgba(0,0,0,0.4)', borderRadius: 0.5 }} />
-            ))}
-          </div>
-          <span style={{ fontSize: 10, letterSpacing: '0.10em', color: 'rgba(0,0,0,0.5)', textTransform: 'uppercase' }}>
-            Stack in use:
-          </span>
-          <div style={{ width: 1, height: 16, background: 'rgba(0,0,0,0.1)', margin: '0 6px' }} />
-          <span style={{ fontSize: 11, fontWeight: 600, color: '#0a0a0a', fontVariantNumeric: 'tabular-nums' }}>
-            {count}
-          </span>
-        </div>
-
-        {/* Scrolling right side */}
-        <div className="marquee-wrap" style={{ flex: 1, overflow: 'hidden' }}>
-          <div style={{
-            display: 'inline-flex', whiteSpace: 'nowrap',
-            fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase',
-            color: 'rgba(0,0,0,0.4)', paddingLeft: 20,
-            animation: 'ticker-scroll 40s linear infinite',
-          }}>
-            {tickerContent}{tickerContent}{tickerContent}{tickerContent}
-          </div>
-        </div>
-      </div>
-
-      {/* Technology grid — edge to edge */}
+        textAlign: 'center', marginBottom: 44,
+        fontSize: 11, letterSpacing: '0.12em',
+        color: 'rgba(0,0,0,0.3)', textTransform: 'uppercase',
+      }}>BUILT WITH</div>
       <div style={{
-        display: 'grid', position: 'relative',
-        gridTemplateColumns: 'repeat(7, 1fr)',
-        gridTemplateRows: 'repeat(2, 160px)',
+        overflow: 'hidden',
+        width: '100%', display: 'flex', flexDirection: 'column', gap: 20,
+        maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)',
       }}>
-        {/* Cell [0,0] — text card spanning 2 rows */}
-        <div style={{
-          gridRow: '1 / 3', gridColumn: '1 / 2',
-          background: '#f7f7f7', padding: '28px 24px',
-          display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-          borderRight: '1px solid rgba(0,0,0,0.07)',
-        }}>
-          <span style={{ fontSize: 15, fontWeight: 600, color: '#0a0a0a', lineHeight: 1.5, maxWidth: 160, display: 'block' }}>
-            Built on tools that run in production.
-          </span>
-          <a href="#" style={{
-            fontSize: 12, color: 'rgba(0,0,0,0.40)',
-            textDecoration: 'none', cursor: 'pointer',
-            transition: 'color 0.15s ease',
-          }}
-            onMouseEnter={e => e.target.style.color = '#0a0a0a'}
-            onMouseLeave={e => e.target.style.color = 'rgba(0,0,0,0.40)'}
-          >
-            View full stack →
-          </a>
+        <div className="stack-marquee-line stack-marquee-line-1">
+          {[...ROW1_ITEMS, ...ROW1_ITEMS, ...ROW1_ITEMS, ...ROW1_ITEMS].map((item, i) => (
+            <div key={i} className="stack-item">
+              <StackIcon icon={item.icon} />
+              <span className="stack-item-name">{item.name}</span>
+            </div>
+          ))}
         </div>
-
-        {/* Logo cells */}
-        {GRID_LOGOS.map((logo) => (
-          <LogoCell key={logo.name} {...logo} />
-        ))}
-
-        {/* Intersection dots — rendered last so they paint above cells */}
-        {[1,2,3,4,5,6].map(k => (
-          <span key={k} style={{
-            position: 'absolute',
-            top: 160, left: `${(k / 7) * 100}%`,
-            width: 14, height: 14,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 11, color: 'rgba(0,0,0,0.28)',
-            transform: 'translate(-50%, -50%)',
-            pointerEvents: 'none', zIndex: 10,
-            lineHeight: 1, userSelect: 'none',
-          }}>+</span>
-        ))}
+        <div className="stack-marquee-line stack-marquee-line-2">
+          {[...ROW2_ITEMS, ...ROW2_ITEMS, ...ROW2_ITEMS, ...ROW2_ITEMS].map((item, i) => (
+            <div key={i} className="stack-item">
+              <StackIcon icon={item.icon} />
+              <span className="stack-item-name">{item.name}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -754,27 +659,7 @@ function BeyondDashboardPanel() {
     { name: 'AI Engine', count: '847 tasks automated', pingClass: 'dot-ping-indigo',   dotColor: '#6366f1' },
   ]
   return (
-    <div style={{ position: 'relative', overflow: 'visible' }}>
-
-      {/* ── Floating card 2: Opportunity Recovered (top-right) ── */}
-      <div className="beyond-float-card" style={{
-        position: 'absolute', top: -20, right: -20, zIndex: 10,
-        width: 230, background: '#ffffff',
-        border: '1px solid rgba(0,0,0,0.09)', borderRadius: 10, padding: '14px 16px',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 700, lineHeight: 1 }}>✓</span>
-          <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>Opportunity Recovered</span>
-        </div>
-        <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
-        <div style={{ fontSize: 20, fontWeight: 700, color: '#0a0a0a', letterSpacing: '-0.02em', lineHeight: 1 }}>$12,000</div>
-        <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 2 }}>Protected this month</div>
-        <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
-        <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)' }}>Lead #2831</div>
-        <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.35)', marginTop: 2 }}>3 days since last contact</div>
-        <div style={{ fontSize: 10, color: '#6366f1', marginTop: 6 }}>AI flag → Agent notified → Deal saved</div>
-      </div>
+    <div>
 
       {/* ── Main dashboard card ── */}
       <div style={{
@@ -849,52 +734,73 @@ function BeyondDashboardPanel() {
         </div>
       </div>
 
-      {/* ── Floating card 1: Meeting Booked (bottom-left) ── */}
-      <div className="beyond-float-card" style={{
-        position: 'absolute', bottom: -20, left: -20, zIndex: 10,
-        width: 220, background: '#ffffff',
-        border: '1px solid rgba(0,0,0,0.09)', borderRadius: 10, padding: '14px 16px',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ fontSize: 14, color: '#6366f1', lineHeight: 1 }}>▦</span>
-          <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>Meeting Booked</span>
-        </div>
-        <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
-        <div style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a' }}>Jessica Carter</div>
-        <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 1 }}>Thu, Jun 18 · 2:00 PM</div>
-        <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)', marginTop: 1 }}>Beverly Hills</div>
-        <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
-            <span style={{ fontSize: 11, fontWeight: 500, color: '#16a34a' }}>Confirmed</span>
-          </div>
-          <span style={{ fontSize: 10, color: 'rgba(0,0,0,0.35)' }}>Agent: R. Mendes</span>
-        </div>
-      </div>
+      {/* ── Float cards row ── */}
+      <div className="beyond-float-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14, marginTop: 16 }}>
 
-      {/* ── Floating card 3: Business Outcome (bottom-right, dark) ── */}
-      <div className="beyond-float-card" style={{
-        position: 'absolute', bottom: -20, right: 80, zIndex: 10,
-        width: 200, background: '#0a0a0a',
-        borderRadius: 10, padding: '16px 18px',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
-      }}>
-        <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>This Month</div>
-        <div style={{ fontSize: 32, fontWeight: 800, color: '#ffffff', lineHeight: 1, marginTop: 4 }}>127h</div>
-        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>Manual work eliminated</div>
-        <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', margin: '12px 0' }} />
-        {[
-          { label: 'Leads auto-qualified', value: '91',  green: false },
-          { label: 'Follow-ups sent',      value: '234', green: false },
-          { label: 'Zero manual touches',  value: '✓',   green: true  },
-        ].map((r, i) => (
-          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: i < 2 ? 6 : 0 }}>
-            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>{r.label}</span>
-            <span style={{ fontSize: 11, fontWeight: 600, color: r.green ? '#22c55e' : '#ffffff' }}>{r.value}</span>
+        {/* Meeting Booked */}
+        <div className="beyond-float-card" style={{
+          background: '#ffffff',
+          border: '1px solid rgba(0,0,0,0.09)', borderRadius: 10, padding: '14px 16px',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ fontSize: 14, color: '#6366f1', lineHeight: 1 }}>▦</span>
+            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>Meeting Booked</span>
           </div>
-        ))}
+          <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
+          <div style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a' }}>Jessica Carter</div>
+          <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 1 }}>Thu, Jun 18 · 2:00 PM</div>
+          <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)', marginTop: 1 }}>Beverly Hills</div>
+          <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
+              <span style={{ fontSize: 11, fontWeight: 500, color: '#16a34a' }}>Confirmed</span>
+            </div>
+            <span style={{ fontSize: 10, color: 'rgba(0,0,0,0.35)' }}>Agent: R. Mendes</span>
+          </div>
+        </div>
+
+        {/* Opportunity Recovered */}
+        <div className="beyond-float-card" style={{
+          background: '#ffffff',
+          border: '1px solid rgba(0,0,0,0.09)', borderRadius: 10, padding: '14px 16px',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 700, lineHeight: 1 }}>✓</span>
+            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>Opportunity Recovered</span>
+          </div>
+          <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
+          <div style={{ fontSize: 20, fontWeight: 700, color: '#0a0a0a', letterSpacing: '-0.02em', lineHeight: 1 }}>$12,000</div>
+          <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 2 }}>Protected this month</div>
+          <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
+          <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)' }}>Lead #2831</div>
+          <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.35)', marginTop: 2 }}>3 days since last contact</div>
+          <div style={{ fontSize: 10, color: '#6366f1', marginTop: 6 }}>AI flag → Agent notified → Deal saved</div>
+        </div>
+
+        {/* Business Outcome */}
+        <div className="beyond-float-card" style={{
+          background: '#0a0a0a',
+          borderRadius: 10, padding: '16px 18px',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
+        }}>
+          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>This Month</div>
+          <div style={{ fontSize: 32, fontWeight: 800, color: '#ffffff', lineHeight: 1, marginTop: 4 }}>127h</div>
+          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>Manual work eliminated</div>
+          <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', margin: '12px 0' }} />
+          {[
+            { label: 'Leads auto-qualified', value: '91',  green: false },
+            { label: 'Follow-ups sent',      value: '234', green: false },
+            { label: 'Zero manual touches',  value: '✓',   green: true  },
+          ].map((r, i) => (
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: i < 2 ? 6 : 0 }}>
+              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>{r.label}</span>
+              <span style={{ fontSize: 11, fontWeight: 600, color: r.green ? '#22c55e' : '#ffffff' }}>{r.value}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -1281,7 +1187,7 @@ function BuildBeyondSection() {
               Operational Layer
             </span>
           </div>
-          <h2 style={{ fontSize: 'clamp(32px,4vw,48px)', fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.03em', lineHeight: 1.1, margin: '0 0 16px' }}>
+          <h2 style={{ fontSize: 'clamp(40px,5.2vw,56px)', fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.034em', lineHeight: 1.07, margin: '0 0 16px' }}>
             Build Beyond Lead Capture
           </h2>
           <p style={{ fontSize: 15, color: 'rgba(0,0,0,0.50)', lineHeight: 1.7, maxWidth: 560, margin: 0, letterSpacing: '-0.005em' }}>
@@ -1549,12 +1455,7 @@ export default function App() {
       {/* S1: Hero (light) */}
       <HeroSection />
 
-      <Bleed from="#ffffff" to="#ffffff" />
-
-      {/* S2: Stack Grid (light) */}
-      <StackSection />
-
-      {/* S3: Lead Engine — same light bg as S2, flows directly */}
+      {/* S3: Lead Engine (light) */}
       <System01Section />
 
       <Bleed from="#ffffff" to="#0a0a0a" />
@@ -1566,6 +1467,9 @@ export default function App() {
 
       {/* S5: Operational Runtime (light) */}
       <System03Section />
+
+      {/* Stack Marquee (light) */}
+      <StackMarquee />
 
       {/* S5.5: Build Beyond Lead Capture (off-white) */}
       <BuildBeyondSection />
