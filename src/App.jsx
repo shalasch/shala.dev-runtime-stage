@@ -747,34 +747,43 @@ const BEYOND_ITEMS = [
 ]
 
 function BeyondDashboardPanel() {
+  const SYS = [
+    { name: 'WhatsApp',  count: '143 leads processed', pingClass: 'dot-ping-green',   dotColor: '#16a34a' },
+    { name: 'CRM',       count: '847 records synced',  pingClass: '',                  dotColor: '#16a34a' },
+    { name: 'Calendar',  count: '27 meetings booked',  pingClass: '',                  dotColor: '#16a34a' },
+    { name: 'AI Engine', count: '847 tasks automated', pingClass: 'dot-ping-indigo',   dotColor: '#6366f1' },
+  ]
   return (
-    <div style={{ position: 'relative', padding: '18px 0 24px' }}>
+    <div style={{ position: 'relative', overflow: 'visible' }}>
 
-      {/* Floating card — top right */}
-      <div style={{
-        position: 'absolute', top: 6, right: -8, zIndex: 10,
-        background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)',
-        borderRadius: 12, padding: '12px 16px', width: 204,
-        boxShadow: '0 8px 28px rgba(0,0,0,0.10)',
+      {/* ── Floating card 2: Opportunity Recovered (top-right) ── */}
+      <div className="beyond-float-card" style={{
+        position: 'absolute', top: -20, right: -20, zIndex: 10,
+        width: 230, background: '#ffffff',
+        border: '1px solid rgba(0,0,0,0.09)', borderRadius: 10, padding: '14px 16px',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-          <div style={{ width: 22, height: 22, borderRadius: 6, background: 'rgba(34,197,94,0.10)', border: '1px solid rgba(34,197,94,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="#16a34a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </div>
-          <div style={{ fontSize: 11.5, fontWeight: 700, color: '#111', letterSpacing: '-0.01em' }}>Opportunity Recovered</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 700, lineHeight: 1 }}>✓</span>
+          <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>Opportunity Recovered</span>
         </div>
-        <div style={{ fontSize: 10.5, color: '#555' }}>Lead #2831 · +$12,000 protected</div>
-        <div style={{ fontSize: 9.5, color: '#bbb', marginTop: 3 }}>3 days since last contact</div>
+        <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
+        <div style={{ fontSize: 20, fontWeight: 700, color: '#0a0a0a', letterSpacing: '-0.02em', lineHeight: 1 }}>$12,000</div>
+        <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 2 }}>Protected this month</div>
+        <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
+        <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)' }}>Lead #2831</div>
+        <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.35)', marginTop: 2 }}>3 days since last contact</div>
+        <div style={{ fontSize: 10, color: '#6366f1', marginTop: 6 }}>AI flag → Agent notified → Deal saved</div>
       </div>
 
-      {/* Main dashboard card */}
+      {/* ── Main dashboard card ── */}
       <div style={{
         background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)',
         borderRadius: 14, overflow: 'hidden',
         boxShadow: '0 2px 24px rgba(0,0,0,0.06)',
       }}>
 
-        {/* Dashboard header */}
+        {/* Header */}
         <div style={{ padding: '13px 20px', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#fafafa' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
@@ -790,14 +799,14 @@ function BeyondDashboardPanel() {
         {/* 4 KPIs */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
           {[
-            { label: 'Response Time', value: '1.2s',  delta: '↓ 62% faster', green: true  },
-            { label: 'SLA Compliance', value: '96%',  delta: 'On target',    green: true  },
-            { label: 'Pipeline Active', value: '54',  delta: '23 qualified'               },
-            { label: 'Recovered',      value: '23',   delta: '+$48k protected', green: true },
+            { label: 'Response Time',  value: '1.2s', delta: '↓ 62% faster',   green: true  },
+            { label: 'SLA Compliance', value: '96%',  delta: 'On target',       green: true  },
+            { label: 'Pipeline Active',value: '54',   delta: '23 qualified',    green: false },
+            { label: 'Recovered',      value: '23',   delta: '+$48k protected', green: true  },
           ].map((m, i) => (
             <div key={i} style={{ padding: '14px 20px', borderRight: i < 3 ? '1px solid rgba(0,0,0,0.07)' : 'none' }}>
-              <div style={{ fontSize: 8.5, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 6 }}>{m.label}</div>
-              <div style={{ fontSize: 26, fontWeight: 800, color: '#111', letterSpacing: '-0.03em', lineHeight: 1 }}>{m.value}</div>
+              <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)', marginBottom: 6 }}>{m.label}</div>
+              <div style={{ fontSize: 28, fontWeight: 700, color: '#0a0a0a', letterSpacing: '-0.03em', lineHeight: 1 }}>{m.value}</div>
               <div style={{ fontSize: 10, color: m.green ? '#16a34a' : '#888', marginTop: 5, fontWeight: m.green ? 600 : 400 }}>{m.delta}</div>
             </div>
           ))}
@@ -816,49 +825,76 @@ function BeyondDashboardPanel() {
               { label: 'Opportunities',   value: 23,  pct: 16  },
             ].map((row, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-                <span style={{ fontSize: 11, color: '#555', minWidth: 118, flexShrink: 0 }}>{row.label}</span>
-                <div style={{ flex: 1, height: 4, background: 'rgba(0,0,0,0.06)', borderRadius: 2 }}>
-                  <div style={{ height: '100%', width: `${row.pct}%`, background: '#111', borderRadius: 2 }} />
+                <span style={{ fontSize: 12, color: '#555', minWidth: 118, flexShrink: 0 }}>{row.label}</span>
+                <div style={{ flex: 1, height: 6, background: 'rgba(0,0,0,0.06)', borderRadius: 3 }}>
+                  <div style={{ height: '100%', width: `${row.pct}%`, background: '#111', borderRadius: 3 }} />
                 </div>
-                <span style={{ fontSize: 12, fontWeight: 700, color: '#111', minWidth: 28, textAlign: 'right' }}>{row.value}</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#111', minWidth: 28, textAlign: 'right' }}>{row.value}</span>
               </div>
             ))}
           </div>
 
-          {/* System status */}
+          {/* Connected Systems — live status */}
           <div style={{ padding: '16px 20px' }}>
             <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#bbb', marginBottom: 14 }}>Connected Systems</div>
-            {[
-              { name: 'WhatsApp',  count: '143 leads processed'  },
-              { name: 'CRM',       count: '847 records synced'   },
-              { name: 'Calendar',  count: '27 meetings booked'   },
-              { name: 'AI Engine', count: '847 tasks automated'  },
-            ].map((s, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 0', borderBottom: i < 3 ? '1px solid rgba(0,0,0,0.05)' : 'none' }}>
-                <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
-                <span style={{ flex: 1, fontSize: 12, color: '#111', fontWeight: 500, letterSpacing: '-0.005em' }}>{s.name}</span>
-                <span style={{ fontSize: 10, color: '#aaa' }}>{s.count}</span>
+            {SYS.map((s, i) => (
+              <div key={i} style={{ display: 'grid', gridTemplateColumns: '16px 1fr auto', columnGap: 8, alignItems: 'center', marginTop: i > 0 ? 10 : 0, paddingBottom: i < 3 ? 10 : 0, borderBottom: i < 3 ? '1px solid rgba(0,0,0,0.05)' : 'none' }}>
+                <div className={s.pingClass} style={{ width: 6, height: 6, borderRadius: '50%', background: s.dotColor, flexShrink: 0 }} />
+                <span style={{ fontSize: 12, fontWeight: 500, color: '#0a0a0a' }}>{s.name}</span>
+                <span style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)', textAlign: 'right', whiteSpace: 'nowrap' }}>{s.count}</span>
               </div>
             ))}
+            <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.3)', marginTop: 8 }}>All systems nominal · Last sync 2s ago</div>
           </div>
         </div>
       </div>
 
-      {/* Floating card — bottom left */}
-      <div style={{
-        position: 'absolute', bottom: 6, left: -8, zIndex: 10,
-        background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)',
-        borderRadius: 12, padding: '12px 16px', width: 212,
-        boxShadow: '0 8px 28px rgba(0,0,0,0.10)',
+      {/* ── Floating card 1: Meeting Booked (bottom-left) ── */}
+      <div className="beyond-float-card" style={{
+        position: 'absolute', bottom: -20, left: -20, zIndex: 10,
+        width: 220, background: '#ffffff',
+        border: '1px solid rgba(0,0,0,0.09)', borderRadius: 10, padding: '14px 16px',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-          <div style={{ width: 22, height: 22, borderRadius: 6, background: 'rgba(74,124,247,0.08)', border: '1px solid rgba(74,124,247,0.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="1.5" stroke="#4A7CF7" strokeWidth="1.6"/><path d="M1 4h10" stroke="#4A7CF7" strokeWidth="1.4"/><path d="M4 1v3" stroke="#4A7CF7" strokeWidth="1.4"/><path d="M8 1v3" stroke="#4A7CF7" strokeWidth="1.4"/></svg>
-          </div>
-          <div style={{ fontSize: 11.5, fontWeight: 700, color: '#111', letterSpacing: '-0.01em' }}>Meeting Booked</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ fontSize: 14, color: '#6366f1', lineHeight: 1 }}>▦</span>
+          <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>Meeting Booked</span>
         </div>
-        <div style={{ fontSize: 10.5, color: '#555' }}>Jessica Carter · Thu Jun 18</div>
-        <div style={{ fontSize: 9.5, color: '#bbb', marginTop: 3 }}>2:00 PM · Beverly Hills</div>
+        <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
+        <div style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a' }}>Jessica Carter</div>
+        <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 1 }}>Thu, Jun 18 · 2:00 PM</div>
+        <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)', marginTop: 1 }}>Beverly Hills</div>
+        <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
+            <span style={{ fontSize: 11, fontWeight: 500, color: '#16a34a' }}>Confirmed</span>
+          </div>
+          <span style={{ fontSize: 10, color: 'rgba(0,0,0,0.35)' }}>Agent: R. Mendes</span>
+        </div>
+      </div>
+
+      {/* ── Floating card 3: Business Outcome (bottom-right, dark) ── */}
+      <div className="beyond-float-card" style={{
+        position: 'absolute', bottom: -20, right: 80, zIndex: 10,
+        width: 200, background: '#0a0a0a',
+        borderRadius: 10, padding: '16px 18px',
+        boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
+      }}>
+        <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>This Month</div>
+        <div style={{ fontSize: 32, fontWeight: 800, color: '#ffffff', lineHeight: 1, marginTop: 4 }}>127h</div>
+        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>Manual work eliminated</div>
+        <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', margin: '12px 0' }} />
+        {[
+          { label: 'Leads auto-qualified', value: '91',  green: false },
+          { label: 'Follow-ups sent',      value: '234', green: false },
+          { label: 'Zero manual touches',  value: '✓',   green: true  },
+        ].map((r, i) => (
+          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: i < 2 ? 6 : 0 }}>
+            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>{r.label}</span>
+            <span style={{ fontSize: 11, fontWeight: 600, color: r.green ? '#22c55e' : '#ffffff' }}>{r.value}</span>
+          </div>
+        ))}
       </div>
     </div>
   )
@@ -1257,21 +1293,21 @@ function BuildBeyondSection() {
         <div className={`fade-up delay-1${sectionVisible ? ' is-visible' : ''}`} style={{ display: 'flex', gap: 40, alignItems: 'flex-start' }}>
 
           {/* Left nav */}
-          <div style={{ width: 210, flexShrink: 0, paddingTop: 2 }}>
+          <div className="beyond-nav" style={{ width: 140, flexShrink: 0, paddingTop: 2 }}>
             {BEYOND_ITEMS.map((item, i) => (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(i)}
                 style={{
                   display: 'block', width: '100%', textAlign: 'left',
-                  padding: '11px 16px',
-                  background: activeIdx === i ? 'rgba(0,0,0,0.05)' : 'transparent',
+                  padding: '6px 10px',
+                  background: 'transparent',
                   border: 'none',
-                  borderLeft: `2px solid ${activeIdx === i ? '#0a0a0a' : 'rgba(0,0,0,0.10)'}`,
-                  borderRadius: '0 6px 6px 0',
+                  borderLeft: activeIdx === i ? '3px solid #0a0a0a' : '2px solid rgba(0,0,0,0.10)',
+                  borderRadius: '0 4px 4px 0',
                   cursor: 'pointer', marginBottom: 3,
-                  fontSize: 13.5, fontWeight: activeIdx === i ? 600 : 400,
-                  color: activeIdx === i ? '#0a0a0a' : 'rgba(0,0,0,0.45)',
+                  fontSize: 12, fontWeight: activeIdx === i ? 600 : 400,
+                  color: activeIdx === i ? '#0a0a0a' : 'rgba(0,0,0,0.4)',
                   fontFamily: 'inherit', letterSpacing: '-0.005em',
                   transition: 'all 0.18s ease',
                 }}
