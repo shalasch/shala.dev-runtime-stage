@@ -1,21 +1,41 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { lang } from '../lang'
 
-const SYSTEMS = [
-  { label: 'CRM',             color: '#8B5CF6', stat: '142 events today' },
-  { label: 'Database',        color: '#4A7CF7', stat: '893 records active' },
-  { label: 'Calendar',        color: '#EF4444', stat: '28 scheduled' },
-  { label: 'Notifications',   color: '#F59E0B', stat: '67 sent today' },
-  { label: 'Workflow Engine',  color: '#06B6D4', stat: '54 executions' },
+const pt = lang === 'pt'
+
+const SYSTEMS = pt ? [
+  { label: 'CRM',           color: '#8B5CF6', stat: '142 eventos hoje'     },
+  { label: 'Banco de Dados', color: '#4A7CF7', stat: '893 registros ativos' },
+  { label: 'Agenda',         color: '#EF4444', stat: '28 agendados'          },
+  { label: 'Notificações',   color: '#F59E0B', stat: '67 enviadas hoje'      },
+  { label: 'Motor de Fluxo', color: '#06B6D4', stat: '54 execuções'          },
+] : [
+  { label: 'CRM',            color: '#8B5CF6', stat: '142 events today'  },
+  { label: 'Database',       color: '#4A7CF7', stat: '893 records active' },
+  { label: 'Calendar',       color: '#EF4444', stat: '28 scheduled'       },
+  { label: 'Notifications',  color: '#F59E0B', stat: '67 sent today'      },
+  { label: 'Workflow Engine', color: '#06B6D4', stat: '54 executions'     },
 ]
 
-const EVENTS = [
+const EVENTS = pt ? [
+  { from: 'CRM',           to: 'Agenda',        text: 'Reunião criada após qualificação do lead',            color: '#8B5CF6' },
+  { from: 'Banco de Dados', to: 'CRM',          text: 'Registro de contato sincronizado no atendimento',    color: '#4A7CF7' },
+  { from: 'Agenda',        to: 'Notificações',  text: 'Confirmação enviada ao cliente',                      color: '#EF4444' },
+  { from: 'Motor de Fluxo', to: 'Banco de Dados', text: 'Resultado da operação registrado ao concluir',    color: '#06B6D4' },
+  { from: 'CRM',           to: 'Notificações',  text: 'Alerta acionado por atualização de etapa do negócio', color: '#8B5CF6' },
+] : [
   { from: 'CRM',            to: 'Calendar',      text: 'Meeting created after lead qualification',  color: '#8B5CF6' },
   { from: 'Database',       to: 'CRM',           text: 'Contact record synced on inquiry',          color: '#4A7CF7' },
   { from: 'Calendar',       to: 'Notifications', text: 'Confirmation dispatched to client',         color: '#EF4444' },
   { from: 'Workflow Engine', to: 'Database',     text: 'Operation result logged on completion',     color: '#06B6D4' },
   { from: 'CRM',            to: 'Notifications', text: 'Alert triggered by deal stage update',      color: '#8B5CF6' },
 ]
+
+const titleBar      = pt ? 'Runtime Operacional · Todos os Sistemas Normais' : 'Operational Runtime · All Systems Nominal'
+const activeLabel   = pt ? 'Ativo'                : 'Active'
+const connectedLabel = pt ? 'Sistemas Conectados' : 'Connected Systems'
+const recentLabel   = pt ? 'Coordenação Recente'  : 'Recent Coordination'
 
 export default function InfraPanel({ inView }) {
   const [evIdx, setEvIdx] = useState(0)
@@ -46,7 +66,7 @@ export default function InfraPanel({ inView }) {
           {[0,1,2].map(i => <div key={i} style={{ width: 9, height: 9, borderRadius: '50%', background: 'rgba(0,0,0,0.11)' }} />)}
         </div>
         <span style={{ fontSize: 10.5, fontWeight: 600, color: 'rgba(0,0,0,0.44)', letterSpacing: '-0.005em', flex: 1 }}>
-          Operational Runtime · All Systems Nominal
+          {titleBar}
         </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <motion.div
@@ -54,7 +74,7 @@ export default function InfraPanel({ inView }) {
             transition={{ duration: 1.6, repeat: Infinity }}
             style={{ width: 5, height: 5, borderRadius: '50%', background: '#22C55E' }}
           />
-          <span style={{ fontSize: 9.5, fontWeight: 500, color: '#16A34A' }}>Active</span>
+          <span style={{ fontSize: 9.5, fontWeight: 500, color: '#16A34A' }}>{activeLabel}</span>
         </div>
       </div>
 
@@ -62,7 +82,7 @@ export default function InfraPanel({ inView }) {
         {/* Connected systems */}
         <div style={{ marginBottom: 18 }}>
           <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.28)', marginBottom: 10 }}>
-            Connected Systems
+            {connectedLabel}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {SYSTEMS.map((s, i) => (
@@ -78,7 +98,7 @@ export default function InfraPanel({ inView }) {
                   fontSize: 10.5, fontWeight: 500, color: 'rgba(0,0,0,0.45)',
                   background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.09)',
                   borderRadius: 6, padding: '2px 8px', flexShrink: 0,
-                }}>Active</span>
+                }}>{activeLabel}</span>
                 <span style={{ fontSize: 10.5, color: 'rgba(0,0,0,0.36)', flexShrink: 0, minWidth: 110, textAlign: 'right' }}>
                   {s.stat}
                 </span>
@@ -90,7 +110,7 @@ export default function InfraPanel({ inView }) {
         {/* Coordination log */}
         <div>
           <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.28)', marginBottom: 10 }}>
-            Recent Coordination
+            {recentLabel}
           </div>
           <AnimatePresence mode="wait">
             <motion.div

@@ -62,6 +62,7 @@ export const COPY = {
         { name: 'AI Engine', count: '847 tasks automated',   pingClass: 'dot-ping-indigo',   dotColor: '#6366f1' },
       ],
       cards: {
+        personName: 'Jessica Carter',
         meetingLabel: 'Meeting Booked',
         meetingTime: 'Thu, Jun 18 · 2:00 PM',
         meetingPlace: 'Beverly Hills',
@@ -261,9 +262,10 @@ export const COPY = {
         { name: 'Motor de IA', count: '847 tarefas automatizadas',   pingClass: 'dot-ping-indigo',   dotColor: '#6366f1' },
       ],
       cards: {
+        personName: 'Ana Paula Costa',
         meetingLabel: 'Reunião Agendada',
         meetingTime: 'Qui, 18 Jun · 14:00',
-        meetingPlace: 'Beverly Hills',
+        meetingPlace: 'Moema, SP',
         meetingStatus: 'Confirmado',
         oppLabel: 'Oportunidade Recuperada',
         oppAmount: 'R$60.000',
@@ -324,9 +326,9 @@ export const COPY = {
       ],
       flowTitle: 'Fluxo de Coordenação',
       flows: [
-        { from: 'WhatsApp',    to: 'CRM',        label: 'Lead Capturado',               sub: 'Registro #2847 criado · jessica.c@email.com' },
+        { from: 'WhatsApp',    to: 'CRM',        label: 'Lead Capturado',               sub: 'Registro #2847 criado · ana.costa@gmail.com' },
         { from: 'CRM',         to: 'Motor de IA', label: 'Qualificação Iniciada',       sub: 'Score: 94 · Status: Qualificado'             },
-        { from: 'Motor de IA', to: 'Agenda',      label: 'Horário Reservado',           sub: 'Qui 18 Jun · 14:00 · Beverly Hills'          },
+        { from: 'Motor de IA', to: 'Agenda',      label: 'Horário Reservado',           sub: 'Qui 18 Jun · 14:00 · Moema, SP'             },
         { from: 'Agenda',      to: 'WhatsApp',    label: 'Confirmação Enviada',         sub: 'Cliente notificado · Agente designado'        },
         { from: 'Workflows',   to: 'CRM',         label: 'Etapa do Negócio Atualizada', sub: 'Fase: Oportunidade · #2847 sincronizado'     },
       ],

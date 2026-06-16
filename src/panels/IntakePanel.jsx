@@ -1,7 +1,44 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { lang } from '../lang'
 
-const STEPS = [
+const pt = lang === 'pt'
+
+const STEPS = pt ? [
+  {
+    id: 'inquiry', label: 'Contato Recebido', color: '#4A7CF7',
+    content: {
+      type: 'message',
+      sender: 'Gabriel Moreira', time: '14:32',
+      text: 'Oi, estou procurando um apartamento de 2 quartos em Pinheiros, até R$5.500/mês. Tem disponibilidade para visita essa semana?',
+    },
+  },
+  {
+    id: 'qualify', label: 'Qualificação', color: '#F59E0B',
+    content: {
+      type: 'extraction',
+      fields: [
+        ['Tipo',        'Apto 2 quartos'],
+        ['Localização', 'Pinheiros, SP'],
+        ['Orçamento',   'Até R$5.500'],
+        ['Prazo',       'Essa semana'],
+        ['Intenção',    'Alta'],
+        ['Status',      'Qualificado'],
+      ],
+    },
+  },
+  {
+    id: 'booked', label: 'Visita Agendada', color: '#22C55E',
+    content: {
+      type: 'appointment',
+      name:     'Gabriel Moreira',
+      property: 'Rua Augusta, 842, Ap. 32',
+      date:     'Quarta, 18 Jun',
+      time:     '10:30',
+      agent:    'R. Alves',
+    },
+  },
+] : [
   {
     id: 'inquiry', label: 'Customer Inquiry', color: '#4A7CF7',
     content: {
@@ -36,6 +73,9 @@ const STEPS = [
     },
   },
 ]
+
+const confirmedLabel = pt ? 'Confirmado' : 'Confirmed'
+const agentLabel = pt ? 'Agente' : 'Agent'
 
 export default function IntakePanel({ inView }) {
   const [active, setActive] = useState(0)
@@ -131,7 +171,7 @@ export default function IntakePanel({ inView }) {
                         {step.content.name}
                       </span>
                       <span style={{ fontSize: 10.5, fontWeight: 600, color: 'rgba(0,0,0,0.60)', background: 'rgba(0,0,0,0.06)', borderRadius: 8, padding: '3px 9px' }}>
-                        Confirmed
+                        {confirmedLabel}
                       </span>
                     </div>
                     <div style={{ fontSize: 12, color: 'rgba(0,0,0,0.48)', letterSpacing: '-0.005em' }}>
@@ -146,7 +186,7 @@ export default function IntakePanel({ inView }) {
                       </span>
                     </div>
                     <div style={{ fontSize: 11.5, color: 'rgba(0,0,0,0.38)', letterSpacing: '-0.005em' }}>
-                      Agent: {step.content.agent}
+                      {agentLabel}: {step.content.agent}
                     </div>
                   </div>
                 )}

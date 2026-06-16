@@ -7,10 +7,7 @@ import LeadEnginePanel from './panels/LeadEnginePanel'
 import IntakePanel from './panels/IntakePanel'
 import InfraPanel from './panels/InfraPanel'
 import DashboardPanel from './panels/DashboardPanel'
-import { COPY } from './i18n'
-
-const lang = window.location.pathname.startsWith('/pt') ? 'pt' : 'en'
-const t = COPY[lang]
+import { lang, t } from './lang'
 
 // ── useVisible ────────────────────────────────────────────────
 function useVisible(threshold = 0.12) {
@@ -756,7 +753,7 @@ function BeyondDashboardPanel() {
             <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>{dp.cards.meetingLabel}</span>
           </div>
           <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a' }}>Jessica Carter</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a' }}>{dp.cards.personName}</div>
           <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 1 }}>{dp.cards.meetingTime}</div>
           <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)', marginTop: 1 }}>{dp.cards.meetingPlace}</div>
           <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />

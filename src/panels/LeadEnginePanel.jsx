@@ -1,7 +1,21 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { lang } from '../lang'
 
-const STAGES = [
+const pt = lang === 'pt'
+
+const STAGES = pt ? [
+  { id: 'capture', label: 'Lead Capturado',    color: '#4A7CF7',
+    rows: [['Nome', 'Ana Paula Costa'], ['Origem', 'WhatsApp'], ['Recebido', '09:14']] },
+  { id: 'qualify', label: 'Qualificado',        color: '#F59E0B',
+    rows: [['Score', '94 / 100'], ['Intenção', 'Alta'], ['Orçamento', 'Confirmado']] },
+  { id: 'route',   label: 'Encaminhado',        color: '#8B5CF6',
+    rows: [['Agente', 'R. Souza'], ['Região', 'Moema, SP'], ['Prioridade', 'Alta']] },
+  { id: 'contact', label: 'Contatado',          color: '#06B6D4',
+    rows: [['Canais', 'WA + E-mail'], ['Enviado', '09:16'], ['Status', 'Entregue']] },
+  { id: 'booked',  label: 'Reunião Agendada',   color: '#22C55E',
+    rows: [['Data', 'Qui 19 Jun'], ['Horário', '14:00'], ['Tipo', 'Videochamada']] },
+] : [
   { id: 'capture', label: 'Lead Captured', color: '#4A7CF7',
     rows: [['Name', 'Jessica Carter'], ['Source', 'WhatsApp'], ['Received', '09:14 AM']] },
   { id: 'qualify', label: 'Qualified',     color: '#F59E0B',
@@ -14,12 +28,21 @@ const STAGES = [
     rows: [['Date', 'Thu Jun 19'], ['Time', '2:00 PM'], ['Type', 'Video Call']] },
 ]
 
-const QUEUE = [
-  { name: 'Jessica Carter',    stage: 'Meeting Set',   color: '#22C55E', time: '2 min ago' },
-  { name: 'Peter Johnson',   stage: 'Contacted',     color: '#06B6D4', time: '8 min ago' },
+const QUEUE = pt ? [
+  { name: 'Ana Paula Costa', stage: 'Reunião Agendada', color: '#22C55E', time: 'há 2 min'  },
+  { name: 'Rafael Santos',   stage: 'Contatado',        color: '#06B6D4', time: 'há 8 min'  },
+  { name: 'Mariana Lima',    stage: 'Encaminhado',      color: '#8B5CF6', time: 'há 15 min' },
+  { name: 'Bruno Andrade',   stage: 'Lead Capturado',   color: '#4A7CF7', time: 'há 32 min' },
+] : [
+  { name: 'Jessica Carter',  stage: 'Meeting Set',   color: '#22C55E', time: '2 min ago'  },
+  { name: 'Peter Johnson',   stage: 'Contacted',     color: '#06B6D4', time: '8 min ago'  },
   { name: 'Chloe Rodriguez', stage: 'Routed',        color: '#8B5CF6', time: '15 min ago' },
   { name: 'Dylan Scott',     stage: 'Lead Captured', color: '#4A7CF7', time: '32 min ago' },
 ]
+
+const pipelineLabel = pt ? 'Pipeline Ativo' : 'Active Pipeline'
+const leadsLabel = pt ? 'leads' : 'leads'
+const stepOf = (i, total) => pt ? `Etapa ${i + 1} de ${total}` : `Step ${i + 1} of ${total}`
 
 export default function LeadEnginePanel({ inView }) {
   const [active, setActive] = useState(0)
@@ -100,7 +123,7 @@ export default function LeadEnginePanel({ inView }) {
               {stage.label}
             </span>
             <span style={{ fontSize: 10, color: 'rgba(0,0,0,0.28)', marginLeft: 'auto' }}>
-              Step {active + 1} of {STAGES.length}
+              {stepOf(active, STAGES.length)}
             </span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0 28px' }}>
@@ -117,8 +140,8 @@ export default function LeadEnginePanel({ inView }) {
       {/* Pipeline queue */}
       <div style={{ background: '#fff', borderRadius: 14, border: '1px solid rgba(0,0,0,0.08)', boxShadow: '0 1px 4px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
         <div style={{ padding: '11px 18px', borderBottom: '1px solid rgba(0,0,0,0.055)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.3)' }}>Active Pipeline</span>
-          <span style={{ fontSize: 10, color: 'rgba(0,0,0,0.28)' }}>{QUEUE.length} leads</span>
+          <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.3)' }}>{pipelineLabel}</span>
+          <span style={{ fontSize: 10, color: 'rgba(0,0,0,0.28)' }}>{QUEUE.length} {leadsLabel}</span>
         </div>
         {QUEUE.map((lead, i) => (
           <div key={lead.name} style={{

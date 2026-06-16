@@ -1,12 +1,34 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { lang } from '../lang'
 
-const LEADS = [
-  { name: 'Ryan Mitchell',   source: 'WhatsApp',  stage: 'Qualified',  color: '#22C55E', score: 91, time: 'just now'   },
-  { name: 'Amanda Foster', source: 'Web Form',   stage: 'Routed',     color: '#8B5CF6', score: 87, time: '4 min ago'  },
-  { name: 'Tyler Brooks',    source: 'Instagram',  stage: 'Contacted',  color: '#06B6D4', score: 74, time: '11 min ago' },
-  { name: 'Lauren Scott',     source: 'WhatsApp',   stage: 'Scheduled',  color: '#F59E0B', score: 68, time: '18 min ago' },
+const pt = lang === 'pt'
+
+const LEADS = pt ? [
+  { name: 'Lucas Oliveira',  source: 'WhatsApp',    stage: 'Qualificado',  color: '#22C55E', score: 91, time: 'agora'      },
+  { name: 'Beatriz Ferreira', source: 'Formulário', stage: 'Encaminhado',  color: '#8B5CF6', score: 87, time: 'há 4 min'   },
+  { name: 'Mateus Costa',    source: 'Instagram',   stage: 'Contatado',    color: '#06B6D4', score: 74, time: 'há 11 min'  },
+  { name: 'Juliana Rocha',   source: 'WhatsApp',    stage: 'Agendado',     color: '#F59E0B', score: 68, time: 'há 18 min'  },
+] : [
+  { name: 'Ryan Mitchell',  source: 'WhatsApp',  stage: 'Qualified',  color: '#22C55E', score: 91, time: 'just now'   },
+  { name: 'Amanda Foster',  source: 'Web Form',  stage: 'Routed',     color: '#8B5CF6', score: 87, time: '4 min ago'  },
+  { name: 'Tyler Brooks',   source: 'Instagram', stage: 'Contacted',  color: '#06B6D4', score: 74, time: '11 min ago' },
+  { name: 'Lauren Scott',   source: 'WhatsApp',  stage: 'Scheduled',  color: '#F59E0B', score: 68, time: '18 min ago' },
 ]
+
+const titleBar       = pt ? 'Motor de Leads via WhatsApp — Processando' : 'WhatsApp Lead Engine — Processing'
+const activeLabel    = pt ? 'Ativo'              : 'Active'
+const activeQualLabel = pt ? 'Qualificação Ativa' : 'Active Qualification'
+const pipelineLabel  = pt ? 'Pipeline de Leads'  : 'Lead Pipeline'
+const viaLabel       = pt ? 'via'                : 'via'
+const scoreLabel     = pt ? 'Score'              : 'Score'
+const intentLabel    = pt ? 'Intenção'           : 'Intent'
+const budgetLabel    = pt ? 'Orçamento'          : 'Budget'
+const intentValue    = pt ? 'Alta'               : 'High'
+const budgetValue    = pt ? 'Confirmado'         : 'Confirmed'
+const footerStats    = pt
+  ? [['14', 'Capturados hoje'], ['11', 'Qualificados'], ['8', 'Reuniões agendadas']]
+  : [['14', 'Captured today'],  ['11', 'Qualified'],    ['8', 'Meetings booked']]
 
 const DIM = 'rgba(255,255,255,0.38)'
 const MUT = 'rgba(255,255,255,0.56)'
@@ -44,7 +66,7 @@ export default function DashboardPanel({ inView }) {
           ))}
         </div>
         <span style={{ fontSize: 10.5, fontWeight: 600, color: MUT, letterSpacing: '-0.005em', flex: 1 }}>
-          WhatsApp Lead Engine — Processing
+          {titleBar}
         </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <motion.div
@@ -52,7 +74,7 @@ export default function DashboardPanel({ inView }) {
             transition={{ duration: 1.6, repeat: Infinity }}
             style={{ width: 5, height: 5, borderRadius: '50%', background: '#22C55E' }}
           />
-          <span style={{ fontSize: 9.5, fontWeight: 600, color: '#22C55E' }}>Active</span>
+          <span style={{ fontSize: 9.5, fontWeight: 600, color: '#22C55E' }}>{activeLabel}</span>
         </div>
       </div>
 
@@ -60,7 +82,7 @@ export default function DashboardPanel({ inView }) {
         {/* Active qualification */}
         <div style={{ marginBottom: 20 }}>
           <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: DIM, marginBottom: 10 }}>
-            Active Qualification
+            {activeQualLabel}
           </div>
           <AnimatePresence mode="wait">
             <motion.div
@@ -80,7 +102,7 @@ export default function DashboardPanel({ inView }) {
                   <div style={{ fontSize: 13.5, fontWeight: 600, color: BRI, letterSpacing: '-0.01em', marginBottom: 3 }}>
                     {lead.name}
                   </div>
-                  <div style={{ fontSize: 10.5, color: DIM }}>via {lead.source}</div>
+                  <div style={{ fontSize: 10.5, color: DIM }}>{viaLabel} {lead.source}</div>
                 </div>
                 <span style={{
                   fontSize: 10.5, fontWeight: 600, color: 'rgba(255,255,255,0.65)',
@@ -89,7 +111,7 @@ export default function DashboardPanel({ inView }) {
                 }}>{lead.stage}</span>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0 20px' }}>
-                {[['Score', `${lead.score} / 100`], ['Intent', 'High'], ['Budget', 'Confirmed']].map(([k, v]) => (
+                {[[scoreLabel, `${lead.score} / 100`], [intentLabel, intentValue], [budgetLabel, budgetValue]].map(([k, v]) => (
                   <div key={k}>
                     <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', color: DIM, marginBottom: 4 }}>{k}</div>
                     <div style={{ fontSize: 13, fontWeight: 600, color: MUT, letterSpacing: '-0.01em' }}>{v}</div>
@@ -103,7 +125,7 @@ export default function DashboardPanel({ inView }) {
         {/* Pipeline */}
         <div style={{ marginBottom: 20 }}>
           <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: DIM, marginBottom: 10 }}>
-            Lead Pipeline
+            {pipelineLabel}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {LEADS.map((l, i) => (
@@ -131,7 +153,7 @@ export default function DashboardPanel({ inView }) {
 
       {/* Footer stats */}
       <div style={{ display: 'flex', borderTop: `1px solid ${BDR}` }}>
-        {[['14', 'Captured today'], ['11', 'Qualified'], ['8', 'Meetings booked']].map(([v, l], i) => (
+        {footerStats.map(([v, l], i) => (
           <div key={l} style={{
             flex: 1, textAlign: 'center', padding: '14px 0',
             borderRight: i < 2 ? `1px solid ${BDR}` : 'none',
