@@ -7,6 +7,10 @@ import LeadEnginePanel from './panels/LeadEnginePanel'
 import IntakePanel from './panels/IntakePanel'
 import InfraPanel from './panels/InfraPanel'
 import DashboardPanel from './panels/DashboardPanel'
+import { COPY } from './i18n'
+
+const lang = window.location.pathname.startsWith('/pt') ? 'pt' : 'en'
+const t = COPY[lang]
 
 // ── useVisible ────────────────────────────────────────────────
 function useVisible(threshold = 0.12) {
@@ -317,7 +321,7 @@ function Scene5({ revealed }) {
 }
 
 function HeroSection() {
-  const TICKER = '847 LEADS CAPTURED · 12 WORKFLOWS RUNNING · 1.2s AVG RESPONSE · 23 MEETINGS BOOKED THIS WEEK · 4 CLIENTS ACTIVE · CRM SYNCED · FOLLOW-UPS AUTOMATED · '
+  const TICKER = t.hero.ticker
 
   return (
     <section data-theme="light" style={{
@@ -332,14 +336,14 @@ function HeroSection() {
       {/* Text block */}
       <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto 52px', position: 'relative', zIndex: 1 }}>
         <span style={{ fontSize: 11, letterSpacing: '0.12em', color: 'rgba(0,0,0,0.38)', fontWeight: 500, textTransform: 'uppercase', marginBottom: 24, display: 'block' }}>
-          OPERATIONAL INFRASTRUCTURE · BUILT BY SHALA NEVES
+          {t.hero.overline}
         </span>
         <h1 style={{ fontSize: 'clamp(40px, 5.5vw, 76px)', fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.03em', lineHeight: 1.05, margin: 0 }}>
-          <span style={{ display: 'block' }}>Every customer journey</span>
-          <span style={{ display: 'block' }}>is a system.</span>
+          <span style={{ display: 'block' }}>{t.hero.titleLine1}</span>
+          <span style={{ display: 'block' }}>{t.hero.titleLine2}</span>
         </h1>
         <p style={{ margin: '20px auto 0', fontSize: 16, color: 'rgba(0,0,0,0.50)', lineHeight: 1.65, maxWidth: 460 }}>
-          I design and build the systems that power lead capture, qualification, follow-up and operations.
+          {t.hero.subtitle}
         </p>
       </div>
 
@@ -355,7 +359,7 @@ function HeroSection() {
         display: 'flex', alignItems: 'center', overflow: 'hidden', background: '#ffffff',
       }}>
         <div style={{ flexShrink: 0, padding: '0 20px', whiteSpace: 'nowrap', borderRight: '1px solid rgba(0,0,0,0.08)', fontSize: 10, letterSpacing: '0.12em', color: 'rgba(0,0,0,0.30)' }}>
-          · SYSTEMS ACTIVE
+          {t.hero.tickerAnchor}
         </div>
         <div className="marquee-wrap" style={{ flex: 1, overflow: 'hidden' }}>
           <div style={{ display: 'inline-flex', whiteSpace: 'nowrap', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.28)', paddingLeft: 20, animation: 'ticker-scroll 38s linear infinite' }}>
@@ -452,13 +456,32 @@ function Navbar() {
         style={{ fontSize: 14, fontWeight: 700, letterSpacing: '-0.02em' }}
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       />
-      <a href="#contact" style={{
-        fontSize: 13, fontWeight: 500, color,
-        textDecoration: 'none', letterSpacing: '-0.005em', opacity: 0.68,
-        transition: 'color 0.40s ease',
-      }}>
-        Contact
-      </a>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+        <a href="#contact" style={{
+          fontSize: 13, fontWeight: 500, color,
+          textDecoration: 'none', letterSpacing: '-0.005em', opacity: 0.68,
+          transition: 'color 0.40s ease',
+        }}>
+          {t.nav.contact}
+        </a>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
+          <a href="/" style={{
+            fontSize: 11, fontWeight: 600, letterSpacing: '0.05em',
+            color, textDecoration: 'none',
+            opacity: lang === 'en' ? 0.85 : 0.32,
+            transition: 'color 0.40s ease, opacity 0.18s ease',
+            padding: '2px 4px',
+          }}>EN</a>
+          <span style={{ color, opacity: 0.18, fontSize: 11, margin: '0 2px' }}>|</span>
+          <a href="/pt" style={{
+            fontSize: 11, fontWeight: 600, letterSpacing: '0.05em',
+            color, textDecoration: 'none',
+            opacity: lang === 'pt' ? 0.85 : 0.32,
+            transition: 'color 0.40s ease, opacity 0.18s ease',
+            padding: '2px 4px',
+          }}>PT-BR</a>
+        </div>
+      </div>
     </nav>
   )
 }
@@ -550,7 +573,7 @@ function StackMarquee() {
         textAlign: 'center', marginBottom: 44,
         fontSize: 11, letterSpacing: '0.12em',
         color: 'rgba(0,0,0,0.3)', textTransform: 'uppercase',
-      }}>BUILT WITH</div>
+      }}>{t.stackLabel}</div>
       <div style={{
         overflow: 'hidden',
         width: '100%', display: 'flex', flexDirection: 'column', gap: 20,
@@ -586,9 +609,9 @@ function System01Section() {
       <div ref={ref} className="sys-layout" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div className={`fade-up${visible ? ' is-visible' : ''}`}>
           <SysCopy
-            eyebrow="System 01" title={"Lead\nEngine"}
-            description="Captures, qualifies and routes opportunities without manual follow-up."
-            outcome="Lead → Qualified → Scheduled" dark={false}
+            eyebrow={t.sys01.eyebrow} title={t.sys01.title}
+            description={t.sys01.description}
+            outcome={t.sys01.outcome} dark={false}
           />
         </div>
         <div className={`fade-up delay-1${visible ? ' is-visible' : ''}`} style={{ flex: 1, minWidth: 0 }}>
@@ -610,9 +633,9 @@ function System02Section() {
         </div>
         <div className={`fade-up delay-1${visible ? ' is-visible' : ''}`}>
           <SysCopy
-            eyebrow="System 02" title={"Client Intake\nRuntime"}
-            description="Receives inquiries, qualifies prospects and schedules appointments automatically."
-            outcome="Inquiry → Qualified → Booked" dark={true}
+            eyebrow={t.sys02.eyebrow} title={t.sys02.title}
+            description={t.sys02.description}
+            outcome={t.sys02.outcome} dark={true}
           />
         </div>
       </div>
@@ -628,9 +651,9 @@ function System03Section() {
       <div ref={ref} className="sys-layout" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div className={`fade-up${visible ? ' is-visible' : ''}`}>
           <SysCopy
-            eyebrow="System 03" title={"Operational\nRuntime"}
-            description="Connects business systems into a single operational workflow."
-            outcome="Disconnected → Coordinated" dark={false}
+            eyebrow={t.sys03.eyebrow} title={t.sys03.title}
+            description={t.sys03.description}
+            outcome={t.sys03.outcome} dark={false}
           />
         </div>
         <div className={`fade-up delay-1${visible ? ' is-visible' : ''}`} style={{ flex: 1, minWidth: 0 }}>
@@ -644,20 +667,15 @@ function System03Section() {
 // ── S5.5: Build Beyond Lead Capture ────────────────────────────
 
 const BEYOND_ITEMS = [
-  { id: 'dashboard',   label: 'Dashboard Layer'         },
-  { id: 'reporting',   label: 'Reporting Runtime'   },
-  { id: 'operations',  label: 'Internal Operations' },
-  { id: 'ai',          label: 'AI Employees'        },
-  { id: 'diagnostic',  label: 'Business Diagnostic' },
+  { id: 'dashboard',  label: t.beyond.navItems[0] },
+  { id: 'reporting',  label: t.beyond.navItems[1] },
+  { id: 'operations', label: t.beyond.navItems[2] },
+  { id: 'ai',         label: t.beyond.navItems[3] },
+  { id: 'diagnostic', label: t.beyond.navItems[4] },
 ]
 
 function BeyondDashboardPanel() {
-  const SYS = [
-    { name: 'WhatsApp',  count: '143 leads processed', pingClass: 'dot-ping-green',   dotColor: '#16a34a' },
-    { name: 'CRM',       count: '847 records synced',  pingClass: '',                  dotColor: '#16a34a' },
-    { name: 'Calendar',  count: '27 meetings booked',  pingClass: '',                  dotColor: '#16a34a' },
-    { name: 'AI Engine', count: '847 tasks automated', pingClass: 'dot-ping-indigo',   dotColor: '#6366f1' },
-  ]
+  const dp = t.dashboardPanel
   return (
     <div>
 
@@ -672,23 +690,18 @@ function BeyondDashboardPanel() {
         <div style={{ padding: '13px 20px', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#fafafa' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>Executive Dashboard</span>
-            <span style={{ fontSize: 10, color: '#bbb' }}>· Live</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>{dp.header}</span>
+            <span style={{ fontSize: 10, color: '#bbb' }}>· {dp.live}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(34,197,94,0.07)', border: '1px solid rgba(34,197,94,0.18)', borderRadius: 20, padding: '4px 12px' }}>
             <span style={{ fontSize: 16, fontWeight: 800, color: '#16a34a', letterSpacing: '-0.02em', lineHeight: 1 }}>92</span>
-            <span style={{ fontSize: 9, fontWeight: 700, color: '#16a34a', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Operational Health</span>
+            <span style={{ fontSize: 9, fontWeight: 700, color: '#16a34a', letterSpacing: '0.05em', textTransform: 'uppercase' }}>{dp.health}</span>
           </div>
         </div>
 
         {/* 4 KPIs */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
-          {[
-            { label: 'Response Time',  value: '1.2s', delta: '↓ 62% faster',   green: true  },
-            { label: 'SLA Compliance', value: '96%',  delta: 'On target',       green: true  },
-            { label: 'Pipeline Active',value: '54',   delta: '23 qualified',    green: false },
-            { label: 'Recovered',      value: '23',   delta: '+$48k protected', green: true  },
-          ].map((m, i) => (
+          {dp.kpis.map((m, i) => (
             <div key={i} style={{ padding: '14px 20px', borderRight: i < 3 ? '1px solid rgba(0,0,0,0.07)' : 'none' }}>
               <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)', marginBottom: 6 }}>{m.label}</div>
               <div style={{ fontSize: 28, fontWeight: 700, color: '#0a0a0a', letterSpacing: '-0.03em', lineHeight: 1 }}>{m.value}</div>
@@ -702,13 +715,8 @@ function BeyondDashboardPanel() {
 
           {/* Pipeline funnel */}
           <div style={{ padding: '16px 20px', borderRight: '1px solid rgba(0,0,0,0.07)' }}>
-            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#bbb', marginBottom: 14 }}>Pipeline Health</div>
-            {[
-              { label: 'Leads Captured', value: 143, pct: 100 },
-              { label: 'Qualified',       value: 91,  pct: 64  },
-              { label: 'Meetings Booked', value: 54,  pct: 38  },
-              { label: 'Opportunities',   value: 23,  pct: 16  },
-            ].map((row, i) => (
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#bbb', marginBottom: 14 }}>{dp.pipelineTitle}</div>
+            {dp.pipelineRows.map((row, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
                 <span style={{ fontSize: 12, color: '#555', minWidth: 118, flexShrink: 0 }}>{row.label}</span>
                 <div style={{ flex: 1, height: 6, background: 'rgba(0,0,0,0.06)', borderRadius: 3 }}>
@@ -721,15 +729,15 @@ function BeyondDashboardPanel() {
 
           {/* Connected Systems — live status */}
           <div style={{ padding: '16px 20px' }}>
-            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#bbb', marginBottom: 14 }}>Connected Systems</div>
-            {SYS.map((s, i) => (
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#bbb', marginBottom: 14 }}>{dp.systemsTitle}</div>
+            {dp.systems.map((s, i) => (
               <div key={i} style={{ display: 'grid', gridTemplateColumns: '16px 1fr auto', columnGap: 8, alignItems: 'center', marginTop: i > 0 ? 10 : 0, paddingBottom: i < 3 ? 10 : 0, borderBottom: i < 3 ? '1px solid rgba(0,0,0,0.05)' : 'none' }}>
                 <div className={s.pingClass} style={{ width: 6, height: 6, borderRadius: '50%', background: s.dotColor, flexShrink: 0 }} />
                 <span style={{ fontSize: 12, fontWeight: 500, color: '#0a0a0a' }}>{s.name}</span>
                 <span style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)', textAlign: 'right', whiteSpace: 'nowrap' }}>{s.count}</span>
               </div>
             ))}
-            <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.3)', marginTop: 8 }}>All systems nominal · Last sync 2s ago</div>
+            <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.3)', marginTop: 8 }}>{dp.systemsNominal}</div>
           </div>
         </div>
       </div>
@@ -745,17 +753,17 @@ function BeyondDashboardPanel() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <span style={{ fontSize: 14, color: '#6366f1', lineHeight: 1 }}>▦</span>
-            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>Meeting Booked</span>
+            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>{dp.cards.meetingLabel}</span>
           </div>
           <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
           <div style={{ fontSize: 13, fontWeight: 600, color: '#0a0a0a' }}>Jessica Carter</div>
-          <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 1 }}>Thu, Jun 18 · 2:00 PM</div>
-          <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)', marginTop: 1 }}>Beverly Hills</div>
+          <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 1 }}>{dp.cards.meetingTime}</div>
+          <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)', marginTop: 1 }}>{dp.cards.meetingPlace}</div>
           <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
               <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
-              <span style={{ fontSize: 11, fontWeight: 500, color: '#16a34a' }}>Confirmed</span>
+              <span style={{ fontSize: 11, fontWeight: 500, color: '#16a34a' }}>{dp.cards.meetingStatus}</span>
             </div>
             <span style={{ fontSize: 10, color: 'rgba(0,0,0,0.35)' }}>Agent: R. Mendes</span>
           </div>
@@ -769,15 +777,15 @@ function BeyondDashboardPanel() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 700, lineHeight: 1 }}>✓</span>
-            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>Opportunity Recovered</span>
+            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>{dp.cards.oppLabel}</span>
           </div>
           <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
-          <div style={{ fontSize: 20, fontWeight: 700, color: '#0a0a0a', letterSpacing: '-0.02em', lineHeight: 1 }}>$12,000</div>
-          <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 2 }}>Protected this month</div>
+          <div style={{ fontSize: 20, fontWeight: 700, color: '#0a0a0a', letterSpacing: '-0.02em', lineHeight: 1 }}>{dp.cards.oppAmount}</div>
+          <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.5)', marginTop: 2 }}>{dp.cards.oppSub}</div>
           <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '8px 0' }} />
           <div style={{ fontSize: 11, color: 'rgba(0,0,0,0.4)' }}>Lead #2831</div>
-          <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.35)', marginTop: 2 }}>3 days since last contact</div>
-          <div style={{ fontSize: 10, color: '#6366f1', marginTop: 6 }}>AI flag → Agent notified → Deal saved</div>
+          <div style={{ fontSize: 10, color: 'rgba(0,0,0,0.35)', marginTop: 2 }}>{dp.cards.oppDays}</div>
+          <div style={{ fontSize: 10, color: '#6366f1', marginTop: 6 }}>{dp.cards.oppAI}</div>
         </div>
 
         {/* Business Outcome */}
@@ -786,15 +794,11 @@ function BeyondDashboardPanel() {
           borderRadius: 10, padding: '16px 18px',
           boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
         }}>
-          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>This Month</div>
+          <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>{dp.cards.thisMonth}</div>
           <div style={{ fontSize: 32, fontWeight: 800, color: '#ffffff', lineHeight: 1, marginTop: 4 }}>127h</div>
-          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>Manual work eliminated</div>
+          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{dp.cards.manualElim}</div>
           <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', margin: '12px 0' }} />
-          {[
-            { label: 'Leads auto-qualified', value: '91',  green: false },
-            { label: 'Follow-ups sent',      value: '234', green: false },
-            { label: 'Zero manual touches',  value: '✓',   green: true  },
-          ].map((r, i) => (
+          {dp.cards.stats.map((r, i) => (
             <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: i < 2 ? 6 : 0 }}>
               <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>{r.label}</span>
               <span style={{ fontSize: 11, fontWeight: 600, color: r.green ? '#22c55e' : '#ffffff' }}>{r.value}</span>
@@ -807,33 +811,28 @@ function BeyondDashboardPanel() {
 }
 
 function BeyondReportingPanel() {
+  const rp = t.reportingPanel
   return (
     <div style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 14, overflow: 'hidden', boxShadow: '0 2px 24px rgba(0,0,0,0.06)' }}>
 
       {/* Document header */}
       <div style={{ padding: '16px 24px', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16 }}>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 10.5, color: '#aaa', marginBottom: 5, fontWeight: 500 }}>Generated automatically every Monday at 08:00 AM</div>
-          <div style={{ fontSize: 19, fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.025em', lineHeight: 1.2, marginBottom: 4 }}>Weekly Operations Summary</div>
-          <div style={{ fontSize: 11, color: '#999' }}>Period: Jun 9 – 15, 2026 · Report #47 · Delivered to 3 recipients</div>
+          <div style={{ fontSize: 10.5, color: '#aaa', marginBottom: 5, fontWeight: 500 }}>{rp.generated}</div>
+          <div style={{ fontSize: 19, fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.025em', lineHeight: 1.2, marginBottom: 4 }}>{rp.title}</div>
+          <div style={{ fontSize: 11, color: '#999' }}>{rp.period}</div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(34,197,94,0.07)', border: '1px solid rgba(34,197,94,0.18)', borderRadius: 20, padding: '5px 12px', flexShrink: 0 }}>
           <svg width="8" height="8" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="#16a34a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          <span style={{ fontSize: 10.5, fontWeight: 600, color: '#16a34a' }}>Delivered</span>
+          <span style={{ fontSize: 10.5, fontWeight: 600, color: '#16a34a' }}>{rp.delivered}</span>
         </div>
       </div>
 
       {/* KPI row */}
       <div style={{ padding: '16px 24px 12px', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
-        <div style={{ fontSize: 10, fontWeight: 700, color: '#111', letterSpacing: '-0.005em', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.06em', fontSize: 9 }}>Key Metrics</div>
+        <div style={{ fontSize: 9, fontWeight: 700, color: '#111', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{rp.metricsTitle}</div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 8 }}>
-          {[
-            { label: 'Leads',      value: '143', delta: '+18%'  },
-            { label: 'Meetings',   value: '67',  delta: '+47%'  },
-            { label: 'SLA',        value: '96%', delta: 'On target' },
-            { label: 'Recovered',  value: '23',  delta: 'New'   },
-            { label: 'Tasks Auto', value: '847', delta: '100%'  },
-          ].map((m, i) => (
+          {rp.metrics.map((m, i) => (
             <div key={i} style={{ background: '#f7f7f7', borderRadius: 8, padding: '10px 12px' }}>
               <div style={{ fontSize: 17, fontWeight: 800, color: '#111', letterSpacing: '-0.025em', lineHeight: 1 }}>{m.value}</div>
               <div style={{ fontSize: 9.5, color: '#999', marginTop: 3 }}>{m.label}</div>
@@ -846,13 +845,8 @@ function BeyondReportingPanel() {
       {/* Observations + Recommendations */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0 }}>
         <div style={{ padding: '14px 24px', borderRight: '1px solid rgba(0,0,0,0.07)' }}>
-          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 10 }}>Operational Observations</div>
-          {[
-            'Lead volume increased 18% vs prior week',
-            'Response time improved from 3.2s to 1.2s',
-            'WhatsApp qualification rate reached 94%',
-            '23 stale opportunities recovered automatically',
-          ].map((obs, i) => (
+          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 10 }}>{rp.obsTitle}</div>
+          {rp.obs.map((obs, i) => (
             <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'flex-start' }}>
               <span style={{ fontSize: 10, color: '#ccc', marginTop: 3, flexShrink: 0 }}>→</span>
               <span style={{ fontSize: 11.5, color: '#444', lineHeight: 1.5 }}>{obs}</span>
@@ -860,23 +854,16 @@ function BeyondReportingPanel() {
           ))}
         </div>
         <div style={{ padding: '14px 24px' }}>
-          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 10 }}>Recommendations</div>
-          {[
-            'Scale follow-up automation for high-volume days',
-            'Review SLA config for enterprise segment',
-            'Add recovery workflow for 5+ day stale leads',
-          ].map((rec, i) => (
+          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 10 }}>{rp.recTitle}</div>
+          {rp.rec.map((rec, i) => (
             <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'flex-start' }}>
               <span style={{ fontSize: 9.5, fontWeight: 700, color: '#ccc', flexShrink: 0, marginTop: 2 }}>{i + 1}.</span>
               <span style={{ fontSize: 11.5, color: '#444', lineHeight: 1.5 }}>{rec}</span>
             </div>
           ))}
           <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(0,0,0,0.06)' }}>
-            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 8 }}>Active Alerts</div>
-            {[
-              '3 leads exceeded SLA threshold on Wednesday',
-              'Response spike detected Tuesday afternoon',
-            ].map((a, i) => (
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 8 }}>{rp.alertsTitle}</div>
+            {rp.alerts.map((a, i) => (
               <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 5, alignItems: 'center' }}>
                 <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#d97706', flexShrink: 0 }} />
                 <span style={{ fontSize: 11, color: '#666' }}>{a}</span>
@@ -888,7 +875,7 @@ function BeyondReportingPanel() {
 
       {/* Footer */}
       <div style={{ padding: '9px 24px', borderTop: '1px solid rgba(0,0,0,0.07)', background: '#fafafa', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: 10, color: '#bbb' }}>Next report: Mon Jun 22 · 08:00 AM · Auto-generated</span>
+        <span style={{ fontSize: 10, color: '#bbb' }}>{rp.nextReport}</span>
         <span style={{ fontSize: 10, color: '#ccc' }}>Report #47</span>
       </div>
     </div>
@@ -896,20 +883,7 @@ function BeyondReportingPanel() {
 }
 
 function BeyondOperationsPanel() {
-  const SYSTEMS = [
-    { name: 'CRM',       events: '284 events' },
-    { name: 'Calendar',  events: '27 booked'  },
-    { name: 'WhatsApp',  events: '143 msgs'   },
-    { name: 'Workflow',  events: '12 flows'   },
-    { name: 'AI Engine', events: '847 tasks'  },
-  ]
-  const FLOWS = [
-    { from: 'WhatsApp',  to: 'CRM',      label: 'Lead Captured',          sub: 'Record #2847 created · jessica.c@email.com' },
-    { from: 'CRM',       to: 'AI Engine', label: 'Qualification Triggered', sub: 'Score: 94 · Status: Qualified'              },
-    { from: 'AI Engine', to: 'Calendar',  label: 'Meeting Slot Reserved',   sub: 'Thu Jun 18 · 2:00 PM · Beverly Hills'       },
-    { from: 'Calendar',  to: 'WhatsApp',  label: 'Confirmation Dispatched', sub: 'Client notified · Agent assigned'            },
-    { from: 'Workflow',  to: 'CRM',       label: 'Deal Stage Updated',      sub: 'Stage: Opportunity · #2847 synced'           },
-  ]
+  const op = t.operationsPanel
   return (
     <div style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 14, overflow: 'hidden', boxShadow: '0 2px 24px rgba(0,0,0,0.06)' }}>
 
@@ -917,14 +891,14 @@ function BeyondOperationsPanel() {
       <div style={{ padding: '13px 20px', borderBottom: '1px solid rgba(0,0,0,0.07)', background: '#fafafa', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
-          <span style={{ fontSize: 12, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>Operations Control Center</span>
+          <span style={{ fontSize: 12, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>{op.header}</span>
         </div>
-        <span style={{ fontSize: 10, color: '#bbb' }}>5 systems · 0 failures · Live</span>
+        <span style={{ fontSize: 10, color: '#bbb' }}>{op.status}</span>
       </div>
 
       {/* System nodes */}
       <div style={{ padding: '14px 20px 10px', display: 'flex', gap: 8 }}>
-        {SYSTEMS.map((sys, i) => (
+        {op.systems.map((sys, i) => (
           <div key={i} style={{ flex: 1, padding: '10px 10px', background: '#f9f9f9', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 8, textAlign: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 5 }}>
               <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e' }} />
@@ -937,9 +911,9 @@ function BeyondOperationsPanel() {
 
       {/* Coordination flow */}
       <div style={{ padding: '8px 20px 16px' }}>
-        <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#bbb', marginBottom: 10 }}>Coordination Flow</div>
+        <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#bbb', marginBottom: 10 }}>{op.flowTitle}</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {FLOWS.map((flow, i) => (
+          {op.flows.map((flow, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', background: '#f9f9f9', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 8 }}>
               <span style={{ fontSize: 11, fontWeight: 700, color: '#111', minWidth: 66, flexShrink: 0 }}>{flow.from}</span>
               <svg width="16" height="10" viewBox="0 0 16 10" fill="none" style={{ flexShrink: 0 }}>
@@ -960,13 +934,7 @@ function BeyondOperationsPanel() {
 }
 
 function BeyondAIPanel() {
-  const AGENTS = [
-    { name: 'Lead Qualifier',      tasks: 284, current: 'Lead #2847 · Scoring in progress'  },
-    { name: 'Follow-up Manager',   tasks: 172, current: '3 sequences pending dispatch'       },
-    { name: 'Meeting Coordinator', tasks: 91,  current: 'Thu Jun 18 · Slot confirmed'        },
-    { name: 'Recovery Agent',      tasks: 23,  current: 'Lead #2831 · Re-engagement sent'   },
-    { name: 'Reporting Analyst',   tasks: 277, current: 'Weekly report compiled · Mon 08:00' },
-  ]
+  const ai = t.aiPanel
   return (
     <div style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 14, overflow: 'hidden', boxShadow: '0 2px 24px rgba(0,0,0,0.06)' }}>
 
@@ -974,14 +942,14 @@ function BeyondAIPanel() {
       <div style={{ padding: '13px 20px', borderBottom: '1px solid rgba(0,0,0,0.07)', background: '#fafafa', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
-          <span style={{ fontSize: 12, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>AI Workforce</span>
+          <span style={{ fontSize: 12, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>{ai.header}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <span style={{ fontSize: 10, color: '#aaa' }}>5 agents active</span>
-          <span style={{ fontSize: 10, color: '#aaa' }}>847 tasks today</span>
+          <span style={{ fontSize: 10, color: '#aaa' }}>{ai.agentsActive}</span>
+          <span style={{ fontSize: 10, color: '#aaa' }}>{ai.tasksToday}</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(34,197,94,0.07)', border: '1px solid rgba(34,197,94,0.16)', borderRadius: 20, padding: '3px 9px' }}>
             <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#22c55e' }} />
-            <span style={{ fontSize: 9.5, fontWeight: 600, color: '#16a34a' }}>0 failures</span>
+            <span style={{ fontSize: 9.5, fontWeight: 600, color: '#16a34a' }}>{ai.failures}</span>
           </div>
         </div>
       </div>
@@ -989,30 +957,30 @@ function BeyondAIPanel() {
       {/* Agent grid: 3 + 2 */}
       <div style={{ padding: '16px 20px 8px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginBottom: 10 }}>
-          {AGENTS.slice(0, 3).map((agent, i) => (
+          {ai.agents.slice(0, 3).map((agent, i) => (
             <div key={i} style={{ background: '#f9f9f9', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 10, padding: '14px 14px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
                 <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
-                <span style={{ fontSize: 9.5, fontWeight: 700, color: '#16a34a', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Active</span>
+                <span style={{ fontSize: 9.5, fontWeight: 700, color: '#16a34a', letterSpacing: '0.04em', textTransform: 'uppercase' }}>{ai.active}</span>
               </div>
               <div style={{ fontSize: 12.5, fontWeight: 700, color: '#111', letterSpacing: '-0.01em', marginBottom: 6, lineHeight: 1.3 }}>{agent.name}</div>
               <div style={{ fontSize: 20, fontWeight: 800, color: '#111', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 4 }}>{agent.tasks}</div>
-              <div style={{ fontSize: 9, color: '#bbb', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>Tasks today</div>
+              <div style={{ fontSize: 9, color: '#bbb', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>{ai.tasksTodayLabel}</div>
               <div style={{ fontSize: 10, color: '#888', lineHeight: 1.4, borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: 8 }}>{agent.current}</div>
             </div>
           ))}
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 10, marginBottom: 16 }}>
-          {AGENTS.slice(3).map((agent, i) => (
+          {ai.agents.slice(3).map((agent, i) => (
             <div key={i} style={{ background: '#f9f9f9', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 10, padding: '14px 14px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
                 <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
-                <span style={{ fontSize: 9.5, fontWeight: 700, color: '#16a34a', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Active</span>
+                <span style={{ fontSize: 9.5, fontWeight: 700, color: '#16a34a', letterSpacing: '0.04em', textTransform: 'uppercase' }}>{ai.active}</span>
               </div>
               <div style={{ fontSize: 12.5, fontWeight: 700, color: '#111', letterSpacing: '-0.01em', marginBottom: 6, lineHeight: 1.3 }}>{agent.name}</div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 8 }}>
                 <div style={{ fontSize: 20, fontWeight: 800, color: '#111', letterSpacing: '-0.03em', lineHeight: 1 }}>{agent.tasks}</div>
-                <div style={{ fontSize: 9, color: '#bbb', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Tasks today</div>
+                <div style={{ fontSize: 9, color: '#bbb', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{ai.tasksTodayLabel}</div>
               </div>
               <div style={{ fontSize: 10, color: '#888', lineHeight: 1.4, borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: 8 }}>{agent.current}</div>
             </div>
@@ -1043,19 +1011,9 @@ function BeyondDiagnosticPanel() {
     return () => timers.forEach(clearTimeout)
   }, [])
 
-  const issues = [
-    'No lead qualification system detected',
-    'Follow-up is manual and inconsistent',
-    'Response time exceeds 24 hours on avg.',
-    'No defined SLA or tracking in place',
-    'Zero opportunity recovery automation',
-    'No pipeline visibility for management',
-  ]
-  const actions = [
-    'Deploy AI qualification layer',
-    'Automate follow-up sequences',
-    'Implement operational dashboard',
-  ]
+  const diag = t.diagnosticPanel
+  const issues = diag.issues
+  const actions = diag.actions
 
   return (
     <div style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 14, overflow: 'hidden', boxShadow: '0 2px 24px rgba(0,0,0,0.06)' }}>
@@ -1063,11 +1021,11 @@ function BeyondDiagnosticPanel() {
       {/* Header */}
       <div style={{ padding: '13px 20px', borderBottom: '1px solid rgba(0,0,0,0.07)', background: '#fafafa', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: '#bbb', marginBottom: 2 }}>Business Diagnostic</div>
-          <div style={{ fontSize: 12, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>Initial Operational Assessment</div>
+          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: '#bbb', marginBottom: 2 }}>{diag.title}</div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: '#111', letterSpacing: '-0.01em' }}>{diag.subtitle}</div>
         </div>
         {phase >= 9 && (
-          <div style={{ fontSize: 10, fontWeight: 600, color: '#dc2626', background: 'rgba(220,38,38,0.06)', border: '1px solid rgba(220,38,38,0.14)', borderRadius: 20, padding: '4px 10px', transition: 'opacity 0.4s' }}>Analysis complete</div>
+          <div style={{ fontSize: 10, fontWeight: 600, color: '#dc2626', background: 'rgba(220,38,38,0.06)', border: '1px solid rgba(220,38,38,0.14)', borderRadius: 20, padding: '4px 10px', transition: 'opacity 0.4s' }}>{diag.complete}</div>
         )}
       </div>
 
@@ -1077,12 +1035,12 @@ function BeyondDiagnosticPanel() {
         <div style={{ opacity: phase >= 1 ? 1 : 0, transition: 'opacity 0.4s', display: 'flex', alignItems: 'center', gap: 8, padding: '7px 12px', background: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.07)', borderRadius: 7 }}>
           <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="rgba(0,0,0,0.28)" strokeWidth="1.4"/><path d="M6 3v3l2 1.5" stroke="rgba(0,0,0,0.28)" strokeWidth="1.3" strokeLinecap="round"/></svg>
           <span style={{ fontSize: 11, fontFamily: "'SF Mono','Fira Code',monospace", color: '#777' }}>yourbusiness.com/operations</span>
-          {phase >= 2 && phase < 9 && <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 600, color: '#d97706' }}>Scanning...</span>}
+          {phase >= 2 && phase < 9 && <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 600, color: '#d97706' }}>{diag.scanning}</span>}
         </div>
 
         {/* Issues */}
         <div>
-          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#bbb', marginBottom: 8, opacity: phase >= 3 ? 1 : 0, transition: 'opacity 0.3s' }}>Problems Detected</div>
+          <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#bbb', marginBottom: 8, opacity: phase >= 3 ? 1 : 0, transition: 'opacity 0.3s' }}>{diag.problemsTitle}</div>
           {issues.map((issue, i) => (
             <div key={i} style={{
               display: 'flex', alignItems: 'center', gap: 9, padding: '5px 0',
@@ -1106,12 +1064,12 @@ function BeyondDiagnosticPanel() {
           <div style={{ padding: '10px 14px', background: 'rgba(220,38,38,0.05)', border: '1px solid rgba(220,38,38,0.14)', borderRadius: 10, textAlign: 'center', minWidth: 72 }}>
             <div style={{ fontSize: 28, fontWeight: 800, color: '#dc2626', letterSpacing: '-0.04em', lineHeight: 1 }}>2</div>
             <div style={{ fontSize: 9, color: 'rgba(220,38,38,0.65)', fontWeight: 600, marginTop: 2 }}>/10</div>
-            <div style={{ fontSize: 8.5, color: '#aaa', marginTop: 5, fontWeight: 500, lineHeight: 1.4 }}>Operational Score</div>
+            <div style={{ fontSize: 8.5, color: '#aaa', marginTop: 5, fontWeight: 500, lineHeight: 1.4 }}>{diag.scoreLabel}</div>
           </div>
 
           {/* Recommendations */}
           <div style={{ opacity: phase >= 10 ? 1 : 0, transition: 'opacity 0.4s' }}>
-            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#4A7CF7', marginBottom: 8 }}>Recommended Actions</div>
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#4A7CF7', marginBottom: 8 }}>{diag.actionsTitle}</div>
             {actions.map((a, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 7 }}>
                 <div style={{ width: 14, height: 14, borderRadius: '50%', background: 'rgba(74,124,247,0.08)', border: '1px solid rgba(74,124,247,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -1125,14 +1083,14 @@ function BeyondDiagnosticPanel() {
           {/* Estimated impact */}
           <div style={{ opacity: phase >= 10 ? 1 : 0, transition: 'opacity 0.4s', display: 'flex', flexDirection: 'column', gap: 8, minWidth: 130 }}>
             <div>
-              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 5 }}>Estimated Impact</div>
+              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 5 }}>{diag.impactTitle}</div>
               <div style={{ fontSize: 20, fontWeight: 800, color: '#16a34a', letterSpacing: '-0.03em', lineHeight: 1 }}>847 hrs</div>
-              <div style={{ fontSize: 10, color: '#aaa', marginTop: 3 }}>manual work eliminated</div>
+              <div style={{ fontSize: 10, color: '#aaa', marginTop: 3 }}>{diag.impactSub}</div>
             </div>
             <div style={{ paddingTop: 8, borderTop: '1px solid rgba(0,0,0,0.06)' }}>
-              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 5 }}>Revenue Recovery</div>
+              <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#bbb', marginBottom: 5 }}>{diag.revenueTitle}</div>
               <div style={{ fontSize: 20, fontWeight: 800, color: '#16a34a', letterSpacing: '-0.03em', lineHeight: 1 }}>$48k</div>
-              <div style={{ fontSize: 10, color: '#aaa', marginTop: 3 }}>potential per month</div>
+              <div style={{ fontSize: 10, color: '#aaa', marginTop: 3 }}>{diag.revenueSub}</div>
             </div>
           </div>
         </div>
@@ -1184,14 +1142,14 @@ function BuildBeyondSection() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 16 }}>
             <div style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(0,0,0,0.22)' }} />
             <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.35)' }}>
-              Operational Layer
+              {t.beyond.eyebrow}
             </span>
           </div>
           <h2 style={{ fontSize: 'clamp(40px,5.2vw,56px)', fontWeight: 800, color: '#0a0a0a', letterSpacing: '-0.034em', lineHeight: 1.07, margin: '0 0 16px' }}>
-            Build Beyond Lead Capture
+            {t.beyond.title}
           </h2>
           <p style={{ fontSize: 15, color: 'rgba(0,0,0,0.50)', lineHeight: 1.7, maxWidth: 560, margin: 0, letterSpacing: '-0.005em' }}>
-            The same operational layer can power visibility, reporting, internal tools and AI-assisted workflows.
+            {t.beyond.body}
           </p>
         </div>
 
@@ -1250,16 +1208,16 @@ function DashboardSection() {
             fontSize: 9.5, fontWeight: 700, letterSpacing: '0.13em',
             textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)', marginBottom: 14,
           }}>
-            WhatsApp Lead Engine
+            {t.dashSection.eyebrow}
           </div>
           <div style={{
             fontSize: 'clamp(36px,4.5vw,52px)', fontWeight: 800,
             letterSpacing: '-0.034em', lineHeight: 1.07, color: '#ffffff', marginBottom: 14,
           }}>
-            Processing leads.<br />Without stopping.
+            {t.dashSection.title1}<br />{t.dashSection.title2}
           </div>
           <div style={{ fontSize: 14.5, color: 'rgba(255,255,255,0.62)', lineHeight: 1.68, letterSpacing: '-0.005em' }}>
-            14 leads captured today. 11 qualified. 8 meetings booked.
+            {t.dashSection.subtitle}
           </div>
         </div>
         <div className={`fade-up delay-1${visible ? ' is-visible' : ''}`}>
@@ -1287,13 +1245,13 @@ function CTASection() {
           color: '#0a0a0a', lineHeight: 1.05, letterSpacing: '-0.035em',
           margin: 0,
         }}>
-          <span style={{ display: 'block' }}>Build</span>
+          <span style={{ display: 'block' }}>{t.cta.prefix}</span>
           <span style={{ display: 'block' }}>
             <ContainerTextFlip
-              words={['better', 'scalable', 'connected', 'reliable', 'efficient']}
+              words={t.cta.words}
               interval={2400}
               inline={true}
-            />{' '}operations.
+            />{t.cta.suffix}
           </span>
         </p>
       </div>
@@ -1370,15 +1328,15 @@ function BioContactSection() {
                   Shala Neves
                 </div>
                 <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.36)', marginTop: 3, letterSpacing: '-0.005em' }}>
-                  Operational Infrastructure
+                  {t.bio.role}
                 </div>
               </div>
             </div>
             <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.52)', lineHeight: 1.72, letterSpacing: '-0.007em', marginBottom: 20 }}>
-              Most businesses have more software than they know how to operate. I design the coordination layer — the operational infrastructure that connects those tools and makes each part of the business aware of what happens next.
+              {t.bio.p1}
             </p>
             <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.30)', lineHeight: 1.7, letterSpacing: '-0.006em' }}>
-              The goal is not to add more technology. It is to make what already exists work together — with less friction, fewer missed steps, and no manual coordination overhead.
+              {t.bio.p2}
             </p>
           </div>
 
@@ -1388,23 +1346,23 @@ function BioContactSection() {
               fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
               textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)', marginBottom: 20,
             }}>
-              Get in touch
+              {t.bio.contactLabel}
             </div>
 
             {status === 'done' ? (
               <div style={{
                 padding: '20px 0', fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7,
               }}>
-                Mensagem enviada. Retorno em breve.
+                {t.bio.success}
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <input name="email" type="email" placeholder="Your email" required style={inputStyle} />
-                <textarea name="message" placeholder="What are you trying to build?" required rows={5}
+                <input name="email" type="email" placeholder={t.bio.emailPlaceholder} required style={inputStyle} />
+                <textarea name="message" placeholder={t.bio.messagePlaceholder} required rows={5}
                   style={{ ...inputStyle, resize: 'vertical' }} />
                 {status === 'error' && (
                   <span style={{ fontSize: 12, color: 'rgba(255,100,100,0.8)' }}>
-                    Erro ao enviar. Tente novamente.
+                    {t.bio.error}
                   </span>
                 )}
                 <button type="submit" disabled={status === 'sending'} style={{
@@ -1416,7 +1374,7 @@ function BioContactSection() {
                   opacity: status === 'sending' ? 0.5 : 1,
                   transition: 'opacity 0.2s',
                 }}>
-                  {status === 'sending' ? 'Enviando...' : 'Send message'}
+                  {status === 'sending' ? t.bio.sending : t.bio.sendButton}
                 </button>
               </form>
             )}
